@@ -5,11 +5,11 @@
 
 **The elegant way to compare tools, apps & services.**  
 Wherelse aggregates Reddit threads, online reviews, and feature breakdowns into structured comparisons so you can stop reading 40 tabs and just decide.
-
+<!--
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-wherelse.app-6C63FF?style=for-the-badge)](https://wherelse.app)
 [![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen?style=for-the-badge)](CONTRIBUTING.md)
-
+-->
 </div>
 
 ---
