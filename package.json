@@ -1,0 +1,21 @@
+{
+  "name": "project-wherelse",
+  "version": "1.0.0",
+  "description": "<div align=\"center\">",
+  "main": "index.js",
+  "scripts": {
+    "build:css":"npx @tailwindcss/cli -i src/input.css -o src/output.css --watch",
+    "build": "npx @tailwindcss/cli -i ./src/input.css -o ./src/output.css --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.2.1",
+    "tailwindcss": "^4.2.1"
+  },
+  "devDependencies": {
+    "daisyui": "^5.5.19"
+  }
+}
