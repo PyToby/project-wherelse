@@ -44,11 +44,11 @@ You pick two (or more) services (for example **Notion vs Obsidian**) and Wherels
 
 > _Replace with your actual stack_
 
-- **Frontend** — [e.g. Next.js, React, Tailwind CSS]
-- **Backend** — [e.g. Node.js, FastAPI, Supabase]
-- **AI / NLP** — [e.g. OpenAI API, Claude API]
-- **Data Sources** — Reddit API, [other sources]
-- **Deployment** — [e.g. Vercel, Railway, Fly.io]
+- **Frontend** — [daisyUI, TailwindCSS]
+- **Backend** — [Flask, auth0]
+- **AI / NLP** — [OpenAI API, Claude API]
+- **Data Sources** — Reddit API
+- **Deployment** — []
 
 ---
 
