@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🔍 Wherelse
+# Wherelse
 ### Where else would you look?
 
 **The elegant way to compare tools, apps & services.**  
@@ -14,18 +14,16 @@ Wherelse aggregates Reddit threads, online reviews, and feature breakdowns into 
 
 ---
 
-## ✨ What is Wherelse?
+## What is Wherelse?
 
 Wherelse is a webapp that turns the chaos of online opinions into clean, structured comparisons.
 
-You pick two (or more) services — say, **Notion vs Obsidian** — and Wherelse does the heavy lifting:
+You pick two (or more) services (for example **Notion vs Obsidian**) and Wherelse does all the heavy lifting:
 
-- 🕵️ Scrapes relevant **Reddit threads** and community discussions
-- 📰 Pulls **online reviews** from trusted sources
-- 📊 Extracts **feature comparisons** from documentation and listicles
-- 🤖 Synthesizes everything into a **structured, readable summary**
-
-No more doomscrolling. Just answers.
+- Scrapes relevant **Reddit threads** and community discussions
+- Pulls **online reviews** from trusted sources
+- Extracts **feature comparisons** from documentation and listicles
+- Synthesizes everything into a **structured, readable summary**
 
 ---
 
@@ -33,12 +31,12 @@ No more doomscrolling. Just answers.
 
 | Feature | Description |
 |---|---|
-| 🔄 **Live Aggregation** | Pulls fresh data from Reddit, review sites & more |
-| 📋 **Structured Comparisons** | Side-by-side feature tables, pros/cons, use-case fit |
-| 🧠 **AI Synthesis** | Summarizes community sentiment into digestible insights |
-| 🔖 **Saved Comparisons** | Bookmark and revisit any comparison |
-| 🌐 **Shareable Links** | Share a comparison with a single URL |
-| 🎨 **Clean UI** | Minimal, fast, and elegant by design |
+| **Live Aggregation** | Pulls fresh data from Reddit, review sites & more |
+| **Structured Comparisons** | Side-by-side feature tables, pros/cons, use-case fit |
+| **AI Synthesis** | Summarizes community sentiment into digestible insights |
+| **Saved Comparisons** | Bookmark and revisit any comparison |
+| **Shareable Links** | Share a comparison with a single URL |
+| **Clean UI** | Minimal, fast, and elegant by design |
 
 ---
 
@@ -56,56 +54,10 @@ No more doomscrolling. Just answers.
 
 ## 📦 Getting Started
 
-### Prerequisites
+### Where is Wherelse
 
-```bash
-node >= 18.0.0
-npm >= 9.0.0
-```
-
-### Installation
-
-```bash
-# Clone the repo
-git clone https://github.com/yourusername/wherelse.git
-cd wherelse
-
-# Install dependencies
-npm install
-
-# Set up environment variables
-cp .env.example .env.local
-```
-
-### Environment Variables
-
-```env
-# .env.local
-
-# App
-NEXT_PUBLIC_APP_URL=http://localhost:3000
-
-# Reddit API
-REDDIT_CLIENT_ID=your_reddit_client_id
-REDDIT_CLIENT_SECRET=your_reddit_client_secret
-
-# AI
-OPENAI_API_KEY=your_api_key   # or ANTHROPIC_API_KEY
-
-# Database
-DATABASE_URL=your_database_url
-```
-
-### Run Locally
-
-```bash
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) to see it running.
-
----
-
+Currently, Wherelse is in development without a proper development site.
+<!--
 ## 📁 Project Structure
 
 ```
@@ -137,33 +89,18 @@ wherelse/
 
 ---
 
-## 🤝 Contributing
 
-Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) first.
-
-```bash
-# Create a feature branch
-git checkout -b feature/your-feature-name
-
-# Commit your changes
-git commit -m "feat: add your feature"
-
-# Open a PR
-git push origin feature/your-feature-name
-```
-
----
 
 ## 📄 License
 
 This project is licensed under the MIT License — see [LICENSE](LICENSE) for details.
 
 ---
-
+-->
 <div align="center">
 
-Made with ❤️ by [Your Name](https://github.com/yourusername)
+Made by (https://github.com/PyToby)
 
-**[wherelse.app](https://wherelse.app) · [Twitter](https://twitter.com/yourhandle) · [Issues](https://github.com/yourusername/wherelse/issues)**
+<!-- **[wherelse.app](https://wherelse.app) · [Twitter](https://twitter.com/yourhandle) · [Issues](https://github.com/yourusername/wherelse/issues)** -->
 
 </div>
