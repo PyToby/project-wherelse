@@ -6,12 +6,341 @@
   <link href="../../src/output.css" rel="stylesheet">
 </head>
 <body>
-  <button class="btn btn-sm">Large</button>
-  <div tabindex="0" class="collapse bg-base-100 border-base-300 border">
-  <div class="collapse-title font-semibold">How do I create an account?</div>
-  <div class="collapse-content text-sm">
-    Click the "Sign Up" button in the top right corner and follow the registration process.
+  <!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wherelse — Compare Anything</title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+<!-- Background layers -->
+<div class="mesh-bg"></div>
+<div class="grid-overlay"></div>
+
+
+
+<!-- ─────────────── NAVBAR ─────────────── -->
+<div class="glass-nav sticky top-0 z-50 content-layer">
+  <div class="navbar max-w-7xl mx-auto px-4 sm:px-8">
+    <div class="navbar-start">
+      <a class="font-display font-bold text-xl tracking-tight flex items-center gap-2">
+        <span class="vs-badge text-xs">VS</span>
+        <span>Wherelse</span>
+      </a> 
+    </div>
+    <div class="navbar-center hidden md:flex">
+      <ul class="menu menu-horizontal gap-1 text-sm font-medium text-white/60">
+        <li><a class="hover:text-white hover:bg-white/5 rounded-lg transition-colors">Explore</a></li>
+        <li><a class="hover:text-white hover:bg-white/5 rounded-lg transition-colors">Categories</a></li>
+        <li><a class="hover:text-white hover:bg-white/5 rounded-lg transition-colors">How it works</a></li>
+        <li><a class="hover:text-white hover:bg-white/5 rounded-lg transition-colors">Blog</a></li>
+      </ul>
+    </div>
+    <div class="navbar-end gap-3">
+      <a class="btn btn-ghost btn-sm text-white/60 hover:text-white hidden sm:flex">Sign in</a>
+      <a class="btn btn-sm font-display font-semibold text-sm"
+         style="background: linear-gradient(135deg,#a78bfa,#ec4899); border: none; color: white;">
+        Compare now
+      </a>
+      <!-- Mobile hamburger -->
+      <div class="dropdown dropdown-end md:hidden">
+        <div tabindex="0" role="button" class="btn btn-ghost btn-circle btn-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+          </svg>
+        </div>
+        <ul tabindex="0" class="dropdown-content menu bg-base-200 rounded-box z-10 w-52 p-2 shadow-xl border border-white/10 mt-2">
+          <li><a>Explore</a></li>
+          <li><a>Categories</a></li>
+          <li><a>How it works</a></li>
+          <li><a>Blog</a></li>
+          <li><a>Sign in</a></li>
+        </ul>
+      </div>
+    </div>
   </div>
+</div>
+
+{% block content %}
+<!-- ─────────────── HERO ─────────────── -->
+<section class="content-layer min-h-screen flex flex-col justify-center px-4 sm:px-8 pt-16 pb-8 max-w-7xl mx-auto">
+  <div class="flex flex-col gap-12">
+
+    <!-- Left: text -->
+    <div>
+      <div class="fade-up mb-5">
+        <span class="badge badge-outline text-xs font-medium tracking-widest uppercase text-violet-400 border-violet-400/30 px-3 py-2">
+          AI-Powered comparisons
+        </span>
+      </div>
+
+      <h1 class="hero-title fade-up delay-1 mb-6">
+        Stop<br/>
+        <span class="gradient-text">guessing.</span><br/>
+        Start<br/>
+        choosing.
+      </h1>
+
+      <p class="fade-up delay-2 text-white/50 text-lg font-light leading-relaxed mb-8 max-w-">
+        Wherelse pulls from Reddit threads, real user reviews, and feature docs to build you a structured comparison with feature overview and much more in mere seconds.
+      </p>
+
+      <!-- Search bar -->
+      <div class="fade-up delay-3 mb-8">
+        <div class="join w-full max-w-lg search-glow rounded-xl border border-white/10 bg-white/[0.04] transition-all">
+          <input
+            class="join-item input flex-1 bg-transparent border-none outline-none text-white placeholder-white/30 text-sm px-5"
+            placeholder="e.g. Notion vs Obsidian, Figma vs Sketch…"
+          />
+          <button class="join-item btn border-none text-sm font-semibold px-6"
+            style="background: linear-gradient(135deg,#a78bfa,#ec4899); color:white;">
+            Compare
+          </button>
+        </div>
+        <p class="text-white/25 text-xs mt-2 ml-1">Try: "Linear vs Jira" or "Supabase vs Firebase"</p>
+      </div>
+
+      <!-- Quick pills -->
+      <div class="fade-up delay-4 flex flex-wrap gap-2">
+        <button class="comp-pill">Notion <span class="vs-badge" style="width:1.4rem;height:1.4rem;font-size:0.6rem;">VS</span> Obsidian</button>
+        <button class="comp-pill">Figma <span class="vs-badge" style="width:1.4rem;height:1.4rem;font-size:0.6rem;">VS</span> Sketch</button>
+        <button class="comp-pill">Vercel <span class="vs-badge" style="width:1.4rem;height:1.4rem;font-size:0.6rem;">VS</span> Netlify</button>
+        <button class="comp-pill">Arc <span class="vs-badge" style="width:1.4rem;height:1.4rem;font-size:0.6rem;">VS</span> Chrome</button>
+      </div>
+    </div>
+
+    <!-- Right: scrollable description card -->
+    <div class="fade-up delay-5 items-center">
+      <div class="feature-card relative overflow-hidden"
+           style="border-color: rgba(167,139,250,0.2); background: rgba(167,139,250,0.04);">
+        <!-- Top label -->
+        <div class="flex items-center justify-between mb-5">
+          <div class="flex items-center gap-2">
+            <div class="vs-badge" style="width:2rem;height:2rem;font-size:0.7rem;">VS</div>
+            <span class="font-display font-semibold text-sm text-white/80">Live example</span>
+          </div>
+          <span class="badge badge-soft badge-success text-xs gap-1">
+            <span class="status status-success status-xs"></span>
+            AI analysed
+          </span>
+        </div>
+
+        <div class="flex items-center gap-3 mb-5 pb-5" style="border-bottom: 1px solid rgba(255,255,255,0.07);">
+          <div class="flex-1 text-center">
+            <div class="font-display font-bold text-xl text-white">Notion</div>
+            <div class="text-xs text-white/40 mt-0.5">All-in-one workspace</div>
+          </div>
+          <div class="vs-badge flex-shrink-0">VS</div>
+          <div class="flex-1 text-center">
+            <div class="font-display font-bold text-xl text-white">Obsidian</div>
+            <div class="text-xs text-white/40 mt-0.5">Local-first notes</div>
+          </div>
+        </div>
+
+        <!-- Sources row -->
+        <div class="flex gap-2 mb-5 flex-wrap">
+          <span class="badge badge-outline badge-xs text-white/40 border-white/10">📣 Reddit r/productivity</span>
+          <span class="badge badge-outline badge-xs text-white/40 border-white/10">⭐ G2 Reviews</span>
+          <span class="badge badge-outline badge-xs text-white/40 border-white/10">📄 Feature docs</span>
+        </div>
+
+        <!-- Scrollable content -->
+        <!--
+        <div class="desc-scroll text-sm text-white/60 font-light leading-relaxed space-y-5">
+          <div>
+            <h4 class="font-display font-semibold text-white/90 text-base mb-2">🧠 TL;DR</h4>
+            <p>Notion wins on collaboration and databases. Obsidian wins on speed, privacy, and deep linking. Your choice hinges on one question: do you work solo or in a team?</p>
+          </div>
+
+          <div class="glow-line"></div>
+
+          <div>
+            <h4 class="font-display font-semibold text-white/90 text-base mb-2">✅ Where Notion shines</h4>
+            <ul class="space-y-1.5 list-none">
+              <li class="flex items-start gap-2"><span class="text-violet-400 mt-0.5">▸</span> Real-time team collaboration with comments and mentions</li>
+              <li class="flex items-start gap-2"><span class="text-violet-400 mt-0.5">▸</span> Powerful relational databases and linked views</li>
+              <li class="flex items-start gap-2"><span class="text-violet-400 mt-0.5">▸</span> All-in-one: docs, tasks, wikis, and projects in one place</li>
+              <li class="flex items-start gap-2"><span class="text-violet-400 mt-0.5">▸</span> Great for non-technical users — minimal setup needed</li>
+            </ul>
+          </div>
+
+          <div class="glow-line"></div>
+
+          <div>
+            <h4 class="font-display font-semibold text-white/90 text-base mb-2">✅ Where Obsidian shines</h4>
+            <ul class="space-y-1.5 list-none">
+              <li class="flex items-start gap-2"><span class="text-pink-400 mt-0.5">▸</span> Local Markdown files — you own your data forever</li>
+              <li class="flex items-start gap-2"><span class="text-pink-400 mt-0.5">▸</span> Blazing fast even with 10,000+ notes</li>
+              <li class="flex items-start gap-2"><span class="text-pink-400 mt-0.5">▸</span> Graph view for visualising knowledge connections</li>
+              <li class="flex items-start gap-2"><span class="text-pink-400 mt-0.5">▸</span> Massive plugin ecosystem (1,500+ community plugins)</li>
+            </ul>
+          </div>
+
+          <div class="glow-line"></div>
+
+          <div>
+            <h4 class="font-display font-semibold text-white/90 text-base mb-2">🗣️ What Reddit says</h4>
+            <p class="mb-2">From r/productivity and r/ObsidianMD with 2,400+ comments analysed:</p>
+            <div class="space-y-2">
+              <div class="bg-white/[0.03] rounded-lg p-3 border border-white/[0.06] italic text-white/50">
+                "Switched from Notion to Obsidian and never looked back. Speed alone is worth it."
+              </div>
+              <div class="bg-white/[0.03] rounded-lg p-3 border border-white/[0.06] italic text-white/50">
+                "Notion for team projects, Obsidian for personal thinking. They're not really competitors."
+              </div>
+            </div>
+          </div>
+
+          <div class="glow-line"></div>
+
+          <div>
+            <h4 class="font-display font-semibold text-white/90 text-base mb-2">💡 Our verdict</h4>
+            <div class="grid grid-cols-2 gap-3">
+              <div class="bg-violet-500/10 border border-violet-400/20 rounded-lg p-3 text-center">
+                <div class="font-display font-bold text-violet-300 mb-1">Notion</div>
+                <div class="text-xs text-white/50">Teams, projects, company wikis</div>
+              </div>
+              <div class="bg-pink-500/10 border border-pink-400/20 rounded-lg p-3 text-center">
+                <div class="font-display font-bold text-pink-300 mb-1">Obsidian</div>
+                <div class="text-xs text-white/50">Solo thinkers, researchers, writers</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p class="text-white/25 text-xs mt-4 text-right">↕ scroll for more</p>
+      </div> -->
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────── TICKER ─────────────── -->
+<div class="content-layer py-6 overflow-hidden border-y border-white/[0.05] bg-white/[0.015]">
+  <div class="ticker-track gap-8">
+    <!-- repeated twice for seamless loop -->
+    <template id="ticker-items">
+      <span class="comp-pill">Slack <span class="vs-badge" style="width:1.2rem;height:1.2rem;font-size:0.55rem;">VS</span> Teams</span>
+      <span class="comp-pill">Linear <span class="vs-badge" style="width:1.2rem;height:1.2rem;font-size:0.55rem;">VS</span> Jira</span>
+      <span class="comp-pill">Tailwind <span class="vs-badge" style="width:1.2rem;height:1.2rem;font-size:0.55rem;">VS</span> Bootstrap</span>
+      <span class="comp-pill">Supabase <span class="vs-badge" style="width:1.2rem;height:1.2rem;font-size:0.55rem;">VS</span> Firebase</span>
+      <span class="comp-pill">Next.js <span class="vs-badge" style="width:1.2rem;height:1.2rem;font-size:0.55rem;">VS</span> Remix</span>
+      <span class="comp-pill">Raycast <span class="vs-badge" style="width:1.2rem;height:1.2rem;font-size:0.55rem;">VS</span> Alfred</span>
+      <span class="comp-pill">Spotify <span class="vs-badge" style="width:1.2rem;height:1.2rem;font-size:0.55rem;">VS</span> Apple Music</span>
+      <span class="comp-pill">VS Code <span class="vs-badge" style="width:1.2rem;height:1.2rem;font-size:0.55rem;">VS</span> Cursor</span>
+      <span class="comp-pill">GitHub <span class="vs-badge" style="width:1.2rem;height:1.2rem;font-size:0.55rem;">VS</span> GitLab</span>
+      <span class="comp-pill">Framer <span class="vs-badge" style="width:1.2rem;height:1.2rem;font-size:0.55rem;">VS</span> Webflow</span>
+    </template>
+  </div>
+</div>
+
+<!-- ─────────────── HOW IT WORKS ─────────────── -->
+<section class="content-layer py-24 px-4 sm:px-8 max-w-7xl mx-auto">
+  <div class="text-center mb-16">
+    <span class="badge badge-outline text-xs font-medium tracking-widest uppercase text-violet-400 border-violet-400/30 px-3 py-2 mb-4">How it works</span>
+    <h2 class="font-display font-bold text-4xl sm:text-5xl text-white mt-4 mb-4">Comparison, <span class="gradient-text">not confusion</span></h2>
+    <p class="text-white/40 max-w-md mx-auto">We do the research so you don't have to spend hours on Reddit and review sites.</p>
+  </div>
+
+  <div class="grid sm:grid-cols-3 gap-6">
+    <div class="feature-card text-center">
+      <div class="text-4xl mb-4">📡</div>
+      <h3 class="font-display font-semibold text-lg text-white mb-2">We gather the data</h3>
+      <p class="text-white/45 text-sm leading-relaxed">Reddit threads, G2 reviews, Capterra, official feature docs -> all pulled and parsed automatically!</p>
+    </div>
+    <div class="feature-card text-center" style="border-color: rgba(167,139,250,0.2);">
+      <div class="text-4xl mb-4">🤖</div>
+      <h3 class="font-display font-semibold text-lg text-white mb-2">AI structures it</h3>
+      <p class="text-white/45 text-sm leading-relaxed">Our model extracts real pros and cons -> opinionated and honest!</p>
+    </div>
+    <div class="feature-card text-center">
+      <div class="text-4xl mb-4">⚡</div>
+      <h3 class="font-display font-semibold text-lg text-white mb-2">You decide fast</h3>
+      <p class="text-white/45 text-sm leading-relaxed">Clear verdict, quoted real users, side-by-side features with no clutter or biased sponsorships!</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────── STATS ─────────────── -->
+<section class="content-layer py-16 px-4 sm:px-8">
+  <div class="max-w-4xl mx-auto">
+    <div class="stats stats-horizontal w-full bg-white/[0.03] border border-white/[0.07] rounded-2xl overflow-hidden">
+      <div class="stat text-center">
+        <div class="stat-value font-display text-violet-400">1,200+</div>
+        <div class="stat-desc text-white/40">Comparisons made</div>
+      </div>
+      <div class="stat text-center">
+        <div class="stat-value font-display text-pink-400">48</div>
+        <div class="stat-desc text-white/40">Categories covered</div>
+      </div>
+      <div class="stat text-center">
+        <div class="stat-value font-display text-amber-400">2.4M</div>
+        <div class="stat-desc text-white/40">Reviews analysed</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────── CTA ─────────────── -->
+<section class="content-layer py-24 px-4 sm:px-8 text-center">
+  <div class="max-w-2xl mx-auto">
+    <h2 class="font-display font-bold text-4xl sm:text-5xl text-white mb-5">
+      What are you trying<br/>to <span class="gradient-text">decide?</span>
+    </h2>
+    <p class="text-white/40 mb-10 text-lg font-light">Type any two tools, apps, or services and get a precise, unbiased breakdown in under 30 seconds.</p>
+    <div class="join w-full max-w-lg mx-auto search-glow rounded-xl border border-white/10 bg-white/[0.04] transition-all">
+      <input
+        class="join-item input flex-1 bg-transparent border-none outline-none text-white placeholder-white/30 text-sm px-5"
+        placeholder="e.g. Stripe vs Paddle"
+      />
+      <button class="join-item btn border-none text-sm font-semibold px-6"
+        style="background: linear-gradient(135deg,#a78bfa,#ec4899); color:white;">
+        Compare
+      </button>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+<!-- ─────────────── FOOTER ─────────────── -->
+<footer class="content-layer footer footer-horizontal px-8 py-10 max-w-7xl mx-auto border-t border-white/[0.06]">
+  <div>
+    <span class="flex items-center gap-2 font-display font-bold text-lg mb-1">
+      <span class="vs-badge" style="width:1.8rem;height:1.8rem;font-size:0.65rem;">VS</span>
+      Wherelse
+    </span>
+    <p class="text-white/30 text-xs max-w-xs">AI-powered comparisons built on real user opinions, not sponsored content.</p>
+  </div>
+  <nav>
+    <h6 class="footer-title text-white/40 text-xs">Product</h6>
+    <a class="link link-hover text-white/50 text-sm">Explore</a>
+    <a class="link link-hover text-white/50 text-sm">Categories</a>
+    <a class="link link-hover text-white/50 text-sm">Submit a comparison</a>
+  </nav>
+  <nav>
+    <h6 class="footer-title text-white/40 text-xs">Company</h6>
+    <a class="link link-hover text-white/50 text-sm">About</a>
+    <a class="link link-hover text-white/50 text-sm">Blog</a>
+    <a class="link link-hover text-white/50 text-sm">Privacy</a>
+  </nav>
+</footer>
+
+<script>
+  // Populate ticker by duplicating items for seamless loop
+  const template = document.getElementById('ticker-items');
+  const track = document.querySelector('.ticker-track');
+  if (template && track) {
+    const html = template.innerHTML;
+    track.innerHTML = html + html;
+  }
+</script>
+</body>
+</html>
 </div>
 </body>
 </html>

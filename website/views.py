@@ -29,3 +29,7 @@ def handle():
 @view.route('/')
 def home():
     return render_template('base.html')
+
+@view.route('/comparison')
+def comparison():
+    return render_template('comparison.html')
