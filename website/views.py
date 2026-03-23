@@ -1,5 +1,9 @@
 from flask import Blueprint, render_template, request
 #from flask_login import current_user, login_required
+import google.genai as genai
+import os
+
+
 
 view = Blueprint('view', __name__)
 
@@ -32,4 +36,12 @@ def home():
 
 @view.route('/comparison/<prompt>')
 def comparison(prompt):
-    return render_template('comparison.html', prompt=prompt)
+    client = genai.Client(api_key=os.getenv("API_KEY"))
+
+    response = client.models.generate_content(
+        model="gemini-2.5-flash",
+        contents=prompt
+    )
+
+    
+    return render_template('comparison.html', response=response.text)
