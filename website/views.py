@@ -30,6 +30,6 @@ def handle():
 def home():
     return render_template('base.html')
 
-@view.route('/comparison')
-def comparison():
-    return render_template('comparison.html')
+@view.route('/comparison/<prompt>')
+def comparison(prompt):
+    return render_template('comparison.html', prompt=prompt)
