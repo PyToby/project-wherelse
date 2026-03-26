@@ -20,10 +20,10 @@
 <div class="glass-nav sticky top-0 z-50 content-layer">
   <div class="navbar max-w-7xl mx-auto px-4 sm:px-8">
     <div class="navbar-start">
-      <a class="font-display font-bold text-xl tracking-tight flex items-center gap-2">
+      <a class="font-display font-bold text-xl tracking-tight flex items-center gap-6">
         <span class="vs-badge text-xs">VS</span>
-        <span>Wherelse</span>
-      </a> 
+        <a href="/" class="margin-left: 0.5rem; font-display font-bold text-xl tracking-tight flex items-center gap-2 ml-6">
+          <span style="margin-left: 0.5rem;">Wherelse</span> </a> 
     </div>
     <div class="navbar-center hidden md:flex">
       <ul class="menu menu-horizontal gap-1 text-sm font-medium text-white/60">
@@ -86,11 +86,14 @@
       <div class="fade-up delay-3 mb-8">
         <div class="join w-full max-w-lg search-glow rounded-xl border border-white/10 bg-white/[0.04] transition-all">
           <input
+            id="search-input"
             class="join-item input flex-1 bg-transparent border-none outline-none text-white placeholder-white/30 text-sm px-5"
             placeholder="e.g. Notion vs Obsidian, Figma vs Sketch…"
           />
           <button class="join-item btn border-none text-sm font-semibold px-6"
-            style="background: linear-gradient(135deg,#a78bfa,#ec4899); color:white;">
+            id="search-btn"
+            style="background: linear-gradient(135deg,#a78bfa,#ec4899); color:white;"
+            onclick="runComparison()">
             Compare
           </button>
         </div>
@@ -284,16 +287,22 @@
       What are you trying<br/>to <span class="gradient-text">decide?</span>
     </h2>
     <p class="text-white/40 mb-10 text-lg font-light">Type any two tools, apps, or services and get a precise, unbiased breakdown in under 30 seconds.</p>
-    <div class="join w-full max-w-lg mx-auto search-glow rounded-xl border border-white/10 bg-white/[0.04] transition-all">
-      <input
-        class="join-item input flex-1 bg-transparent border-none outline-none text-white placeholder-white/30 text-sm px-5"
-        placeholder="e.g. Stripe vs Paddle"
-      />
-      <button class="join-item btn border-none text-sm font-semibold px-6"
-        style="background: linear-gradient(135deg,#a78bfa,#ec4899); color:white;">
-        Compare
-      </button>
-    </div>
+    <div class="fade-up delay-3 mb-8">
+      <div class="join w-full max-w-lg search-glow rounded-xl border border-white/10 bg-white/[0.04] transition-all">
+        <input
+          id="search-input-cta"
+          class="join-item input flex-1 bg-transparent border-none outline-none text-white placeholder-white/30 text-sm px-5"
+          placeholder="e.g. Notion vs Obsidian, Figma vs Sketch…"
+        />
+        <button class="join-item btn border-none text-sm font-semibold px-6"
+          id="search-btn"
+          style="background: linear-gradient(135deg,#a78bfa,#ec4899); color:white;"
+          onclick="runComparisonCta()">
+          Compare
+        </button>
+      </div>
+      <p class="text-white/25 text-xs mt-2 ml-1">Try: "Linear vs Jira" or "Supabase vs Firebase"</p>
+    </div>  
   </div>
 </section>
 
@@ -330,6 +339,18 @@
     const html = template.innerHTML;
     track.innerHTML = html + html;
   }
+
+  async function runComparison() {
+    const query = document.getElementById('search-input').value;
+
+    if (!query.trim()) return;
+    window.location.href = `/compare?query=${encodeURIComponent(query)}`;
+  }
+  async function runComparisonCta() {
+    const query = document.getElementById('search-input-cta').value;
+    if (!query.trim()) return;
+    window.location.href = `/compare?query=${encodeURIComponent(query)}`;
+}
 </script>
 </body>
 </html>

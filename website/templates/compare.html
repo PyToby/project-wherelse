@@ -1,0 +1,310 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- ─────────────── COMPARE PAGE ─────────────── -->
+<section class="content-layer min-h-screen px-4 sm:px-8 pt-12 pb-16 max-w-7xl mx-auto">
+
+  <!-- Page header -->
+  <div class="text-center mb-10 fade-up">
+    <br>
+    <span class="badge badge-outline text-xs font-medium tracking-widest uppercase text-violet-400 border-violet-400/30 px-3 py-2 mb-4">
+      AI-Powered comparison
+    </span>
+    <h1 class="font-display font-bold text-4xl sm:text-5xl text-white mt-4 mb-3 tracking-tight">
+      {% if query %}
+        <span class="gradient-text">{{ query }}</span>
+      {% else %}
+        Compare anything
+      {% endif %}
+    </h1>
+    <p class="text-white/40 text-sm">Aggregated from Reddit, reviews, and feature docs</p>
+  </div>
+
+  <!-- ── Search bar (re-run a new comparison) ── -->
+  <div class="fade-up delay-1 flex justify-center mb-12">
+    <div class="join w-full max-w-lg search-glow rounded-xl border border-white/10 bg-white/[0.04] transition-all">
+      <input
+        id="search-input"
+        class="join-item input flex-1 bg-transparent border-none outline-none text-white placeholder-white/30 text-sm px-5"
+        placeholder="Try another comparison…"
+        value="{{ query or '' }}"
+      />
+      <button
+        onclick="runComparison()"
+        class="join-item btn border-none text-sm font-semibold px-6"
+        style="background: linear-gradient(135deg,#a78bfa,#ec4899); color:white;">
+        Compare
+      </button>
+    </div>
+  </div>
+  <br>
+  <br>
+  {% if result %}
+
+  <!-- ── Split comparison card ── -->
+  <div class="fade-up delay-2">
+
+    <!-- Service name headers -->
+    <div class="flex items-center gap-4 mb-4 px-1">
+
+      <!-- Service A label -->
+      <div class="flex-1 text-center">
+        <div class="font-display font-bold text-2xl text-white mb-1">
+          {{ service_a or 'Service A' }}
+        </div>
+        <div class="text-xs text-white/35 tracking-wide uppercase">Option A</div>
+      </div>
+
+      <!-- VS badge centre -->
+      <div class="vs-badge flex-shrink-0" style="width:3rem;height:3rem;font-size:0.9rem;">VS</div>
+
+      <!-- Service B label -->
+      <div class="flex-1 text-center">
+        <div class="font-display font-bold text-2xl text-white mb-1">
+          {{ service_b or 'Service B' }}
+        </div>
+        <div class="text-xs text-white/35 tracking-wide uppercase">Option B</div>
+      </div>
+
+    </div>
+
+    <!-- Split card body -->
+    <div class="rounded-2xl border border-white/[0.07] overflow-hidden"
+         style="background: rgba(255,255,255,0.02);">
+    <br>
+      <!-- Sources strip -->
+      <div class="flex gap-2 px-6 py-3 border-b border-white/[0.05] flex-wrap"
+           style="background: rgba(255,255,255,0.015);">
+        <span class="badge badge-outline badge-xs text-white/35 border-white/10">📣 Reddit threads</span>
+        <span class="badge badge-outline badge-xs text-white/35 border-white/10">⭐ G2 Reviews</span>
+        <span class="badge badge-outline badge-xs text-white/35 border-white/10">📄 Feature docs</span>
+        <span class="badge badge-soft badge-success badge-xs gap-1 ml-auto">
+          <span class="status status-success status-xs"></span>
+          AI analysed
+        </span>
+      </div>
+
+      <!-- Two-column split -->
+      <div class="flex divide-x divide-white/[0.06]">
+
+        <!-- ── LEFT — Service A ── -->
+        <div class="flex-1 p-6 space-y-5">
+
+          <!-- Violet accent top bar -->
+          <div class="h-0.5 w-12 rounded-full mb-6"
+               style="background: linear-gradient(90deg, #a78bfa, transparent);"></div>
+
+          <div class="desc-scroll space-y-5 text-sm text-white/60 font-light leading-relaxed">
+
+            <!-- Placeholder sections — replace with Jinja variables later -->
+            <div>
+              <h4 class="font-display font-semibold text-white/85 text-sm mb-2 uppercase tracking-widest text-xs text-violet-300">
+                Best for
+              </h4>
+              <p class="text-white/55">{{ a_best_for or 'Details coming soon once AI analysis is connected.' }}</p>
+            </div>
+
+            <div class="glow-line"></div>
+
+            <div>
+              <h4 class="font-display font-semibold text-white/85 text-sm mb-3 uppercase tracking-widest text-xs text-violet-300">
+                Strengths
+              </h4>
+              <ul class="space-y-2 list-none">
+                {% if a_strengths %}
+                  {% for point in a_strengths %}
+                  <li class="flex items-start gap-2">
+                    <span class="text-violet-400 mt-0.5 flex-shrink-0">▸</span>
+                    {{ point }}
+                  </li>
+                  {% endfor %}
+                {% else %}
+                  <li class="flex items-start gap-2">
+                    <span class="text-violet-400 mt-0.5 flex-shrink-0">▸</span>
+                    Strength one will appear here
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-violet-400 mt-0.5 flex-shrink-0">▸</span>
+                    Strength two will appear here
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-violet-400 mt-0.5 flex-shrink-0">▸</span>
+                    Strength three will appear here
+                  </li>
+                {% endif %}
+              </ul>
+            </div>
+
+            <div class="glow-line"></div>
+
+            <div>
+              <h4 class="font-display font-semibold text-white/85 text-sm mb-3 uppercase tracking-widest text-xs text-violet-300">
+                Weaknesses
+              </h4>
+              <ul class="space-y-2 list-none">
+                {% if a_weaknesses %}
+                  {% for point in a_weaknesses %}
+                  <li class="flex items-start gap-2">
+                    <span class="text-white/25 mt-0.5 flex-shrink-0">▸</span>
+                    {{ point }}
+                  </li>
+                  {% endfor %}
+                {% else %}
+                  <li class="flex items-start gap-2">
+                    <span class="text-white/25 mt-0.5 flex-shrink-0">▸</span>
+                    Weakness one will appear here
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-white/25 mt-0.5 flex-shrink-0">▸</span>
+                    Weakness two will appear here
+                  </li>
+                {% endif %}
+              </ul>
+            </div>
+
+            <div class="glow-line"></div>
+
+            <!-- AI result raw output -->
+            <div>
+              <h4 class="font-display font-semibold text-white/85 text-sm mb-2 uppercase tracking-widest text-xs text-violet-300">
+                Summary
+              </h4>
+              <p class="text-white/50">{{ result }}</p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ── RIGHT — Service B ── -->
+        <div class="flex-1 p-6 space-y-5">
+
+          <!-- Pink accent top bar -->
+          <div class="h-0.5 w-12 rounded-full mb-6"
+               style="background: linear-gradient(90deg, #ec4899, transparent);"></div>
+
+          <div class="desc-scroll space-y-5 text-sm text-white/60 font-light leading-relaxed">
+
+            <div>
+              <h4 class="font-display font-semibold text-white/85 text-sm mb-2 uppercase tracking-widest text-xs text-pink-300">
+                Best for
+              </h4>
+              <p class="text-white/55">{{ b_best_for or 'Details coming soon once AI analysis is connected.' }}</p>
+            </div>
+
+            <div class="glow-line"></div>
+
+            <div>
+              <h4 class="font-display font-semibold text-white/85 text-sm mb-3 uppercase tracking-widest text-xs text-pink-300">
+                Strengths
+              </h4>
+              <ul class="space-y-2 list-none">
+                {% if b_strengths %}
+                  {% for point in b_strengths %}
+                  <li class="flex items-start gap-2">
+                    <span class="text-pink-400 mt-0.5 flex-shrink-0">▸</span>
+                    {{ point }}
+                  </li>
+                  {% endfor %}
+                {% else %}
+                  <li class="flex items-start gap-2">
+                    <span class="text-pink-400 mt-0.5 flex-shrink-0">▸</span>
+                    Strength one will appear here
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-pink-400 mt-0.5 flex-shrink-0">▸</span>
+                    Strength two will appear here
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-pink-400 mt-0.5 flex-shrink-0">▸</span>
+                    Strength three will appear here
+                  </li>
+                {% endif %}
+              </ul>
+            </div>
+
+            <div class="glow-line"></div>
+
+            <div>
+              <h4 class="font-display font-semibold text-white/85 text-sm mb-3 uppercase tracking-widest text-xs text-pink-300">
+                Weaknesses
+              </h4>
+              <ul class="space-y-2 list-none">
+                {% if b_weaknesses %}
+                  {% for point in b_weaknesses %}
+                  <li class="flex items-start gap-2">
+                    <span class="text-white/25 mt-0.5 flex-shrink-0">▸</span>
+                    {{ point }}
+                  </li>
+                  {% endfor %}
+                {% else %}
+                  <li class="flex items-start gap-2">
+                    <span class="text-white/25 mt-0.5 flex-shrink-0">▸</span>
+                    Weakness one will appear here
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-white/25 mt-0.5 flex-shrink-0">▸</span>
+                    Weakness two will appear here
+                  </li>
+                {% endif %}
+              </ul>
+            </div>
+
+            <div class="glow-line"></div>
+
+            <div>
+              <h4 class="font-display font-semibold text-white/85 text-sm mb-2 uppercase tracking-widest text-xs text-pink-300">
+                Summary
+              </h4>
+              <p class="text-white/50">{{ result }}</p>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ── Verdict footer strip ── -->
+      <div class="border-t border-white/[0.06] px-6 py-5 flex gap-4"
+           style="background: rgba(255,255,255,0.015);">
+        <div class="flex-1 bg-violet-500/10 border border-violet-400/20 rounded-xl p-4 text-center">
+          <div class="font-display font-bold text-violet-300 mb-1">{{ service_a or 'Service A' }}</div>
+          <div class="text-xs text-white/40">{{ a_verdict or 'Best for teams & collaboration' }}</div>
+        </div>
+        <div class="flex items-center justify-center flex-shrink-0">
+          <span class="text-white/20 text-xs font-display font-bold">OR</span>
+        </div>
+        <div class="flex-1 bg-pink-500/10 border border-pink-400/20 rounded-xl p-4 text-center">
+          <div class="font-display font-bold text-pink-300 mb-1">{{ service_b or 'Service B' }}</div>
+          <div class="text-xs text-white/40">{{ b_verdict or 'Best for solo & power users' }}</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  {% else %}
+
+  <!-- Empty state — no query yet -->
+  <div class="fade-up delay-2 text-center py-24">
+    <div class="text-5xl mb-4">🔍</div>
+    <p class="text-white/30 text-lg font-light">Enter two tools above to generate a comparison.</p>
+  </div>
+
+  {% endif %}
+
+</section>
+
+<script>
+  function runComparison() {
+    const query = document.getElementById('search-input').value;
+    if (!query.trim()) return;
+    window.location.href = `/compare?query=${encodeURIComponent(query)}`;
+  }
+
+  // Allow pressing Enter in the search bar
+  document.getElementById('search-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') runComparison();
+  });
+</script>
+
+{% endblock %}
