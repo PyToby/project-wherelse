@@ -1,6 +1,5 @@
 from flask import Blueprint, render_template, request, jsonify
 from flask_login import current_user, login_required
-import google.genai as genai
 from . import ai_process as ai
 
 
