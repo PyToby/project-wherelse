@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, request, jsonify
-#from flask_login import current_user, login_required
+from flask_login import current_user, login_required
 import google.genai as genai
-
 from . import ai_process as ai
 
 
@@ -38,18 +37,21 @@ def home():
 @view.route('/compare', methods=['GET'])
 def compare():
     query = request.args.get('query')
+
     if query:
         parts = query.lower().split(' vs ')
         if len(parts) == 2:
-            service_a = parts[0].strip().title()  # "notion" → "Notion"
+            service_a = parts[0].strip().title()
             service_b = parts[1].strip().title()
-
             result = ai.generate_response(service_a, service_b)
-            return render_template('compare.html', result=result, service_a=service_a, service_b=service_b)
+            return render_template('compare.html', result=result, service_a=service_a, service_b=service_b, error=None)
         else:
-            # handle bad input
-            service_a = query
-            service_b = ''
             return render_template('compare.html', result=None, service_a=query, service_b=None, error="Please enter a valid comparison, e.g. Notion vs Obsidian")
     else:
-        return render_template('compare.html', result=None, service_a=None, service_b=None)
+        return render_template('compare.html', result=None, service_a=None, service_b=None, error=None)
+
+@view.route('/dashboard')
+@login_required
+def dashboard():
+    return f"Hello {current_user.name}"
+
