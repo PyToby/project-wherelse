@@ -36,9 +36,10 @@ def signup():
                 db.session.commit()
                 login_user(new_user)
                 return redirect('/')
-            except:
+            except Exception as e:
                 db.session.rollback()
-                return render_template('login.html', error='Something went wrong, please try again')
+                print(f"Signup error: {e}")  # shows in Render logs
+                return render_template('login.html', error=f'Error: {str(e)}')
         else:
             return render_template('login.html', error='Passwords do not match')
     else:
