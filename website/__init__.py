@@ -16,7 +16,13 @@ def create_app():
         database_url = database_url.replace('postgres://', 'postgresql://', 1)
 
     app.config['SQLALCHEMY_DATABASE_URI'] = database_url
-    
+    app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
+        "pool_pre_ping": True,  # drops stale connections automatically
+        "pool_size": 5,
+        "max_overflow": 10,
+    }
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False    
+
     db.init_app(app)
     login_manager.init_app(app)
     login_manager.login_view = 'auth.login'  # redirect here if not logged in

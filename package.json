@@ -4,7 +4,7 @@
   "description": "<div align=\"center\">",
   "main": "index.js",
   "scripts": {
-    "build:css":"npx @tailwindcss/cli -i ./static/input.css -o ./static/output.css --watch",
+    "build:css": "npx @tailwindcss/cli -i ./static/input.css -o ./static/output.css --watch",
     "build": "npx @tailwindcss/cli -i ./static/input.css -o ./static/output.css --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@supabase/supabase-js": "^2.100.1",
     "@tailwindcss/cli": "^4.2.1",
     "tailwindcss": "^4.2.1"
   },
