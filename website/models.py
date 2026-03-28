@@ -6,7 +6,7 @@ from flask_login import UserMixin
 db = SQLAlchemy()
 
 class User(UserMixin, db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), unique=True, nullable=False)
     name = db.Column(db.String(100), nullable=True)
     password_hash = db.Column(db.String(256), nullable=True)
@@ -14,7 +14,7 @@ class User(UserMixin, db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     
     def get_id(self):           # tell Flask-Login to use user_id
-        return str(self.id)
+        return str(self.user_id)
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -33,6 +33,6 @@ class Comparison(db.Model):
 
 class UserHistory(db.Model):
     history_id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
     comparison_id = db.Column(db.Integer, db.ForeignKey('comparison.comparison_id'), nullable=False)
     viewed_at = db.Column(db.DateTime, default=datetime.utcnow)
