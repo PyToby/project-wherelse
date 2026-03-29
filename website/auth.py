@@ -17,7 +17,6 @@ def login():
             return redirect(url_for('view.home'))
         else:
             return render_template('login.html', error='Invalid email or password')
-    
     return render_template('login.html')
 
 @auth.route('/signup', methods=["POST"])
@@ -44,3 +43,9 @@ def signup():
             return render_template('login.html', error='Passwords do not match')
     else:
         return render_template('login.html', error='Email already registered')
+
+@auth.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect('/')

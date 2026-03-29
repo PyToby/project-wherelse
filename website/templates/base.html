@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Wherelse — Compare Anything</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='output.css') }}">  
-  
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
 </head>
 <body>
@@ -14,47 +13,80 @@
 <div class="mesh-bg"></div>
 <div class="grid-overlay"></div>
 
-
-
 <!-- ─────────────── NAVBAR ─────────────── -->
-<div class="glass-nav sticky top-0 z-50 content-layer">
-  <div class="navbar max-w-7xl mx-auto px-4 sm:px-8">
-    <div class="navbar-start">
-      <a href="/" class="font-display font-bold text-xl tracking-tight flex items-center gap-6">
-        <span class="vs-badge text-xs">VS</span>
-        <a href="/" class="font-display font-bold text-xl tracking-tight flex items-center gap-2 ml-4">
-          <span>Wherelse</span> </a> 
-    </div>
-    <div class="navbar-center hidden md:flex">
-      <ul class="menu menu-horizontal gap-1 text-sm font-medium text-white/60">
-        <li><a class="hover:text-white hover:bg-white/5 rounded-lg transition-colors">Explore</a></li>
-        <li><a class="hover:text-white hover:bg-white/5 rounded-lg transition-colors">Categories</a></li>
-        <li><a href='#how-it-works' class="hover:text-white hover:bg-white/5 rounded-lg transition-colors">How it works</a></li>
-        <li><a class="hover:text-white hover:bg-white/5 rounded-lg transition-colors">Blog</a></li>
-      </ul>
-    </div>
-    <div class="navbar-end gap-3">
-      <a href='/auth/login' class="btn btn-ghost btn-sm text-white/60 hover:text-white hidden sm:flex">Sign in</a>
-      <a href='/compare' class="btn btn-sm font-display font-semibold text-sm"
+<div id="main-navbar" class="sticky top-0 z-50">
+<div class="navbar max-w-7xl mx-auto px-4 sm:px-8">
+  <!-- LEFT: Logo -->
+  <div class="navbar-start">
+    <a href='/' class="font-display font-bold text-xl tracking-tight flex items-center gap-2">
+      <span class="vs-badge text-xs">VS</span>
+      <span>Wherelse</span>
+    </a> 
+  </div>
+
+  <!-- CENTER: Nav links (hidden on mobile) -->
+  <div class="navbar-center hidden md:flex">
+    <ul class="menu menu-horizontal gap-1 text-sm font-medium text-white/60">
+      <li><a class="hover:text-white hover:bg-white/5 rounded-lg transition-colors">Explore</a></li>
+      <li><a class="hover:text-white hover:bg-white/5 rounded-lg transition-colors">Categories</a></li>
+      <li><a class="hover:text-white hover:bg-white/5 rounded-lg transition-colors">How it works</a></li>
+      <li><a class="hover:text-white hover:bg-white/5 rounded-lg transition-colors">Blog</a></li>
+    </ul>
+  </div>
+
+  <!-- RIGHT: Auth buttons OR profile dropdown -->
+  <div class="navbar-end gap-3">
+
+    {% if current_user.is_authenticated %}
+      <div class="dropdown dropdown-end">
+        <div tabindex="0" role="button" class="btn btn-ghost btn-circle btn-sm">
+          <div class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold"
+               style="background: linear-gradient(135deg,#a78bfa,#ec4899); color: white;">
+            {{ current_user.email[0].upper() }}
+          </div>
+        </div>
+        <ul tabindex="0" class="dropdown-content menu bg-base-200 rounded-box z-50 w-52 p-2 shadow-xl border border-white/10 mt-2">
+          <li class="menu-title">
+            <span class="text-white/40 text-xs truncate">{{ current_user.email }}</span>
+          </li>
+          <li><a href="#">History</a></li>
+          <li><a href="#">Settings</a></li>
+          <li><hr class="border-white/10 my-1"></li>
+          <li><a href="/auth/logout" class="text-red-400">Log out</a></li>
+        </ul>
+      </div>
+
+    {% else %}
+      <a href="{{ url_for('auth.login') }}"
+         class="btn btn-ghost btn-sm text-white/60 hover:text-white hidden sm:flex">
+        Sign in
+      </a>
+      <a href="{{ url_for('view.compare') }}"
+         class="btn btn-sm font-display font-semibold text-sm"
          style="background: linear-gradient(135deg,#a78bfa,#ec4899); border: none; color: white;">
         Compare now
       </a>
-      <!-- Mobile hamburger -->
-      <div class="dropdown dropdown-end md:hidden">
-        <div tabindex="0" role="button" class="btn btn-ghost btn-circle btn-sm">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
-          </svg>
-        </div>
-        <ul tabindex="0" class="dropdown-content menu bg-base-200 rounded-box z-10 w-52 p-2 shadow-xl border border-white/10 mt-2">
-          <li><a>Explore</a></li>
-          <li><a>Categories</a></li>
-          <li><a href="#how-it-works">How it works</a></li>
-          <li><a>Blog</a></li>
-          <li><a>Sign in</a></li>
-        </ul>
+    {% endif %}
+
+    <!-- Mobile hamburger -->
+    <div class="dropdown dropdown-end md:hidden">
+      <div tabindex="0" role="button" class="btn btn-ghost btn-circle btn-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+        </svg>
       </div>
+      <ul tabindex="0" class="dropdown-content menu bg-base-200 rounded-box z-50 w-52 p-2 shadow-xl border border-white/10 mt-2">
+        <li><a>Explore</a></li>
+        <li><a>Categories</a></li>
+        <li><a>How it works</a></li>
+        <li><a>Blog</a></li>
+        {% if not current_user.is_authenticated %}
+          <li><a href="{{ url_for('auth.login') }}">Sign in</a></li>
+        {% endif %}
+      </ul>
     </div>
+
+  </div>
   </div>
 </div>
 {% if error %}
@@ -68,7 +100,7 @@
 {% block content %}
 <!-- ─────────────── HERO ─────────────── -->
 <section class="content-layer min-h-screen flex flex-col justify-center px-4 sm:px-8 pt-16 pb-8 max-w-7xl mx-auto">
-  <div class="flex flex-col gap-12">
+  <div class="flex flex-col gap-6">
 
     <!-- Left: text -->
     <div>
@@ -360,6 +392,23 @@
     if (!query.trim()) return;
     window.location.href = `/compare?query=${encodeURIComponent(query)}`;
   }
+  
+  
+  const navbar = document.getElementById('main-navbar');
+
+  function updateNavbar() {
+    if (window.scrollY > 10) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+  }
+
+  // Run on scroll
+  window.addEventListener('scroll', updateNavbar);
+
+  // Run immediately on load
+  updateNavbar();
 </script>
 </body>
 </html>

@@ -164,4 +164,15 @@
     height: 1px;
     background: linear-gradient(90deg, transparent, rgba(167,139,250,0.4), rgba(236,72,153,0.3), transparent);
   }
+
 @source "../templates/**/*.html";
+
+#main-navbar {
+  transition: background 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+#main-navbar.scrolled {
+  backdrop-filter: blur(16px) saturate(1.5);
+  background: rgba(8, 11, 16, 0.8);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}

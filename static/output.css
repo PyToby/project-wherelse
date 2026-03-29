@@ -7,8 +7,8 @@
       "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
+    --color-red-400: oklch(70.4% 0.191 22.216);
     --color-amber-400: oklch(82.8% 0.189 84.429);
-    --color-indigo-300: oklch(78.5% 0.115 274.713);
     --color-violet-300: oklch(81.1% 0.111 293.571);
     --color-violet-400: oklch(70.2% 0.183 293.541);
     --color-violet-500: oklch(60.6% 0.25 292.717);
@@ -51,7 +51,6 @@
     --radius-lg: 0.5rem;
     --radius-xl: 0.75rem;
     --radius-2xl: 1rem;
-    --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
     --default-transition-duration: 150ms;
     --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     --default-font-family: var(--font-sans);
@@ -1061,9 +1060,6 @@
       }
     }
   }
-  .z-10 {
-    z-index: 10;
-  }
   .z-50 {
     z-index: 50;
   }
@@ -1088,6 +1084,9 @@
   }
   .mx-auto {
     margin-inline: auto;
+  }
+  .my-1 {
+    margin-block: calc(var(--spacing) * 1);
   }
   .label {
     @layer daisyui.l1.l2.l3 {
@@ -1204,9 +1203,6 @@
   }
   .ml-1 {
     margin-left: calc(var(--spacing) * 1);
-  }
-  .ml-4 {
-    margin-left: calc(var(--spacing) * 4);
   }
   .ml-auto {
     margin-left: auto;
@@ -1414,6 +1410,9 @@
   .h-5 {
     height: calc(var(--spacing) * 5);
   }
+  .h-8 {
+    height: calc(var(--spacing) * 8);
+  }
   .h-px {
     height: 1px;
   }
@@ -1425,6 +1424,9 @@
   }
   .w-5 {
     width: calc(var(--spacing) * 5);
+  }
+  .w-8 {
+    width: calc(var(--spacing) * 8);
   }
   .w-12 {
     width: calc(var(--spacing) * 12);
@@ -1546,9 +1548,6 @@
   .gap-8 {
     gap: calc(var(--spacing) * 8);
   }
-  .gap-12 {
-    gap: calc(var(--spacing) * 12);
-  }
   .space-y-1\.5 {
     :where(& > :not(:last-child)) {
       --tw-space-y-reverse: 0;
@@ -1592,6 +1591,11 @@
         border-color: color-mix(in oklab, var(--color-white) 6%, transparent);
       }
     }
+  }
+  .truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .overflow-hidden {
     overflow: hidden;
@@ -1780,6 +1784,18 @@
   .p-8 {
     padding: calc(var(--spacing) * 8);
   }
+  .menu-title {
+    @layer daisyui.l1.l2.l3 {
+      padding-inline: calc(0.25rem * 3);
+      padding-block: calc(0.25rem * 2);
+      color: var(--color-base-content);
+      @supports (color: color-mix(in lab, red, red)) {
+        color: color-mix(in oklab, var(--color-base-content) 40%, transparent);
+      }
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+  }
   .px-1 {
     padding-inline: calc(var(--spacing) * 1);
   }
@@ -1797,6 +1813,9 @@
   }
   .px-8 {
     padding-inline: calc(var(--spacing) * 8);
+  }
+  .py-0 {
+    padding-block: calc(var(--spacing) * 0);
   }
   .py-2 {
     padding-block: calc(var(--spacing) * 2);
@@ -1818,6 +1837,9 @@
   }
   .py-24 {
     padding-block: calc(var(--spacing) * 24);
+  }
+  .pt-4 {
+    padding-top: calc(var(--spacing) * 4);
   }
   .pt-12 {
     padding-top: calc(var(--spacing) * 12);
@@ -1928,6 +1950,9 @@
   }
   .text-pink-400 {
     color: var(--color-pink-400);
+  }
+  .text-red-400 {
+    color: var(--color-red-400);
   }
   .text-violet-300 {
     color: var(--color-violet-300);
@@ -2376,6 +2401,14 @@ body {
 .glow-line {
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(167,139,250,0.4), rgba(236,72,153,0.3), transparent);
+}
+#main-navbar {
+  transition: background 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease;
+}
+#main-navbar.scrolled {
+  backdrop-filter: blur(16px) saturate(1.5);
+  background: rgba(8, 11, 16, 0.8);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
 }
 @layer base {
   :where(:root),:root:has(input.theme-controller[value=dark]:checked),[data-theme=dark] {
