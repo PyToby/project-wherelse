@@ -24,11 +24,12 @@ def signup():
     email = request.form.get('email')
     password = request.form.get('password')
     confirm_password = request.form.get('confirm_password')
+    name = email.split('@')[0]
 
     user = User.query.filter_by(email=email).first()
     if not user:
         if password == confirm_password:
-            new_user = User(email=email)
+            new_user = User(email=email, name=name)
             new_user.set_password(password)
             try:
                 db.session.add(new_user)

@@ -26,7 +26,8 @@ class User(UserMixin, db.Model):
     
 class Comparison(db.Model):
     comparison_id = db.Column(db.Integer, primary_key=True)
-    query = db.Column(db.String(200), unique=True, nullable=False)
+    service_a = db.Column(db.String(100), nullable=False)
+    service_b = db.Column(db.String(100), nullable=False)
     result_json = db.Column(db.Text, nullable=False)
     is_premade = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
