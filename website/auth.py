@@ -73,6 +73,8 @@ def get_google_provider_cfg():
 @auth.route('/login/google')
 def login_google():
     google_provider_cfg = get_google_provider_cfg()
+    if not google_provider_cfg:
+        return "Authentication service is currently unavailable. Please try again later.", 503
     authorization_endpoint = google_provider_cfg['authorization_endpoint']
 
     request_uri = client.prepare_request_uri(
@@ -89,6 +91,8 @@ def callback():
 
     # Find out what URL to hit to get tokens that allow you to ask for things on behalf of a user
     google_provider_cfg = get_google_provider_cfg()
+    if not google_provider_cfg:
+        return "Authentication service is currently unavailable. Please try again later.", 503
     token_endpoint = google_provider_cfg["token_endpoint"]
 
     # Prepare and send a request to get tokens
