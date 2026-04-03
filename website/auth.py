@@ -133,4 +133,4 @@ def callback():
     
     login_user(user)
 
-    return render_template('base.html')
+    return render_template('base.html') 
