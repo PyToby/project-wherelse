@@ -4,6 +4,7 @@ from .models import User, Comparison, UserHistory, db
 from flask_login import login_user, logout_user, login_required, current_user
 from oauthlib.oauth2 import WebApplicationClient
 import requests, os, json
+from .views import view
 
 auth = Blueprint('auth', __name__)
 
@@ -55,8 +56,8 @@ def logout():
     logout_user()
     return redirect(url_for('view.home'))
 
+    
     #### GOOGLE AUTHENTICATION ####
-
 GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", None)
 GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET", None)
 GOOGLE_DISCOVERY_URL = (
@@ -120,17 +121,18 @@ def callback():
     else:
         return "User email not available or not verified by Google.", 400
     
-    user = User(
-        email=users_email, 
-        name=users_name,
-        pfp=pfp,
-        auth_provider='GAuth0'
-    )
-
-    if not User.query.filter_by(email=users_email).first():
+    #If user email already exists it skips creating a new one 
+    user = User.query.filter_by(email=users_email).first() 
+    
+    if not user:
+        user = User(
+            email=users_email, 
+            name=users_name,
+            pfp=pfp,
+            auth_provider='Google'
+        )
         db.session.add(user)
         db.session.commit()
     
     login_user(user)
-
-    return render_template('base.html') 
+    return redirect(url_for(view.home)) 
