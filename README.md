@@ -42,13 +42,11 @@ You pick two (or more) services (for example **Notion vs Obsidian**) and Wherels
 
 ## 🛠️ Tech Stack
 
-> _Replace with your actual stack_
-
 - **Frontend** — [daisyUI, TailwindCSS]
 - **Backend** — [Flask, auth0]
-- **AI / NLP** — [OpenAI API, Claude API]
+- **AI / NLP** — [Gemini API]
 - **Data Sources** — Reddit API
-- **Deployment** — []
+- **Deployment** — [Render]
 
 ---
 
@@ -56,7 +54,12 @@ You pick two (or more) services (for example **Notion vs Obsidian**) and Wherels
 
 ### Where is Wherelse
 
-Currently, Wherelse is in development without a proper development site.
+Currently, Wherelse is in development on a *temporary* deployment site: https://wherelse-beta.onrender.com
+
+## 📸 Screenshots
+
+At this time, there are no screenshots. Coming soon!!!
+
 <!--
 ## 📁 Project Structure
 
