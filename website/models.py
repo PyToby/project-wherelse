@@ -10,6 +10,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(150), unique=True, nullable=False)
     name = db.Column(db.String(100), nullable=True)
     password_hash = db.Column(db.String(256), nullable=True)
+    pfp = db.Column(db.String(300), nullable=True)
     auth_provider = db.Column(db.String(50), default='email')
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     
