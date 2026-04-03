@@ -1,0 +1,354 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- ─────────────── USER DASHBOARD ─────────────── -->
+<div class="content-layer min-h-screen max-w-7xl mx-auto px-4 sm:px-8 py-10 fade-up">
+
+  <!-- Page title -->
+  <div class="mb-8">
+    <span class="badge badge-outline text-xs font-medium tracking-widest uppercase text-violet-400 border-violet-400/30 px-3 py-2 mb-3">
+      Your account
+    </span>
+    <h1 class="font-display font-bold text-3xl text-white mt-3 tracking-tight">
+      Welcome back,
+      <span class="gradient-text">{{ current_user.name | title }}</span>
+    </h1>
+    <p class="text-white/35 text-sm mt-1">{{ current_user.email }}</p>
+  </div>
+
+  <!-- ── Layout: sidebar + main ── -->
+  <div class="flex gap-6 items-start flex-col md:flex-row">
+
+    <!-- ─── SIDEBAR ─── -->
+    <aside class="w-full md:w-56 flex-shrink-0">
+      <div class="rounded-2xl overflow-hidden"
+           style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);">
+
+        <!-- Avatar block -->
+        <div class="p-5 border-b border-white/[0.06] flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full flex items-center justify-center font-display font-bold text-base flex-shrink-0"
+               style="background: linear-gradient(135deg,#a78bfa,#ec4899); color: white;">
+            {{ current_user.email[0].upper() }}
+          </div>
+          <div class="min-w-0">
+            <div class="text-white text-sm font-semibold truncate">
+              {{ current_user.name | title }}
+            </div>
+            <div class="flex items-center gap-1 mt-0.5">
+              <span class="badge badge-xs text-violet-300 border-violet-400/30"
+                    style="background: rgba(167,139,250,0.1); border: 1px solid rgba(167,139,250,0.25); font-size:0.6rem;">
+                FREE
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Nav items -->
+        <ul class="menu p-2 text-sm gap-0.5">
+          <li>
+            <button id="nav-history" onclick="switchSection('history')"
+                    class="rounded-lg font-medium transition-colors text-white/70 hover:text-white hover:bg-white/5 nav-item active-nav">
+              <svg class="w-4 h-4 opacity-60" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              History
+            </button>
+          </li>
+          <li>
+            <button id="nav-pricing" onclick="switchSection('pricing')"
+                    class="rounded-lg font-medium transition-colors text-white/70 hover:text-white hover:bg-white/5 nav-item">
+              <svg class="w-4 h-4 opacity-60" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+              Upgrade
+            </button>
+          </li>
+          <li class="mt-2 pt-2" style="border-top: 1px solid rgba(255,255,255,0.06);">
+            <a href="/auth/logout"
+               class="rounded-lg font-medium transition-colors hover:bg-red-500/10 text-white/30 hover:text-red-400">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+              </svg>
+              Log out
+            </a>
+          </li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- ─── MAIN CONTENT ─── -->
+    <div class="flex-1 min-w-0">
+
+      <!-- ══════════ HISTORY SECTION ══════════ -->
+      <section id="section-history">
+
+        <div class="flex items-center justify-between mb-5">
+          <div>
+            <h2 class="font-display font-bold text-xl text-white">Comparison History</h2>
+            <p class="text-white/35 text-xs mt-0.5">All your past comparisons in one place</p>
+          </div>
+          <span class="badge badge-outline badge-sm text-white/40 border-white/10">
+            <!-- Replace 3 with {{ comparisons | length }} when wired up -->
+            3 comparisons
+          </span>
+        </div>
+
+        <!-- History list -->
+        <div class="space-y-3">
+
+          <!-- ── Provisional history item 1 ── -->
+          <a href="/compare?query=Notion%20vs%20Obsidian"
+             class="flex items-center gap-4 p-4 rounded-xl transition-all duration-200 group fade-up"
+             style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);"
+             onmouseover="this.style.borderColor='rgba(167,139,250,0.25)'; this.style.background='rgba(167,139,250,0.05)'"
+             onmouseout="this.style.borderColor='rgba(255,255,255,0.07)'; this.style.background='rgba(255,255,255,0.03)'">
+
+            <!-- VS badge -->
+            <div class="vs-badge flex-shrink-0" style="width:2.4rem;height:2.4rem;font-size:0.7rem;">VS</div>
+
+            <!-- Labels -->
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="font-display font-semibold text-white text-sm">Notion</span>
+                <span class="text-white/25 text-xs">vs</span>
+                <span class="font-display font-semibold text-white text-sm">Obsidian</span>
+              </div>
+              <!--<div class="text-white/30 text-xs mt-0.5">Productivity · Notes</div>-->
+            </div>
+
+            <!-- Meta -->
+            <div class="text-right flex-shrink-0">
+              <div class="text-white/25 text-xs">2 days ago</div>
+              <div class="text-white/15 text-xs mt-0.5">Mar 29, 2025</div>
+            </div>
+
+            <!-- Arrow -->
+            <svg class="w-4 h-4 text-white/20 group-hover:text-violet-400 transition-colors flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M9 18l6-6-6-6"/>
+            </svg>
+          </a>
+
+          <!-- ── Provisional history item 2 ── -->
+          <a href="/compare?query=Figma%20vs%20Sketch"
+             class="flex items-center gap-4 p-4 rounded-xl transition-all duration-200 group fade-up delay-1"
+             style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);"
+             onmouseover="this.style.borderColor='rgba(167,139,250,0.25)'; this.style.background='rgba(167,139,250,0.05)'"
+             onmouseout="this.style.borderColor='rgba(255,255,255,0.07)'; this.style.background='rgba(255,255,255,0.03)'">
+            <div class="vs-badge flex-shrink-0" style="width:2.4rem;height:2.4rem;font-size:0.7rem;">VS</div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="font-display font-semibold text-white text-sm">Figma</span>
+                <span class="text-white/25 text-xs">vs</span>
+                <span class="font-display font-semibold text-white text-sm">Sketch</span>
+              </div>
+              <!--<div class="text-white/30 text-xs mt-0.5">Design · Prototyping</div>-->
+            </div>
+            <div class="text-right flex-shrink-0">
+              <div class="text-white/25 text-xs">5 days ago</div>
+              <div class="text-white/15 text-xs mt-0.5">Mar 26, 2025</div>
+            </div>
+            <svg class="w-4 h-4 text-white/20 group-hover:text-violet-400 transition-colors flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M9 18l6-6-6-6"/>
+            </svg>
+          </a>
+
+          <!-- ── Provisional history item 3 ── -->
+          <a href="/compare?query=Supabase%20vs%20Firebase"
+             class="flex items-center gap-4 p-4 rounded-xl transition-all duration-200 group fade-up delay-2"
+             style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);"
+             onmouseover="this.style.borderColor='rgba(167,139,250,0.25)'; this.style.background='rgba(167,139,250,0.05)'"
+             onmouseout="this.style.borderColor='rgba(255,255,255,0.07)'; this.style.background='rgba(255,255,255,0.03)'">
+            <div class="vs-badge flex-shrink-0" style="width:2.4rem;height:2.4rem;font-size:0.7rem;">VS</div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="font-display font-semibold text-white text-sm">Supabase</span>
+                <span class="text-white/25 text-xs">vs</span>
+                <span class="font-display font-semibold text-white text-sm">Firebase</span>
+              </div>
+              <!--<div class="text-white/30 text-xs mt-0.5">Backend · Database</div>-->
+            </div>
+            <div class="text-right flex-shrink-0">
+              <div class="text-white/25 text-xs">1 week ago</div>
+              <div class="text-white/15 text-xs mt-0.5">Mar 22, 2025</div>
+            </div>
+            <svg class="w-4 h-4 text-white/20 group-hover:text-violet-400 transition-colors flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M9 18l6-6-6-6"/>
+            </svg>
+          </a>
+
+        </div>
+
+        <!-- Empty state (shown when no history — toggle with Jinja later) -->
+        <!--
+        <div class="text-center py-16 rounded-2xl"
+             style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06);">
+          <div class="text-4xl mb-3">🔍</div>
+          <p class="text-white/30 text-sm font-light">No comparisons yet.</p>
+          <a href="/" class="btn btn-sm mt-4 border-none font-display font-semibold"
+             style="background: linear-gradient(135deg,#a78bfa,#ec4899); color:white;">
+            Make your first comparison
+          </a>
+        </div>
+        -->
+
+      </section>
+
+      <!-- ══════════ PRICING SECTION ══════════ -->
+      <section id="section-pricing" class="hidden">
+
+        <div class="mb-5">
+          <h2 class="font-display font-bold text-xl text-white">Plans &amp; Pricing</h2>
+          <p class="text-white/35 text-xs mt-0.5">Simple, transparent pricing. No hidden fees.</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+          <!-- ── FREE PLAN ── -->
+          <div class="rounded-2xl p-6 flex flex-col gap-5 fade-up"
+               style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);">
+
+            <div>
+              <span class="badge badge-sm text-white/50 border-white/10 mb-3"
+                    style="background: rgba(255,255,255,0.05);">Current plan</span>
+              <div class="font-display font-bold text-2xl text-white">Free</div>
+              <div class="flex items-end gap-1 mt-1">
+                <span class="font-display font-bold text-3xl text-white">$0</span>
+                <span class="text-white/30 text-sm mb-1">/ month</span>
+              </div>
+              <p class="text-white/35 text-xs mt-2">Perfect for exploring Wherelse.</p>
+            </div>
+
+            <div class="glow-line"></div>
+
+            <ul class="space-y-3 text-sm flex-1">
+              <li class="flex items-center gap-2.5 text-white/60">
+                <span class="text-violet-400 flex-shrink-0">✓</span>
+                5 comparisons per day
+              </li>
+              <li class="flex items-center gap-2.5 text-white/60">
+                <span class="text-violet-400 flex-shrink-0">✓</span>
+                Basic AI analysis
+              </li>
+              <li class="flex items-center gap-2.5 text-white/60">
+                <span class="text-violet-400 flex-shrink-0">✓</span>
+                Comparison history (last 10)
+              </li>
+              <li class="flex items-center gap-2.5 text-white/25 line-through">
+                <span class="text-white/15 flex-shrink-0">✗</span>
+                Reddit deep-dive analysis
+              </li>
+              <li class="flex items-center gap-2.5 text-white/25 line-through">
+                <span class="text-white/15 flex-shrink-0">✗</span>
+                Shareable comparison links
+              </li>
+              <li class="flex items-center gap-2.5 text-white/25 line-through">
+                <span class="text-white/15 flex-shrink-0">✗</span>
+                Unlimited history
+              </li>
+            </ul>
+
+            <button disabled
+                    class="btn w-full border-none text-sm font-display font-semibold opacity-40 cursor-default"
+                    style="background: rgba(255,255,255,0.06); color: white;">
+              Current plan
+            </button>
+
+          </div>
+
+          <!-- ── PREMIUM PLAN ── -->
+          <div class="rounded-2xl p-6 flex flex-col gap-5 relative overflow-hidden fade-up delay-2"
+               style="background: rgba(167,139,250,0.06); border: 1px solid rgba(167,139,250,0.3);">
+
+            <!-- Popular badge -->
+            <div class="absolute top-0 right-0">
+              <div class="text-xs font-display font-bold px-3 py-1 rounded-bl-xl text-white"
+                   style="background: linear-gradient(135deg,#a78bfa,#ec4899);">
+                POPULAR
+              </div>
+            </div>
+
+            <div>
+              <div class="font-display font-bold text-2xl text-white">Premium</div>
+              <div class="flex items-end gap-1 mt-1">
+                <span class="font-display font-bold text-3xl text-white">$2</span>
+                <span class="text-white/30 text-sm mb-1">/ month</span>
+              </div>
+              <p class="text-white/35 text-xs mt-2">For power users who want to decide fast.</p>
+            </div>
+
+            <div class="glow-line"></div>
+
+            <ul class="space-y-3 text-sm flex-1">
+              <li class="flex items-center gap-2.5 text-white/70">
+                <span class="text-violet-300 flex-shrink-0">✓</span>
+                Unlimited comparisons
+              </li>
+              <li class="flex items-center gap-2.5 text-white/70">
+                <span class="text-violet-300 flex-shrink-0">✓</span>
+                Deep AI analysis + sentiment
+              </li>
+              <li class="flex items-center gap-2.5 text-white/70">
+                <span class="text-violet-300 flex-shrink-0">✓</span>
+                Unlimited history
+              </li>
+              <li class="flex items-center gap-2.5 text-white/70">
+                <span class="text-violet-300 flex-shrink-0">✓</span>
+                Reddit deep-dive analysis
+              </li>
+              <li class="flex items-center gap-2.5 text-white/70">
+                <span class="text-violet-300 flex-shrink-0">✓</span>
+                Shareable comparison links
+              </li>
+              <li class="flex items-center gap-2.5 text-white/70">
+                <span class="text-pink-300 flex-shrink-0">✓</span>
+                Priority support
+              </li>
+            </ul>
+
+            <button class="btn w-full border-none text-sm font-display font-semibold"
+                    style="background: linear-gradient(135deg,#a78bfa,#ec4899); color: white;">
+              Upgrade to Premium
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- Small reassurance line -->
+        <p class="text-white/20 text-xs text-center mt-5">
+          Cancel anytime · No credit card required for free plan
+        </p>
+
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<style>
+  .active-nav {
+    background: rgba(167,139,250,0.12) !important;
+    color: #a78bfa !important;
+  }
+</style>
+
+<script>
+  function switchSection(section) {
+    // Hide all sections
+    document.getElementById('section-history').classList.add('hidden');
+    document.getElementById('section-pricing').classList.add('hidden');
+
+    // Remove active from all nav items
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active-nav'));
+
+    // Show selected section and highlight nav
+    document.getElementById('section-' + section).classList.remove('hidden');
+    document.getElementById('nav-' + section).classList.add('active-nav');
+  }
+
+  // Support ?section=pricing in URL (e.g. redirect from upgrade button)
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('section') === 'pricing') switchSection('pricing');
+</script>
+
+{% endblock %}

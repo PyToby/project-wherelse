@@ -2,3 +2,4 @@
 /instance
 /node_modules
 /website/__pycache__
+.env

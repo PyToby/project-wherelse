@@ -1,0 +1,241 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- ─────────────── AUTH PAGE ─────────────── -->
+<section class="content-layer min-h-screen flex items-center justify-center px-4 py-0">
+
+  <!-- Card -->
+  <div class="w-full max-w-md fade-up">
+
+    <!-- Logo mark -->
+    <div class="flex flex-col items-center mb-8 fade-up">
+      <div class="vs-badge mb-4" style="width:3.5rem;height:3.5rem;font-size:1rem;">VS</div>
+      <h1 class="font-display font-bold text-2xl text-white tracking-tight">Wherelse</h1>
+      <p class="text-white/35 text-sm mt-1">Where else would you look?</p>
+    </div>
+
+    <!-- Tab switcher -->
+    <div class="flex rounded-xl p-1 mb-6 gap-1 fade-up delay-1"
+         style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);">
+      <button
+        id="tab-login"
+        onclick="switchTab('login')"
+        class="flex-1 py-2 rounded-lg text-sm font-semibold font-display transition-all duration-200"
+        style="background: linear-gradient(135deg,#a78bfa,#ec4899); color: white;">
+        Sign in
+      </button>
+      <button
+        id="tab-signup"
+        onclick="switchTab('signup')"
+        class="flex-1 py-2 rounded-lg text-sm font-semibold font-display transition-all duration-200 text-white/40 hover:text-white/70">
+        Create account
+      </button>
+    </div>
+
+    <!-- Auth card body -->
+    <div class="rounded-2xl p-8 fade-up delay-2"
+         style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);">
+
+      <!-- Error message slot -->
+      {% if error %}
+      <div role="alert" class="alert alert-error alert-soft mb-5 text-sm">
+        {{ error }}
+      </div>
+      {% endif %}
+
+      <!-- ── Google button ── -->
+      <a href="/auth/google"
+         class="flex items-center justify-center gap-3 w-full py-3 px-4 rounded-xl text-sm font-medium text-white/80 transition-all duration-200 mb-5 hover:text-white"
+         style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.09);">
+        <!-- Google SVG icon -->
+        <svg width="18" height="18" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+          <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+          <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+          <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+          <path fill="none" d="M0 0h48v48H0z"/>
+        </svg>
+        Continue with Google
+      </a>
+
+      <!-- Divider -->
+      <div class="flex items-center gap-3 mb-5">
+        <div class="flex-1 h-px" style="background: rgba(255,255,255,0.07);"></div>
+        <span class="text-white/25 text-xs tracking-widest uppercase">or</span>
+        <div class="flex-1 h-px" style="background: rgba(255,255,255,0.07);"></div>
+      </div>
+
+      <!-- ── LOGIN FORM ── -->
+      <form id="form-login" action="/auth/login" method="POST" class="space-y-4">
+
+        <fieldset class="fieldset p-0 border-none gap-1">
+          <legend class="fieldset-legend text-white/50 text-xs uppercase tracking-widest font-medium pb-1.5">
+            Email
+          </legend>
+          <label class="input w-full bg-transparent border border-white/10 rounded-xl text-white focus-within:border-violet-400/60 transition-colors"
+                 style="background: rgba(255,255,255,0.03);">
+            <svg class="h-4 w-4 opacity-40 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/>
+            </svg>
+            <input
+              type="email"
+              name="email"
+              placeholder="you@example.com"
+              class="bg-transparent text-white placeholder-white/25 text-sm outline-none w-full"
+              required
+            />
+          </label>
+        </fieldset>
+
+        <fieldset class="fieldset p-0 border-none gap-1">
+          <legend class="fieldset-legend text-white/50 text-xs uppercase tracking-widest font-medium pb-1.5">
+            Password
+          </legend>
+          <label class="input w-full bg-transparent border border-white/10 rounded-xl text-white focus-within:border-violet-400/60 transition-colors"
+                 style="background: rgba(255,255,255,0.03);">
+            <svg class="h-4 w-4 opacity-40 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            <input
+              type="password"
+              name="password"
+              placeholder="••••••••"
+              class="bg-transparent text-white placeholder-white/25 text-sm outline-none w-full"
+              required
+            />
+          </label>
+          <div class="flex justify-end mt-1">
+            <a href="/forgot-password" class="text-xs text-white/30 hover:text-violet-400 transition-colors link-hover">
+              Forgot password?
+            </a>
+          </div>
+        </fieldset>
+
+        <button
+          type="submit"
+          class="btn w-full border-none font-display font-semibold text-sm mt-2"
+          style="background: linear-gradient(135deg,#a78bfa,#ec4899); color: white;">
+          Sign in
+        </button>
+
+      </form>
+
+      <!-- ── SIGNUP FORM ── -->
+      <form id="form-signup" action="/auth/signup" method="POST" class="space-y-4 hidden">
+
+        <fieldset class="fieldset p-0 border-none gap-1">
+          <legend class="fieldset-legend text-white/50 text-xs uppercase tracking-widest font-medium pb-1.5">
+            Email
+          </legend>
+          <label class="input w-full bg-transparent border border-white/10 rounded-xl text-white focus-within:border-violet-400/60 transition-colors"
+                 style="background: rgba(255,255,255,0.03);">
+            <svg class="h-4 w-4 opacity-40 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/>
+            </svg>
+            <input
+              type="email"
+              name="email"
+              placeholder="you@example.com"
+              class="bg-transparent text-white placeholder-white/25 text-sm outline-none w-full"
+              required
+            />
+          </label>
+        </fieldset>
+
+        <fieldset class="fieldset p-0 border-none gap-1">
+          <legend class="fieldset-legend text-white/50 text-xs uppercase tracking-widest font-medium pb-1.5">
+            Password
+          </legend>
+          <label class="input w-full bg-transparent border border-white/10 rounded-xl text-white focus-within:border-violet-400/60 transition-colors"
+                 style="background: rgba(255,255,255,0.03);">
+            <svg class="h-4 w-4 opacity-40 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            <input
+              type="password"
+              name="password"
+              placeholder="••••••••"
+              class="bg-transparent text-white placeholder-white/25 text-sm outline-none w-full"
+              required
+            />
+          </label>
+        </fieldset>
+
+        <fieldset class="fieldset p-0 border-none gap-1">
+          <legend class="fieldset-legend text-white/50 text-xs uppercase tracking-widest font-medium pb-1.5">
+            Confirm password
+          </legend>
+          <label class="input w-full bg-transparent border border-white/10 rounded-xl text-white focus-within:border-pink-400/60 transition-colors"
+                 style="background: rgba(255,255,255,0.03);">
+            <svg class="h-4 w-4 opacity-40 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            <input
+              type="password"
+              name="confirm_password"
+              placeholder="••••••••"
+              class="bg-transparent text-white placeholder-white/25 text-sm outline-none w-full"
+              required
+            />
+          </label>
+        </fieldset>
+
+        <button
+          type="submit"
+          class="btn w-full border-none font-display font-semibold text-sm mt-2"
+          style="background: linear-gradient(135deg,#a78bfa,#ec4899); color: white;">
+          Create account
+        </button>
+
+        <p class="text-white/25 text-xs text-center leading-relaxed">
+          By signing up you agree to our
+          <a href="/terms" class="text-white/40 hover:text-violet-400 transition-colors underline">Terms</a>
+          and
+          <a href="/privacy" class="text-white/40 hover:text-violet-400 transition-colors underline">Privacy Policy</a>.
+        </p>
+
+      </form>
+
+    </div>
+
+    <!-- Back to home -->
+    <p class="text-center text-white/25 text-xs mt-6 fade-up delay-3">
+      <a href="/" class="hover:text-white/50 transition-colors">← Back to Wherelse</a>
+    </p>
+
+  </div>
+</section>
+
+<script>
+  function switchTab(tab) {
+    const loginForm   = document.getElementById('form-login');
+    const signupForm  = document.getElementById('form-signup');
+    const tabLogin    = document.getElementById('tab-login');
+    const tabSignup   = document.getElementById('tab-signup');
+
+    const activeStyle   = 'background: linear-gradient(135deg,#a78bfa,#ec4899); color: white;';
+    const inactiveStyle = '';
+
+    if (tab === 'login') {
+      loginForm.classList.remove('hidden');
+      signupForm.classList.add('hidden');
+      tabLogin.style.cssText  = activeStyle;
+      tabLogin.classList.remove('text-white/40');
+      tabSignup.style.cssText = inactiveStyle;
+      tabSignup.classList.add('text-white/40');
+    } else {
+      signupForm.classList.remove('hidden');
+      loginForm.classList.add('hidden');
+      tabSignup.style.cssText = activeStyle;
+      tabSignup.classList.remove('text-white/40');
+      tabLogin.style.cssText  = inactiveStyle;
+      tabLogin.classList.add('text-white/40');
+    }
+  }
+
+  // If Flask passes ?tab=signup (e.g. after a failed signup), open correct tab
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('tab') === 'signup') switchTab('signup');
+</script>
+
+{% endblock %}

@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- ══════════ PRICING SECTION ══════════ -->
+<section id="section-pricing" class='pt-6 pr-50 pl-50'>
+
+<div class="mb-5">
+    <h2 class="font-display font-bold text-xl text-white">Plans &amp; Pricing</h2>
+    <p class="text-white/35 text-xs mt-0.5">Simple, transparent pricing. No hidden fees.</p>
+</div>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+    <!-- ── FREE PLAN ── -->
+    <div class="rounded-2xl p-6 flex flex-col gap-5 fade-up"
+        style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);">
+
+    <div>
+        <span class="badge badge-sm text-white/50 border-white/10 mb-3"
+            style="background: rgba(255,255,255,0.05);">Current plan</span>
+        <div class="font-display font-bold text-2xl text-white">Free</div>
+        <div class="flex items-end gap-1 mt-1">
+        <span class="font-display font-bold text-3xl text-white">$0</span>
+        <span class="text-white/30 text-sm mb-1">/ month</span>
+        </div>
+        <p class="text-white/35 text-xs mt-2">Perfect for exploring Wherelse.</p>
+    </div>
+
+    <div class="glow-line"></div>
+
+    <ul class="space-y-3 text-sm flex-1">
+        <li class="flex items-center gap-2.5 text-white/60">
+        <span class="text-violet-400 flex-shrink-0">✓</span>
+        5 comparisons per day
+        </li>
+        <li class="flex items-center gap-2.5 text-white/60">
+        <span class="text-violet-400 flex-shrink-0">✓</span>
+        Basic AI analysis
+        </li>
+        <li class="flex items-center gap-2.5 text-white/60">
+        <span class="text-violet-400 flex-shrink-0">✓</span>
+        Comparison history (last 10)
+        </li>
+        <li class="flex items-center gap-2.5 text-white/25 line-through">
+        <span class="text-white/15 flex-shrink-0">✗</span>
+        Reddit deep-dive analysis
+        </li>
+        <li class="flex items-center gap-2.5 text-white/25 line-through">
+        <span class="text-white/15 flex-shrink-0">✗</span>
+        Shareable comparison links
+        </li>
+        <li class="flex items-center gap-2.5 text-white/25 line-through">
+        <span class="text-white/15 flex-shrink-0">✗</span>
+        Unlimited history
+        </li>
+    </ul>
+
+    <button disabled
+            class="btn w-full border-none text-sm font-display font-semibold opacity-40 cursor-default"
+            style="background: rgba(255,255,255,0.06); color: white;">
+        Current plan
+    </button>
+
+    </div>
+
+    <!-- ── PREMIUM PLAN ── -->
+    <div class="rounded-2xl p-6 flex flex-col gap-5 relative overflow-hidden fade-up delay-2"
+        style="background: rgba(167,139,250,0.06); border: 1px solid rgba(167,139,250,0.3);">
+
+    <!-- Popular badge -->
+    <div class="absolute top-0 right-0">
+        <div class="text-xs font-display font-bold px-3 py-1 rounded-bl-xl text-white"
+            style="background: linear-gradient(135deg,#a78bfa,#ec4899);">
+        POPULAR
+        </div>
+    </div>
+
+    <div>
+        <div class="font-display font-bold text-2xl text-white">Premium</div>
+        <div class="flex items-end gap-1 mt-1">
+        <span class="font-display font-bold text-3xl text-white">$2</span>
+        <span class="text-white/30 text-sm mb-1">/ month</span>
+        </div>
+        <p class="text-white/35 text-xs mt-2">For power users who want to decide fast.</p>
+    </div>
+
+    <div class="glow-line"></div>
+
+    <ul class="space-y-3 text-sm flex-1">
+        <li class="flex items-center gap-2.5 text-white/70">
+        <span class="text-violet-300 flex-shrink-0">✓</span>
+        Unlimited comparisons
+        </li>
+        <li class="flex items-center gap-2.5 text-white/70">
+        <span class="text-violet-300 flex-shrink-0">✓</span>
+        Deep AI analysis + sentiment
+        </li>
+        <li class="flex items-center gap-2.5 text-white/70">
+        <span class="text-violet-300 flex-shrink-0">✓</span>
+        Unlimited history
+        </li>
+        <li class="flex items-center gap-2.5 text-white/70">
+        <span class="text-violet-300 flex-shrink-0">✓</span>
+        Reddit deep-dive analysis
+        </li>
+        <li class="flex items-center gap-2.5 text-white/70">
+        <span class="text-violet-300 flex-shrink-0">✓</span>
+        Shareable comparison links
+        </li>
+        <li class="flex items-center gap-2.5 text-white/70">
+        <span class="text-pink-300 flex-shrink-0">✓</span>
+        Priority support
+        </li>
+    </ul>
+
+    <button class="btn w-full border-none text-sm font-display font-semibold"
+            style="background: linear-gradient(135deg,#a78bfa,#ec4899); color: white;">
+        Upgrade to Premium
+    </button>
+
+    </div>
+
+</div>
+
+<!-- Small reassurance line -->
+<p class="text-white/20 text-xs text-center mt-5 mb-10">
+    Cancel anytime · No credit card required for free plan
+</p>
+{% endblock %}
