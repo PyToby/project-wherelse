@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, jsonify, redirect, url_for
 from flask_login import current_user, login_required
-from . import ai_process as ai
+from .ai_process import ProcessData
 from .models import Comparison
 import json
 from . import db
@@ -61,7 +61,9 @@ def compare():
             error=None
         )
     
-    ai_call_result = ai.generate_response(a, b)
+    process = ProcessData(a, b)
+    ai_call_result = process.generate_response()
+    
     new_comparison = Comparison(
         service_a=a,
         service_b=b,
@@ -86,7 +88,7 @@ def user():
 def pricing():
     return render_template('pricing.html')
 
-def normalize_pair(a, b):
+def normalize_pair(a: str, b: str):
     list = [a.strip().lower(), b.strip().lower()]
     pair = sorted(list)
     return pair[0], pair[1]
