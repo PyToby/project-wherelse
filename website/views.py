@@ -61,8 +61,7 @@ def compare():
             error=None
         )
     
-    process = ProcessData(a, b)
-    ai_call_result = process.generate_response()
+    ai_call_result = exec(a, b)
     
     new_comparison = Comparison(
         service_a=a,
@@ -88,7 +87,18 @@ def user():
 def pricing():
     return render_template('pricing.html')
 
+@view.route('/how-it-works')
+def how_it_works():
+    return render_template('how_it_works.html')
+
 def normalize_pair(a: str, b: str):
     list = [a.strip().lower(), b.strip().lower()]
     pair = sorted(list)
     return pair[0], pair[1]
+
+def exec(a: str, b: str) -> str:
+    obj = ProcessData(a, b)
+    internet, reddit = obj.scrape()
+    response = obj.generate_response(reddit, internet)
+    formatted = obj.parse_response(response)
+    return formatted
