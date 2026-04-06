@@ -26,7 +26,7 @@
 
         <!-- Avatar block -->
         <div class="p-5 border-b border-white/[0.06] flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full flex items-center justify-center font-display font-bold text-base flex-shrink-0"
+          <div class="w-10 h-10 rounded-full flex items-center justify-center font-display font-bold text-base shrink-0"
                style="background: linear-gradient(135deg,#a78bfa,#ec4899); color: white;">
             {{ current_user.email[0].upper() }}
           </div>
@@ -95,7 +95,7 @@
 
         <!-- History list -->
         <div class="space-y-3">
-
+          
           <!-- ── Provisional history item 1 ── -->
           <a href="/compare?query=Notion%20vs%20Obsidian"
              class="flex items-center gap-4 p-4 rounded-xl transition-all duration-200 group fade-up"
@@ -104,7 +104,7 @@
              onmouseout="this.style.borderColor='rgba(255,255,255,0.07)'; this.style.background='rgba(255,255,255,0.03)'">
 
             <!-- VS badge -->
-            <div class="vs-badge flex-shrink-0" style="width:2.4rem;height:2.4rem;font-size:0.7rem;">VS</div>
+            <div class="vs-badge shrink-0" style="width:2.4rem;height:2.4rem;font-size:0.7rem;">VS</div>
 
             <!-- Labels -->
             <div class="flex-1 min-w-0">
@@ -117,66 +117,17 @@
             </div>
 
             <!-- Meta -->
-            <div class="text-right flex-shrink-0">
+            <div class="text-right shrink-0">
               <div class="text-white/25 text-xs">2 days ago</div>
               <div class="text-white/15 text-xs mt-0.5">Mar 29, 2025</div>
             </div>
 
             <!-- Arrow -->
-            <svg class="w-4 h-4 text-white/20 group-hover:text-violet-400 transition-colors flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <svg class="w-4 h-4 text-white/20 group-hover:text-violet-400 transition-colors shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path d="M9 18l6-6-6-6"/>
             </svg>
           </a>
 
-          <!-- ── Provisional history item 2 ── -->
-          <a href="/compare?query=Figma%20vs%20Sketch"
-             class="flex items-center gap-4 p-4 rounded-xl transition-all duration-200 group fade-up delay-1"
-             style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);"
-             onmouseover="this.style.borderColor='rgba(167,139,250,0.25)'; this.style.background='rgba(167,139,250,0.05)'"
-             onmouseout="this.style.borderColor='rgba(255,255,255,0.07)'; this.style.background='rgba(255,255,255,0.03)'">
-            <div class="vs-badge flex-shrink-0" style="width:2.4rem;height:2.4rem;font-size:0.7rem;">VS</div>
-            <div class="flex-1 min-w-0">
-              <div class="flex items-center gap-2 flex-wrap">
-                <span class="font-display font-semibold text-white text-sm">Figma</span>
-                <span class="text-white/25 text-xs">vs</span>
-                <span class="font-display font-semibold text-white text-sm">Sketch</span>
-              </div>
-              <!--<div class="text-white/30 text-xs mt-0.5">Design · Prototyping</div>-->
-            </div>
-            <div class="text-right flex-shrink-0">
-              <div class="text-white/25 text-xs">5 days ago</div>
-              <div class="text-white/15 text-xs mt-0.5">Mar 26, 2025</div>
-            </div>
-            <svg class="w-4 h-4 text-white/20 group-hover:text-violet-400 transition-colors flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path d="M9 18l6-6-6-6"/>
-            </svg>
-          </a>
-
-          <!-- ── Provisional history item 3 ── -->
-          <a href="/compare?query=Supabase%20vs%20Firebase"
-             class="flex items-center gap-4 p-4 rounded-xl transition-all duration-200 group fade-up delay-2"
-             style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);"
-             onmouseover="this.style.borderColor='rgba(167,139,250,0.25)'; this.style.background='rgba(167,139,250,0.05)'"
-             onmouseout="this.style.borderColor='rgba(255,255,255,0.07)'; this.style.background='rgba(255,255,255,0.03)'">
-            <div class="vs-badge flex-shrink-0" style="width:2.4rem;height:2.4rem;font-size:0.7rem;">VS</div>
-            <div class="flex-1 min-w-0">
-              <div class="flex items-center gap-2 flex-wrap">
-                <span class="font-display font-semibold text-white text-sm">Supabase</span>
-                <span class="text-white/25 text-xs">vs</span>
-                <span class="font-display font-semibold text-white text-sm">Firebase</span>
-              </div>
-              <!--<div class="text-white/30 text-xs mt-0.5">Backend · Database</div>-->
-            </div>
-            <div class="text-right flex-shrink-0">
-              <div class="text-white/25 text-xs">1 week ago</div>
-              <div class="text-white/15 text-xs mt-0.5">Mar 22, 2025</div>
-            </div>
-            <svg class="w-4 h-4 text-white/20 group-hover:text-violet-400 transition-colors flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path d="M9 18l6-6-6-6"/>
-            </svg>
-          </a>
-
-        </div>
 
         <!-- Empty state (shown when no history — toggle with Jinja later) -->
         <!--

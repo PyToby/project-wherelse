@@ -1,0 +1,451 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- ─────────────── HOW IT WORKS PAGE ─────────────── -->
+
+<style>
+  .step-connector {
+    width: 1px;
+    background: linear-gradient(180deg, rgba(167,139,250,0.5), rgba(236,72,153,0.3));
+    margin: 0 auto;
+  }
+
+  .step-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(167,139,250,0.15), rgba(236,72,153,0.1));
+    border: 1px solid rgba(167,139,250,0.3);
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    color: #a78bfa;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .step-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 1.25rem;
+    padding: 2rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .step-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(167,139,250,0.08), transparent);
+  }
+
+  .step-card:hover::before {
+    opacity: 1;
+  }
+
+  .step-card:hover {
+    border-color: rgba(167,139,250,0.25);
+    transform: translateY(-3px);
+  }
+
+  .step-icon-wrap {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 0.875rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  .faq-item {
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 0.875rem;
+    background: rgba(255,255,255,0.02);
+    transition: border-color 0.2s ease;
+  }
+
+  .faq-item:has(details[open]) {
+    border-color: rgba(167,139,250,0.25);
+  }
+
+  .source-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.03);
+    color: rgba(255,255,255,0.5);
+  }
+
+  .flow-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(167,139,250,0.4);
+    font-size: 1.25rem;
+  }
+
+  .highlight-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .timeline-dot {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #a78bfa, #ec4899);
+    flex-shrink: 0;
+    margin-top: 0.3rem;
+    box-shadow: 0 0 8px rgba(167,139,250,0.5);
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 8px rgba(167,139,250,0.4); }
+    50% { box-shadow: 0 0 16px rgba(167,139,250,0.7), 0 0 24px rgba(236,72,153,0.3); }
+  }
+
+  .pulse { animation: pulse-glow 2.5s ease-in-out infinite; }
+</style>
+
+<!-- HERO -->
+<section class="content-layer pt-24 pb-16 px-4 sm:px-8 max-w-7xl mx-auto">
+  <div class="max-w-3xl">
+    <div class="fade-up mb-5">
+      <span class="badge badge-outline text-xs font-medium tracking-widest uppercase text-violet-400 border-violet-400/30 px-3 py-2">
+        How Wherelse works
+      </span>
+    </div>
+    <h1 class="hero-title fade-up delay-1 mb-6" style="font-size: clamp(2.5rem, 6vw, 5.5rem);">
+      From question<br/>to <span class="gradient-text">clarity.</span>
+    </h1>
+    <p class="fade-up delay-2 text-white/50 text-lg font-light leading-relaxed max-w-xl">
+      Wherelse automates hours of research into seconds. Here's exactly how we turn your two-word query into a structured, honest comparison.
+    </p>
+  </div>
+</section>
+
+<div class="glow-line"></div>
+
+<!-- MAIN STEPS -->
+<section class="content-layer py-20 px-4 sm:px-8 max-w-7xl mx-auto">
+
+  <div class="grid gap-6 md:gap-8">
+
+    <!-- STEP 1 -->
+    <div class="fade-up step-card">
+      <div class="flex items-start gap-5">
+        <div class="step-number pulse">1</div>
+        <div class="flex-1">
+          <div class="flex flex-wrap items-center gap-3 mb-3">
+            <h2 class="font-display font-bold text-xl text-white">You enter two services</h2>
+            <span class="highlight-pill bg-violet-500/10 text-violet-400 border border-violet-400/20">Input</span>
+          </div>
+          <p class="text-white/50 text-sm leading-relaxed mb-5">
+            Type any two tools, apps, SaaS products, or platforms into the search inputs. There's no special formatting — just the names.
+            Wherelse normalises them alphabetically behind the scenes, so "Notion vs Obsidian" and "Obsidian vs Notion" always return the same cached result.
+          </p>
+          <!-- Mini mockup -->
+          <div class="flex items-center gap-3 p-4 rounded-xl bg-white/[0.03] border border-white/[0.06] max-w-md">
+            <div class="input flex-1 bg-white/[0.04] border border-white/10 text-white text-sm px-4 h-9 flex items-center rounded-lg text-white/70">Notion</div>
+            <div class="vs-badge flex-shrink-0" style="width:2rem;height:2rem;font-size:0.65rem;">VS</div>
+            <div class="input flex-1 bg-white/[0.04] border border-white/10 text-white text-sm px-4 h-9 flex items-center rounded-lg text-white/70">Obsidian</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Connector -->
+    <div class="flex justify-center">
+      <div class="step-connector h-8"></div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="fade-up delay-1 step-card">
+      <div class="flex items-start gap-5">
+        <div class="step-number" style="border-color: rgba(236,72,153,0.3); color: #ec4899;">2</div>
+        <div class="flex-1">
+          <div class="flex flex-wrap items-center gap-3 mb-3">
+            <h2 class="font-display font-bold text-xl text-white">We check the cache</h2>
+            <span class="highlight-pill bg-pink-500/10 text-pink-400 border border-pink-400/20">Speed</span>
+          </div>
+          <p class="text-white/50 text-sm leading-relaxed mb-5">
+            Before spending any API budget, Wherelse checks its database for an existing comparison of this exact pair. If a fresh result exists, it's served instantly — no waiting, no re-scraping.
+            Only new or stale comparisons trigger the full pipeline below.
+          </p>
+          <div class="flex gap-3 flex-wrap">
+            <div class="source-badge">
+              <span class="status status-success status-xs"></span>
+              Cache hit → instant
+            </div>
+            <div class="source-badge">
+              <span class="status status-xs" style="background: rgba(236,72,153,0.7);"></span>
+              Cache miss → pipeline
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Connector -->
+    <div class="flex justify-center">
+      <div class="step-connector h-8"></div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="fade-up delay-2 step-card">
+      <div class="flex items-start gap-5">
+        <div class="step-number" style="border-color: rgba(99,102,241,0.4); color: #818cf8;">3</div>
+        <div class="flex-1">
+          <div class="flex flex-wrap items-center gap-3 mb-3">
+            <h2 class="font-display font-bold text-xl text-white">We gather real-world data</h2>
+            <span class="highlight-pill bg-indigo-500/10 text-indigo-400 border border-indigo-400/20">Research</span>
+          </div>
+          <p class="text-white/50 text-sm leading-relaxed mb-5">
+            Wherelse fires searches against multiple data sources simultaneously. We pull community discussions, user reviews, technical breakdowns, and recent coverage so the analysis reflects how people actually feel about the product — not just what the marketing page says.
+          </p>
+
+          <!-- Sources grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="flex items-start gap-3 p-3 rounded-xl bg-white/[0.03] border border-white/[0.06]">
+              <div class="timeline-dot mt-1"></div>
+              <div>
+                <div class="text-white/80 text-sm font-medium mb-0.5">Tavily Search</div>
+                <div class="text-white/40 text-xs leading-relaxed">Deep web results: reviews, comparisons, blog posts, docs — filtered for relevance.</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-3 p-3 rounded-xl bg-white/[0.03] border border-white/[0.06]">
+              <div class="timeline-dot mt-1"></div>
+              <div>
+                <div class="text-white/80 text-sm font-medium mb-0.5">Hacker News</div>
+                <div class="text-white/40 text-xs leading-relaxed">Technical community opinions from HN's Algolia API — no auth required, surprisingly high signal.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Connector -->
+    <div class="flex justify-center">
+      <div class="step-connector h-8"></div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="fade-up delay-3 step-card" style="border-color: rgba(167,139,250,0.15);">
+      <div class="flex items-start gap-5">
+        <div class="step-number" style="border-color: rgba(167,139,250,0.5); color: #a78bfa; background: linear-gradient(135deg, rgba(167,139,250,0.2), rgba(236,72,153,0.15));">4</div>
+        <div class="flex-1">
+          <div class="flex flex-wrap items-center gap-3 mb-3">
+            <h2 class="font-display font-bold text-xl text-white">Gemini synthesises everything</h2>
+            <span class="highlight-pill" style="background: linear-gradient(135deg, rgba(167,139,250,0.12), rgba(236,72,153,0.08)); color: #c4b5fd; border: 1px solid rgba(167,139,250,0.25);">AI Core</span>
+          </div>
+          <p class="text-white/50 text-sm leading-relaxed mb-5">
+            All scraped content is fed into Google Gemini with a structured prompt. Gemini is explicitly told to be opinionated, honest, and to cite its sources — not to hedge.
+            It returns clean JSON with every field we need to render a useful comparison.
+          </p>
+
+          <!-- Output fields -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
+            <div class="text-center p-2.5 rounded-lg bg-white/[0.03] border border-white/[0.05]">
+              <!--<div class="text-violet-400 text-lg mb-1">🧠</div>-->
+              <div class="text-white/60 text-xs font-medium">TL;DR</div>
+            </div>
+            <div class="text-center p-2.5 rounded-lg bg-white/[0.03] border border-white/[0.05]">
+              <!--<div class="text-pink-400 text-lg mb-1">⚖️</div>-->
+              <div class="text-white/60 text-xs font-medium">Verdict</div>
+            </div>
+            <div class="text-center p-2.5 rounded-lg bg-white/[0.03] border border-white/[0.05]">
+              <!--<div class="text-amber-400 text-lg mb-1">📊</div>-->
+              <div class="text-white/60 text-xs font-medium">Scores</div>
+            </div>
+            <div class="text-center p-2.5 rounded-lg bg-white/[0.03] border border-white/[0.05]">
+              <!--<div class="text-green-400 text-lg mb-1">✅</div>-->
+              <div class="text-white/60 text-xs font-medium">Pros / Cons</div>
+            </div>
+            <div class="text-center p-2.5 rounded-lg bg-white/[0.03] border border-white/[0.05]">
+              <!--<div class="text-blue-400 text-lg mb-1">🗣️</div>-->
+              <div class="text-white/60 text-xs font-medium">Sentiment</div>
+            </div>
+            <div class="text-center p-2.5 rounded-lg bg-white/[0.03] border border-white/[0.05]">
+              <!--<div class="text-orange-400 text-lg mb-1">🎯</div>-->
+              <div class="text-white/60 text-xs font-medium">Use-case Fit</div>
+            </div>
+            <div class="text-center p-2.5 rounded-lg bg-white/[0.03] border border-white/[0.05] sm:col-span-2">
+              <!--<div class="text-purple-400 text-lg mb-1">🔗</div>-->
+              <div class="text-white/60 text-xs font-medium">Sources Used</div>
+            </div>
+          </div>
+
+          <p class="text-white/30 text-xs italic">The <code class="text-violet-400 bg-violet-500/10 px-1 rounded">sources_used</code> field acts as a self-audit — if the model had thin data, it shows.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Connector -->
+    <div class="flex justify-center">
+      <div class="step-connector h-8"></div>
+    </div>
+
+    <!-- STEP 5 -->
+    <div class="fade-up delay-4 step-card">
+      <div class="flex items-start gap-5">
+        <div class="step-number" style="border-color: rgba(16,185,129,0.4); color: #34d399;">5</div>
+        <div class="flex-1">
+          <div class="flex flex-wrap items-center gap-3 mb-3">
+            <h2 class="font-display font-bold text-xl text-white">You get a clean result — and it's cached</h2>
+            <span class="highlight-pill bg-emerald-500/10 text-emerald-400 border border-emerald-400/20">Output</span>
+          </div>
+          <p class="text-white/50 text-sm leading-relaxed mb-5">
+            The structured JSON is stored in the database and rendered as a readable comparison page. Every future visitor hitting the same pair gets instant results — the cache is shared.
+            You get an honest, sourced breakdown without reading 40 tabs.
+          </p>
+          <div class="flex gap-2 flex-wrap">
+            <span class="badge badge-soft badge-success text-xs gap-1">
+              <span class="status status-success status-xs"></span>
+              Instant on repeat visits
+            </span>
+            <span class="badge badge-outline text-xs border-white/10 text-white/40">No sponsored rankings</span>
+            <span class="badge badge-outline text-xs border-white/10 text-white/40">Source-cited</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="glow-line"></div>
+
+<!-- WHY THIS APPROACH -->
+<section class="content-layer py-20 px-4 sm:px-8 max-w-7xl mx-auto">
+  <div class="text-center mb-14">
+    <span class="badge badge-outline text-xs font-medium tracking-widest uppercase text-violet-400 border-violet-400/30 px-3 py-2 mb-4">Design decisions</span>
+    <h2 class="font-display font-bold text-4xl sm:text-5xl text-white mt-4 mb-4">Why we built it <span class="gradient-text">this way</span></h2>
+    <p class="text-white/40 max-w-md mx-auto">Every architectural choice is intentional. Here's the reasoning behind them.</p>
+  </div>
+
+  <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-5">
+    <div class="feature-card">
+      <div class="text-violet-400 font-display font-bold text-sm uppercase tracking-widest mb-3">Two inputs, not one</div>
+      <p class="text-white/50 text-sm leading-relaxed">Separate inputs mean there's no ambiguity in what you're comparing. No parsing "vs" from a single string. The pair is normalised alphabetically so the cache always hits regardless of order.</p>
+    </div>
+    <div class="feature-card">
+      <div class="text-pink-400 font-display font-bold text-sm uppercase tracking-widest mb-3">AI synthesis, not just search</div>
+      <p class="text-white/50 text-sm leading-relaxed">Raw search results are noisy and contradictory. Gemini reads all of it and extracts a structured verdict — with the model explicitly instructed to be opinionated and cite its sources, not hedge.</p>
+    </div>
+    <div class="feature-card">
+      <div class="text-amber-400 font-display font-bold text-sm uppercase tracking-widest mb-3">Shared result cache</div>
+      <p class="text-white/50 text-sm leading-relaxed">The second person to compare Notion vs Obsidian gets the same cached result as the first. No redundant scraping, no repeated API costs — and it gets faster the more popular the pair.</p>
+    </div>
+    <div class="feature-card">
+      <div class="text-indigo-400 font-display font-bold text-sm uppercase tracking-widest mb-3">Multiple data sources</div>
+      <p class="text-white/50 text-sm leading-relaxed">Tavily handles broad web coverage. Hacker News provides high-signal technical opinion from practitioners. Using both means the model sees a more complete picture before forming a verdict.</p>
+    </div>
+    <div class="feature-card">
+      <div class="text-emerald-400 font-display font-bold text-sm uppercase tracking-widest mb-3">No sponsored content</div>
+      <p class="text-white/50 text-sm leading-relaxed">Wherelse doesn't take money from the products it compares. The AI doesn't know which vendor would prefer to win — and neither does our database. The verdict is based on what people actually say.</p>
+    </div>
+    <div class="feature-card">
+      <div class="text-rose-400 font-display font-bold text-sm uppercase tracking-widest mb-3">Structured JSON output</div>
+      <p class="text-white/50 text-sm leading-relaxed">Asking Gemini for JSON instead of prose means every comparison has consistent fields. You can always expect a TL;DR, verdict, pros/cons, and a use-case recommendation — never a wall of unstructured text.</p>
+    </div>
+  </div>
+</section>
+
+<div class="glow-line"></div>
+
+<!-- FAQ -->
+<section class="content-layer py-20 px-4 sm:px-8 max-w-4xl mx-auto">
+  <div class="text-center mb-14">
+    <span class="badge badge-outline text-xs font-medium tracking-widest uppercase text-violet-400 border-violet-400/30 px-3 py-2 mb-4">FAQ</span>
+    <h2 class="font-display font-bold text-4xl text-white mt-4 mb-4">Common <span class="gradient-text">questions</span></h2>
+  </div>
+
+  <div class="space-y-3">
+    <div class="faq-item">
+      <details class="collapse collapse-arrow">
+        <summary class="collapse-title font-medium text-white/80 text-sm">How fresh is the data?</summary>
+        <div class="collapse-content text-white/50 text-sm leading-relaxed">
+          New comparisons are freshly scraped at time of request. Cached comparisons show the result from when they were first generated. We're building automatic cache invalidation so popular comparisons re-run periodically to stay current.
+        </div>
+      </details>
+    </div>
+
+    <div class="faq-item">
+      <details class="collapse collapse-arrow">
+        <summary class="collapse-title font-medium text-white/80 text-sm">Can I compare anything, or just software?</summary>
+        <div class="collapse-content text-white/50 text-sm leading-relaxed">
+          The pipeline works best for software tools, SaaS products, developer platforms, and productivity apps — that's where community discussion is richest. Comparing physical products or services with thin online discussion will produce lower-quality results, and the <code class="text-violet-400 bg-violet-500/10 px-1 rounded">sources_used</code> field will reflect that.
+        </div>
+      </details>
+    </div>
+
+    <div class="faq-item">
+      <details class="collapse collapse-arrow">
+        <summary class="collapse-title font-medium text-white/80 text-sm">How long does a new comparison take?</summary>
+        <div class="collapse-content text-white/50 text-sm leading-relaxed">
+          Typically 10–30 seconds for a cold request, depending on how much source data needs processing. Cached results are near-instant. You'll see a loading state while the pipeline runs.
+        </div>
+      </details>
+    </div>
+
+    <div class="faq-item">
+      <details class="collapse collapse-arrow">
+        <summary class="collapse-title font-medium text-white/80 text-sm">Is the verdict actually unbiased?</summary>
+        <div class="collapse-content text-white/50 text-sm leading-relaxed">
+          It's as unbiased as the sources we pull from. The AI synthesises what real users and communities have said — it doesn't have a horse in the race. We don't take money from vendors, and the model is explicitly instructed to be honest rather than diplomatic.
+        </div>
+      </details>
+    </div>
+
+    <div class="faq-item">
+      <details class="collapse collapse-arrow">
+        <summary class="collapse-title font-medium text-white/80 text-sm">Do I need an account?</summary>
+        <div class="collapse-content text-white/50 text-sm leading-relaxed">
+          No. Comparisons are free and public. An account lets you save comparisons to your history and revisit them later, but the core comparison feature works without signing up.
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="content-layer py-20 px-4 sm:px-8 text-center">
+  <div class="max-w-xl mx-auto">
+    <h2 class="font-display font-bold text-4xl sm:text-5xl text-white mb-5">
+      Ready to stop <span class="gradient-text">guessing?</span>
+    </h2>
+    <p class="text-white/40 mb-10 text-base font-light">Run your first comparison in under 30 seconds.</p>
+    <a href="{{ url_for('view.compare') }}"
+       class="btn font-display font-semibold text-base px-10 py-3 rounded-xl"
+       style="background: linear-gradient(135deg,#a78bfa,#ec4899); border: none; color: white; height: auto;">
+      Try Wherelse now →
+    </a>
+  </div>
+</section>
+
+{% endblock %}
