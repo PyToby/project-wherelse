@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, jsonify, redirect, url_for
 from flask_login import current_user, login_required
 from .ai_process import ProcessData
-from .models import Comparison
+from .models import Comparison, UserHistory
 import json
 from . import db
 
@@ -52,29 +52,39 @@ def compare():
 
     existing = Comparison.query.filter_by(service_a=a, service_b=b).first()
     if existing:
+        searched_comparison = existing
         result = json.loads(existing.result_json)
-        return render_template(
-            'compare.html', 
-            service_a=raw_a.capitalize(), 
-            service_b=raw_b.capitalize(), 
-            result=result, 
-            error=None
+        
+    else:
+        result = exec(a, b)
+        searched_comparison = Comparison(
+            service_a=a,
+            service_b=b,
+            result_json=json.dumps(result)
         )
+        db.session.add(searched_comparison)
+        db.session.flush()
+
+    if current_user.is_authenticated:
+        existing_history = UserHistory.query.filter_by(
+            user_id=current_user.user_id,
+            comparison_id=searched_comparison.comparison_id
+        ).first()
+
+        if not existing_history:
+            user_history = UserHistory(
+                user_id = current_user.user_id,
+                comparison_id = searched_comparison.comparison_id
+            )
+            db.session.add(user_history)
     
-    ai_call_result = exec(a, b)
-    
-    new_comparison = Comparison(
-        service_a=a,
-        service_b=b,
-        result_json=json.dumps(ai_call_result)
-    )
-    db.session.add(new_comparison)
     db.session.commit()
+    
     return render_template(
         'compare.html', 
         service_a=raw_a.capitalize(), 
         service_b=raw_b.capitalize(), 
-        result=ai_call_result, 
+        result=result, 
         error=None
     )
 
