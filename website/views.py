@@ -42,12 +42,11 @@ def compare():
     if not raw_a and not raw_b: # MAKES COMPARE BUTTONS WHO DON'T HANDLE INPUT WORK -- just a redirect to /compare
         return render_template('compare.html', result=None, service_a=None, service_b=None, error=None)
     elif not raw_a or not raw_b: # Error handling if user fills in one input only
-        render_template('base.html', error="Please fill in both inputs")
-        return redirect('/')
+        return render_template('compare.html', error="Please fill in both inputs")
     
     a, b = normalize_pair(raw_a, raw_b)
     if a == b:
-        render_template('base.html', error="Please input two different services")
+        render_template('compare.html', error="Please input two different services")
         return redirect('/')
 
     existing = Comparison.query.filter_by(service_a=a, service_b=b).first()
