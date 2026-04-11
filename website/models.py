@@ -13,6 +13,7 @@ class User(UserMixin, db.Model):
     pfp = db.Column(db.String(300), nullable=True)
     auth_provider = db.Column(db.String(50), default='email')
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    history = db.relationship('UserHistory', lazy=True)
     
     def get_id(self):           # tell Flask-Login to use user_id
         return str(self.user_id)
@@ -38,3 +39,4 @@ class UserHistory(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
     comparison_id = db.Column(db.Integer, db.ForeignKey('comparison.comparison_id'), nullable=False)
     viewed_at = db.Column(db.DateTime, default=datetime.utcnow)
+    comparison = db.relationship('Comparison', lazy=True)
