@@ -22,7 +22,7 @@
 
   <!-- ── Search bar ── -->
   <div class="fade-up delay-1 flex justify-center mb-12">
-    <div class="join w-full max-w-lg search-glow rounded-xl border border-white/10 bg-white/[0.04] transition-all">
+    <div class="join w-full max-w-lg search-glow rounded-xl border border-white/10 bg-white/4 transition-all">
       <input
         id="input-a"
         class="join-item input flex-1 bg-transparent border-none outline-none text-white placeholder-white/30 text-sm px-5"
@@ -55,6 +55,7 @@
   </div>
   {% endif %}
 
+  {% block loading %}
   {% if result %}
 
   <!-- ── TL;DR banner ── -->
@@ -73,7 +74,7 @@
         <div class="font-display font-bold text-2xl text-white mb-1">{{ result.service_a }}</div>
         <div class="text-xs text-white/35 tracking-wide uppercase">Option A</div>
       </div>
-      <div class="vs-badge flex-shrink-0" style="width:3rem;height:3rem;font-size:0.9rem;">VS</div>
+      <div class="vs-badge f-0" style="width:3rem;height:3rem;font-size:0.9rem;">VS</div>
       <div class="flex-1 text-center">
         <div class="font-display font-bold text-2xl text-white mb-1">{{ result.service_b }}</div>
         <div class="text-xs text-white/35 tracking-wide uppercase">Option B</div>
@@ -81,11 +82,11 @@
     </div>
 
     <!-- Split card body -->
-    <div class="rounded-2xl border border-white/[0.07] overflow-hidden"
+    <div class="rounded-2xl border border-white/7 overflow-hidden"
          style="background: rgba(255,255,255,0.02);">
 
       <!-- Sources strip -->
-      <div class="flex gap-2 px-6 py-3 border-b border-white/[0.05] flex-wrap"
+      <div class="flex gap-2 px-6 py-3 border-b border-white/5 flex-wrap"
            style="background: rgba(255,255,255,0.015);">
         {% if result.sources_used.scraped_content_used == 'true' %}
         <span class="badge badge-outline badge-xs text-white/35 border-white/10">📄 Web content</span>
@@ -105,7 +106,7 @@
       <!-- Two-column split -->
       {% set categories = ['ease_of_use', 'features', 'value_for_money', 'performance', 'community_support'] %}
       {% set labels = {'ease_of_use': 'Ease of use', 'features': 'Features', 'value_for_money': 'Value', 'performance': 'Performance', 'community_support': 'Community'} %}
-      <div class="flex divide-x divide-white/[0.06]">
+      <div class="flex divide-x divide-white/6">
 
         <!-- ── LEFT — Service A ── -->
         <div class="flex-1 p-6">
@@ -147,7 +148,7 @@
               <ul class="space-y-2 list-none">
                 {% for pro in result.pros.service_a %}
                 <li class="flex items-start gap-2">
-                  <span class="text-violet-400 mt-0.5 flex-shrink-0">▸</span>{{ pro }}
+                  <span class="text-violet-400 mt-0.5 f-0">▸</span>{{ pro }}
                 </li>
                 {% endfor %}
               </ul>
@@ -160,7 +161,7 @@
               <ul class="space-y-2 list-none">
                 {% for con in result.cons.service_a %}
                 <li class="flex items-start gap-2 text-white/40">
-                  <span class="text-white/20 mt-0.5 flex-shrink-0">▸</span>{{ con }}
+                  <span class="text-white/20 mt--0">▸</span>{{ con }}
                 </li>
                 {% endfor %}
               </ul>
@@ -216,7 +217,7 @@
               <ul class="space-y-2 list-none">
                 {% for pro in result.pros.service_b %}
                 <li class="flex items-start gap-2">
-                  <span class="text-pink-400 mt-0.5 flex-shrink-0">▸</span>{{ pro }}
+                  <span class="text-pink-400 mt-0.5 shrink-0">▸</span>{{ pro }}
                 </li>
                 {% endfor %}
               </ul>
@@ -229,7 +230,7 @@
               <ul class="space-y-2 list-none">
                 {% for con in result.cons.service_b %}
                 <li class="flex items-start gap-2 text-white/40">
-                  <span class="text-white/20 mt-0.5 flex-shrink-0">▸</span>{{ con }}
+                  <span class="text-white/20 mt-0.5 f-0">▸</span>{{ con }}
                 </li>
                 {% endfor %}
               </ul>
@@ -248,13 +249,13 @@
       </div>
 
       <!-- ── Verdict footer strip ── -->
-      <div class="border-t border-white/[0.06] px-6 py-5 flex gap-4"
+      <div class="border-t border-white/6 px-6 py-5 flex gap-4"
            style="background: rgba(255,255,255,0.015);">
         <div class="flex-1 bg-violet-500/10 border border-violet-400/20 rounded-xl p-4 text-center">
           <div class="font-display font-bold text-violet-300 mb-1">{{ result.service_a }}</div>
           <div class="text-xs text-white/40">{{ result.verdict.best_for.service_a }}</div>
         </div>
-        <div class="flex items-center justify-center flex-shrink-0">
+        <div class="flex items-center justify-center f-0">
           <span class="text-white/20 text-xs font-display font-bold">OR</span>
         </div>
         <div class="flex-1 bg-pink-500/10 border border-pink-400/20 rounded-xl p-4 text-center">
@@ -279,16 +280,20 @@
     <p class="text-xs uppercase tracking-widest text-violet-400 font-semibold mb-5">Use case breakdown</p>
     <div class="space-y-3">
       {% for case in result.use_case_fit %}
-      <div class="flex items-start gap-4 p-3 rounded-lg bg-white/[0.03] border border-white/[0.05]">
+      <div class="flex items-start gap-4 p-3 rounded-lg bg-white/3 border border-white/5">
         <div class="flex-1">
           <p class="text-sm font-semibold text-white/80 mb-0.5">{{ case.use_case }}</p>
           <p class="text-xs text-white/40">{{ case.reasoning }}</p>
         </div>
-        <span class="badge badge-xs shrink-0"
-          style="border-width: 1px;
-          {% if case.winner == result.service_a %} color: #c4b5fd; border-color: rgba(167,139,250,0.3); background: rgba(139,92,246,0.1);
-          {% elif case.winner == result.service_b %}color: #f9a8d4; border-color: rgba(236,72,153,0.3); background: rgba(236,72,153,0.1);
-          {% else %}color: rgba(255,255,255,0.3); border-color: rgba(255,255,255,0.1);{% endif %}">
+        <span class="badge badge-xs shrink-0
+          {% if case.winner == result.service_a %}
+            border-violet-400/30 bg-violet-500/10 text-violet-300
+          {% elif case.winner == result.service_b %}
+            border-pink-400/30 bg-pink-500/10 text-pink-300
+          {% else %}
+            border-white/10 bg-transparent text-white/30
+          {% endif %}"
+          style="border-width: 1px;">
           {{ case.winner }}
         </span>
       </div>
@@ -301,7 +306,7 @@
     <p class="text-xs uppercase tracking-widest text-white/40 font-semibold mb-5">What people are saying</p>
     <div class="space-y-3">
       {% for quote in result.community_sentiment.notable_quotes %}
-      <div class="bg-white/[0.03] rounded-lg p-4 border border-white/[0.06]">
+      <div class="bg-white/3 rounded-lg p-4 bo6">
         <p class="text-sm text-white/55 font-light italic mb-2">"{{ quote.text }}"</p>
         <div class="flex items-center gap-2">
           <span class="badge badge-xs badge-outline
@@ -326,7 +331,7 @@
   </div>
 
   {% endif %}
-
+  {% endblock %}
 </section>
 
 <script>

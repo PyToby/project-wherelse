@@ -27,7 +27,7 @@
   <!-- CENTER: Nav links (hidden on mobile) -->
   <div class="navbar-center hidden md:flex">
     <ul class="menu menu-horizontal gap-1 text-sm font-medium text-white/60">
-      <li><a class="hover:text-white hover:bg-white/5 rounded-lg transition-colors">Explore</a></li>
+      <!--<li><a class="hover:text-white hover:bg-white/5 rounded-lg transition-colors">Explore</a></li>-->
       <li><a href="{{ url_for('view.compare') }}" class="hover:text-white hover:bg-white/5 rounded-lg transition-colors">Compare now!</a></li>
       <li><a href="{{ url_for('view.how_it_works') }}" class="hover:text-white hover:bg-white/5 rounded-lg transition-colors">How it works</a></li>
       <li><a href="{{ url_for('view.pricing') }}" class="hover:text-white hover:bg-white/5 rounded-lg transition-colors">Pricing</a></li>
@@ -141,13 +141,13 @@
       <div class="flex items-center gap-3 w-full max-w-lg">
         <input
           id="input-a"
-          class="input flex-1 bg-white/[0.04] border border-white/10 text-white placeholder-white/30 text-sm px-5 rounded-xl outline-none search-glow q"
+          class="input flex-1 bg-white/4 border border-white/10 text-white placeholder-white/30 text-sm px-5 rounded-xl outline-none search-glow q"
           placeholder="Notion"
         />
         <!--<div class="vs-badge flex-shrink-0">VS</div>-->
         <input
           id="input-b"
-          class="input flex-1 bg-white/[0.04] border border-white/10 text-white placeholder-white/30 text-sm px-5 rounded-xl outline-none search-glow"
+          class="input flex-1 bg-white/4 border border-white/10 text-white placeholder-white/30 text-sm px-5 rounded-xl outline-none search-glow"
           placeholder="Obsidian"
         />
         <button
@@ -190,7 +190,7 @@
             <div class="font-display font-bold text-xl text-white">Notion</div>
             <div class="text-xs text-white/40 mt-0.5">All-in-one workspace</div>
           </div>
-          <div class="vs-badge flex-shrink-0">VS</div>
+          <div class="vs-badge shrink-0">VS</div>
           <div class="flex-1 text-center">
             <div class="font-display font-bold text-xl text-white">Obsidian</div>
             <div class="text-xs text-white/40 mt-0.5">Local-first notes</div>
@@ -275,7 +275,7 @@
 </section>
 
 <!-- ─────────────── TICKER ─────────────── -->
-<div class="content-layer py-6 overflow-hidden border-y border-white/[0.05] bg-white/[0.015]">
+<div class="content-layer py-6 overflow-hidden border-y border-white/5 bg-white/1.5">
   <div class="ticker-track gap-8">
     <!-- repeated twice for seamless loop -->
     <template id="ticker-items">
@@ -323,7 +323,7 @@
 <!-- ─────────────── STATS ─────────────── -->
 <section class="content-layer py-16 px-4 sm:px-8">
   <div class="max-w-4xl mx-auto">
-    <div class="stats stats-horizontal w-full bg-white/[0.03] border border-white/[0.07] rounded-2xl overflow-hidden">
+    <div class="stats stats-horizontal w-full bg-white/3 border border-white/7 rounded-2xl overflow-hidden">
       <div class="stat text-center">
         <div class="stat-value font-display text-violet-400">1,200+</div>
         <div class="stat-desc text-white/40">Comparisons made</div>
@@ -351,13 +351,13 @@
       <div class="flex items-center gap-3 w-full max-w-lg">
         <input
           id="input-c"
-          class="input flex-1 bg-white/[0.04] border border-white/10 text-white placeholder-white/30 text-sm px-5 rounded-xl outline-none search-glow q"
+          class="input flex-1 bg-white/4 border border-white/10 text-white placeholder-white/30 text-sm px-5 rounded-xl outline-none search-glow q"
           placeholder="Notion"
         />
         <!--<div class="vs-badge flex-shrink-0">VS</div>-->
         <input
           id="input-d"
-          class="input flex-1 bg-white/[0.04] border border-white/10 text-white placeholder-white/30 text-sm px-5 rounded-xl outline-none search-glow"
+          class="input flex-1 bg-white/4 border border-white/10 text-white placeholder-white/30 text-sm px-5 rounded-xl outline-none search-glow"
           placeholder="Obsidian"
         />
         <button
@@ -377,7 +377,7 @@
 {% endblock %}
 
 <!-- ─────────────── FOOTER ─────────────── -->
-<footer class="content-layer footer footer-horizontal px-8 py-10 max-w-7xl mx-auto border-t border-white/[0.06]">
+<footer class="content-layer footer footer-horizontal px-8 py-10 max-w-7xl mx-auto border-t border-white/6">
   <div>
     <a href="/">
     <span class="flex items-center gap-2 font-display font-bold text-lg mb-1">
