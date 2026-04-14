@@ -100,6 +100,10 @@ def pricing():
 def how_it_works():
     return render_template('how_it_works.html')
 
+@view.route('/loading')
+def loading():
+    return render_template('loading.html')
+
 def normalize_pair(a: str, b: str):
     list = [a.strip().lower(), b.strip().lower()]
     pair = sorted(list)
