@@ -127,11 +127,11 @@ class ProcessData:
             content=content,
             reddit_data=reddit_data
         )
-
         response = self.gemini.models.generate_content(
-            model="gemini-2.5-flash",
+            model="gemini-2.5-flash-lite",
             contents=prompt
         )
+
         return response.text
     
     def scrape(self) -> tuple[str, str]:

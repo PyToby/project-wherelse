@@ -1,10 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
 
-<!-- ─────────────── COMPARE PAGE ─────────────── -->
 <section class="content-layer min-h-screen px-4 sm:px-8 pt-12 pb-16 max-w-7xl mx-auto">
 
-  <!-- Page header -->
+  <!-- Page header — always visible -->
   <div class="text-center mb-10 fade-up">
     <br>
     <span class="badge badge-outline text-xs font-medium tracking-widest uppercase text-violet-400 border-violet-400/30 px-3 py-2 mb-4">
@@ -20,30 +19,7 @@
     <p class="text-white/40 text-sm">Aggregated from Reddit, reviews, and feature docs</p>
   </div>
 
-  <!-- ── Search bar ── -->
-  <div class="fade-up delay-1 flex justify-center mb-12">
-    <div class="join w-full max-w-lg search-glow rounded-xl border border-white/10 bg-white/4 transition-all">
-      <input
-        id="input-a"
-        class="join-item input flex-1 bg-transparent border-none outline-none text-white placeholder-white/30 text-sm px-5"
-        placeholder="Service A"
-        value="{{ service_a or '' }}"
-      />
-      <span class="flex items-center px-2 text-white/25 text-xs font-display font-bold">VS</span>
-      <input
-        id="input-b"
-        class="join-item input flex-1 bg-transparent border-none outline-none text-white placeholder-white/30 text-sm px-5"
-        placeholder="Service B"
-        value="{{ service_b or '' }}"
-      />
-      <button
-        onclick="runComparison()"
-        class="join-item btn border-none text-sm font-semibold px-6"
-        style="background: linear-gradient(135deg,#a78bfa,#ec4899); color:white;">
-        Compare
-      </button>
-    </div>
-  </div>
+
 
   <!-- Error state -->
   {% if error %}
@@ -55,20 +31,70 @@
   </div>
   {% endif %}
 
-  {% block loading %}
-  {% if result %}
+  <!-- ── LOADING STATE ── -->
+  {% if loading %}
+  <div class="fade-up flex flex-col items-center justify-center py-24 gap-6" id="loading-state">
+    <span class="loading loading-spinner loading-xl text-violet-400"></span>
+    <div class="text-center">
+      <p class="text-white/60 text-sm font-light">Analysing <span class="text-violet-300 font-semibold">{{ service_a }}</span> vs <span class="text-pink-300 font-semibold">{{ service_b }}</span></p>
+      <p class="text-white/25 text-xs mt-1">Scraping Reddit, reviews and docs — this takes around 20 seconds</p>
+    </div>
+  </div>
 
-  <!-- ── TL;DR banner ── -->
+  <script>
+    const a = {{ service_a | tojson }};
+    const b = {{ service_b | tojson }};
+
+    const poll = setInterval(async () => {
+      try {
+        const res = await fetch(`/api/status?a=${encodeURIComponent(a)}&b=${encodeURIComponent(b)}`);
+        const data = await res.json();
+        if (data.ready) {
+          clearInterval(poll);
+          window.location.reload();
+        }
+      } catch (e) {
+        console.error('Polling error:', e);
+      }
+    }, 2000);
+  </script>
+
+  <!-- ── RESULT STATE ── -->
+  {% elif result %}
+    <!-- Search bar — always visible -->
+    <div class="fade-up delay-1 flex justify-center mb-12">
+      <div class="join w-full max-w-lg search-glow rounded-xl border border-white/10 bg-white/4 transition-all">
+        <input
+          id="input-a"
+          class="join-item input flex-1 bg-transparent border-none outline-none text-white placeholder-white/30 text-sm px-5"
+          placeholder="Service A"
+          value="{{ service_a or '' }}"
+        />
+        <span class="flex items-center px-2 text-white/25 text-xs font-display font-bold">VS</span>
+        <input
+          id="input-b"
+          class="join-item input flex-1 bg-transparent border-none outline-none text-white placeholder-white/30 text-sm px-5"
+          placeholder="Service B"
+          value="{{ service_b or '' }}"
+        />
+        <button
+          onclick="runComparison()"
+          class="join-item btn border-none text-sm font-semibold px-6"
+          style="background: linear-gradient(135deg,#a78bfa,#ec4899); color:white;">
+          Compare
+        </button>
+      </div>
+    </div>
+  <!-- TL;DR banner -->
   <div class="fade-up delay-1 feature-card mb-8 text-center"
        style="border-color: rgba(167,139,250,0.2); background: rgba(167,139,250,0.04);">
     <p class="text-xs uppercase tracking-widest text-violet-400 font-semibold mb-2">TL;DR</p>
     <p class="text-white/60 text-sm font-light leading-relaxed max-w-2xl mx-auto">{{ result.tldr }}</p>
   </div>
 
-  <!-- ── Split comparison card ── -->
+  <!-- Split comparison card -->
   <div class="fade-up delay-2">
 
-    <!-- Service name headers -->
     <div class="flex items-center gap-4 mb-4 px-1">
       <div class="flex-1 text-center">
         <div class="font-display font-bold text-2xl text-white mb-1">{{ result.service_a }}</div>
@@ -81,7 +107,6 @@
       </div>
     </div>
 
-    <!-- Split card body -->
     <div class="rounded-2xl border border-white/7 overflow-hidden"
          style="background: rgba(255,255,255,0.02);">
 
@@ -103,25 +128,21 @@
         </span>
       </div>
 
-      <!-- Two-column split -->
       {% set categories = ['ease_of_use', 'features', 'value_for_money', 'performance', 'community_support'] %}
       {% set labels = {'ease_of_use': 'Ease of use', 'features': 'Features', 'value_for_money': 'Value', 'performance': 'Performance', 'community_support': 'Community'} %}
+
       <div class="flex divide-x divide-white/6">
 
-        <!-- ── LEFT — Service A ── -->
+        <!-- LEFT — Service A -->
         <div class="flex-1 p-6">
           <div class="h-0.5 w-12 rounded-full mb-6"
                style="background: linear-gradient(90deg, #a78bfa, transparent);"></div>
-
           <div class="desc-scroll space-y-5 text-sm text-white/60 font-light leading-relaxed">
-
             <div>
               <h4 class="font-display font-semibold mb-2 uppercase tracking-widest text-xs text-violet-300">Best for</h4>
               <p class="text-white/55">{{ result.verdict.best_for.service_a }}</p>
             </div>
-
             <div class="glow-line"></div>
-
             <div>
               <h4 class="font-display font-semibold mb-3 uppercase tracking-widest text-xs text-violet-300">Scores</h4>
               <div class="space-y-2">
@@ -140,9 +161,7 @@
                 {% endfor %}
               </div>
             </div>
-
             <div class="glow-line"></div>
-
             <div>
               <h4 class="font-display font-semibold mb-3 uppercase tracking-widest text-xs text-violet-300">Strengths</h4>
               <ul class="space-y-2 list-none">
@@ -153,44 +172,35 @@
                 {% endfor %}
               </ul>
             </div>
-
             <div class="glow-line"></div>
-
             <div>
               <h4 class="font-display font-semibold mb-3 uppercase tracking-widest text-xs text-white/30">Weaknesses</h4>
               <ul class="space-y-2 list-none">
                 {% for con in result.cons.service_a %}
                 <li class="flex items-start gap-2 text-white/40">
-                  <span class="text-white/20 mt--0">▸</span>{{ con }}
+                  <span class="text-white/20 mt-0">▸</span>{{ con }}
                 </li>
                 {% endfor %}
               </ul>
             </div>
-
             <div class="glow-line"></div>
-
             <div>
               <h4 class="font-display font-semibold mb-2 uppercase tracking-widest text-xs text-violet-300">Community</h4>
               <p class="text-white/50">{{ result.community_sentiment.service_a }}</p>
             </div>
-
           </div>
         </div>
 
-        <!-- ── RIGHT — Service B ── -->
+        <!-- RIGHT — Service B -->
         <div class="flex-1 p-6">
           <div class="h-0.5 w-12 rounded-full mb-6"
                style="background: linear-gradient(90deg, #ec4899, transparent);"></div>
-
           <div class="desc-scroll space-y-5 text-sm text-white/60 font-light leading-relaxed">
-
             <div>
               <h4 class="font-display font-semibold mb-2 uppercase tracking-widest text-xs text-pink-300">Best for</h4>
               <p class="text-white/55">{{ result.verdict.best_for.service_b }}</p>
             </div>
-
             <div class="glow-line"></div>
-
             <div>
               <h4 class="font-display font-semibold mb-3 uppercase tracking-widest text-xs text-pink-300">Scores</h4>
               <div class="space-y-2">
@@ -209,9 +219,7 @@
                 {% endfor %}
               </div>
             </div>
-
             <div class="glow-line"></div>
-
             <div>
               <h4 class="font-display font-semibold mb-3 uppercase tracking-widest text-xs text-pink-300">Strengths</h4>
               <ul class="space-y-2 list-none">
@@ -222,9 +230,7 @@
                 {% endfor %}
               </ul>
             </div>
-
             <div class="glow-line"></div>
-
             <div>
               <h4 class="font-display font-semibold mb-3 uppercase tracking-widest text-xs text-white/30">Weaknesses</h4>
               <ul class="space-y-2 list-none">
@@ -235,20 +241,17 @@
                 {% endfor %}
               </ul>
             </div>
-
             <div class="glow-line"></div>
-
             <div>
               <h4 class="font-display font-semibold mb-2 uppercase tracking-widest text-xs text-pink-300">Community</h4>
               <p class="text-white/50">{{ result.community_sentiment.service_b }}</p>
             </div>
-
           </div>
         </div>
 
       </div>
 
-      <!-- ── Verdict footer strip ── -->
+      <!-- Verdict footer -->
       <div class="border-t border-white/6 px-6 py-5 flex gap-4"
            style="background: rgba(255,255,255,0.015);">
         <div class="flex-1 bg-violet-500/10 border border-violet-400/20 rounded-xl p-4 text-center">
@@ -267,7 +270,7 @@
     </div>
   </div>
 
-  <!-- ── Overall winner ── -->
+  <!-- Overall winner -->
   <div class="fade-up mt-6 feature-card text-center"
        style="border-color: rgba(167,139,250,0.25); background: rgba(167,139,250,0.05);">
     <p class="text-xs uppercase tracking-widest text-violet-400 font-semibold mb-1">Overall winner</p>
@@ -275,7 +278,7 @@
     <p class="text-white/50 text-sm">{{ result.verdict.winner_reasoning }}</p>
   </div>
 
-  <!-- ── Use case breakdown ── -->
+  <!-- Use case breakdown -->
   <div class="fade-up mt-6 feature-card">
     <p class="text-xs uppercase tracking-widest text-violet-400 font-semibold mb-5">Use case breakdown</p>
     <div class="space-y-3">
@@ -301,7 +304,7 @@
     </div>
   </div>
 
-  <!-- ── Notable quotes ── -->
+  <!-- Notable quotes -->
   <div class="fade-up mt-6 feature-card">
     <p class="text-xs uppercase tracking-widest text-white/40 font-semibold mb-5">What people are saying</p>
     <div class="space-y-3">
@@ -322,16 +325,40 @@
     </div>
   </div>
 
+  <!-- ── EMPTY STATE ── -->
   {% else %}
-
-  <!-- Empty state -->
+      <!-- Search bar  -->
+  <div class="fade-up delay-1 flex justify-center mb-12">
+    <div class="join w-full max-w-lg search-glow rounded-xl border border-white/10 bg-white/4 transition-all">
+      <input
+        id="input-a"
+        class="join-item input flex-1 bg-transparent border-none outline-none text-white placeholder-white/30 text-sm px-5"
+        placeholder="Service A"
+        value="{{ service_a or '' }}"
+      />
+      <span class="flex items-center px-2 text-white/25 text-xs font-display font-bold">VS</span>
+      <input
+        id="input-b"
+        class="join-item input flex-1 bg-transparent border-none outline-none text-white placeholder-white/30 text-sm px-5"
+        placeholder="Service B"
+        value="{{ service_b or '' }}"
+      />
+      <button
+        onclick="runComparison()"
+        class="join-item btn border-none text-sm font-semibold px-6"
+        style="background: linear-gradient(135deg,#a78bfa,#ec4899); color:white;">
+        Compare
+      </button>
+    </div>
+  </div>
   <div class="fade-up delay-2 text-center py-24">
+
     <div class="text-5xl mb-4">🔍</div>
     <p class="text-white/30 text-lg font-light">Enter two tools above to generate a comparison.</p>
   </div>
 
   {% endif %}
-  {% endblock %}
+
 </section>
 
 <script>
