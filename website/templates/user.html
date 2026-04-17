@@ -96,7 +96,7 @@
         <div class="space-y-3">
           {% for item in current_user.history %}
           <!-- ── Provisional history item  ── -->
-          <a href="/compare?query={{ item.comparison.service_a }}%20vs%20{{ item.comparison.service_b }}"
+          <a href="/compare?a={{ item.comparison.service_a }}&b={{ item.comparison.service_b }}"
              class="flex items-center gap-4 p-4 rounded-xl transition-all duration-200 group fade-up"
              style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);"
              onmouseover="this.style.borderColor='rgba(167,139,250,0.25)'; this.style.background='rgba(167,139,250,0.05)'"
