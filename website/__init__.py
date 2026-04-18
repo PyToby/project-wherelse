@@ -8,8 +8,8 @@ login_manager = LoginManager()
 
 def create_app(): 
     logger = logging.getLogger(__name__)
-    logger.basicConfig(
-        format="{asctime} - {levelname}: {message}",
+    logger.Formatter(
+        "{asctime} - {levelname}: {message}",
         style="{",
         datefmt="%Y-%m-%d %H:%M",
     )
