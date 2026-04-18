@@ -2,11 +2,11 @@ from flask import Blueprint, render_template, request, jsonify, redirect, url_fo
 from flask_login import current_user, login_required
 from .ai_process import ProcessData
 from .models import Comparison, UserHistory
-from .__init__ import logger
-import json, threading
+import json, threading, logging
 from . import db
 
 view = Blueprint('view', __name__)
+logger = logging.getLogger(__name__)
 
 # Naming blueprint => service_a + "||" + service_b  (f.ex. )
 jobs = {} # This serves as a cache for pending comparison threads

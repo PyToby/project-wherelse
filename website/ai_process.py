@@ -1,10 +1,10 @@
 import google.genai as genai
-import os, json
+import os, json, logging
 from tavily import TavilyClient, UsageLimitExceededError
 from dotenv import load_dotenv
-from .__init__ import logger
 
 load_dotenv()
+logger = logging.getLogger(__name__)
 
 class ProcessData:
     '''
