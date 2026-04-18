@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, jsonify, redirect, url_fo
 from flask_login import current_user, login_required
 from .ai_process import ProcessData
 from .models import Comparison, UserHistory
+from .__init__ import logger
 import json, threading
 from . import db
 
@@ -38,8 +39,8 @@ def compare():
         write_history(searched_comparison, user_id)
         return render_template(
             'compare.html', 
-            service_a=raw_a.capitalize(), 
-            service_b=raw_b.capitalize(), 
+            service_a=a.capitalize(), 
+            service_b=b.capitalize(), 
             result=result, 
             error=None,
             loading=False
@@ -55,8 +56,8 @@ def compare():
     
     return render_template(
         'compare.html', 
-        service_a=raw_a.capitalize(), 
-        service_b=raw_b.capitalize(), 
+        service_a=a.capitalize(), 
+        service_b=b.capitalize(), 
         result=None, 
         error=None,
         loading=True
@@ -86,6 +87,11 @@ def status():
         return {"ready": False, "error": "Missing parameters"}, 400
     
     a, b = normalize_pair(raw_a, raw_b)
+
+    if jobs[a+"||"+b] == "failed":
+        jobs.pop(a+"||"+b, None)
+        return {"ready": False, "error": "Generation failed"}, 400
+
     existing = Comparison.query.filter_by(service_a=a, service_b=b).first()
     if existing:
         result = json.loads(existing.result_json)
@@ -134,5 +140,6 @@ def run(a: str, b: str, user_id: int):
             db.session.add(searched_comparison)
             db.session.commit()
             write_history(searched_comparison, user_id)
-        finally: # Executes whether the thread works 
-            jobs.pop(a+"||"+b, None)
+        except Exception as e:
+            logger.error(f"Generation failed for {a} and {b}: {e}")
+            jobs[a+"||"+b] = "failed"

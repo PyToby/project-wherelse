@@ -2,6 +2,7 @@ import google.genai as genai
 import os, json
 from tavily import TavilyClient, UsageLimitExceededError
 from dotenv import load_dotenv
+from .__init__ import logger
 
 load_dotenv()
 
@@ -127,11 +128,21 @@ class ProcessData:
             content=content,
             reddit_data=reddit_data
         )
-        response = self.gemini.models.generate_content(
-            model="gemini-2.5-flash-lite",
-            contents=prompt
-        )
-
+        try:
+            response = self.gemini.models.generate_content(
+                model="gemini-2.5-flash",
+                contents=prompt
+            )
+        except Exception as e:
+            if 503 in str(e) or "overloaded" in str(e).lower():
+                logger.error("2.5-Flash is currently overloaded. Switching to 2.5-Flash-lite.")
+                response = self.gemini.models.generate_content(
+                    model="gemini-2.5-flash-lite",
+                    contents=prompt
+                )
+            else:
+                raise
+                
         return response.text
     
     def scrape(self) -> tuple[str, str]:
