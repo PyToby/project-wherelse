@@ -8,11 +8,15 @@ login_manager = LoginManager()
 
 def create_app(): 
     logger = logging.getLogger(__name__)
-    logger.Formatter(
+    console_handler = logging.StreamHandler()
+    logger.addHandler(console_handler)
+
+    formatter = logging.Formatter(
         "{asctime} - {levelname}: {message}",
         style="{",
         datefmt="%Y-%m-%d %H:%M",
     )
+    console_handler.setFormatter(formatter)
     
     app = Flask(__name__, template_folder='templates', static_folder='../static')
 
