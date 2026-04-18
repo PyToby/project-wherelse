@@ -42,26 +42,29 @@
   </div>
 
   <script>
-    const poll = setInterval(async () => {
-      try {
-        const res = await fetch(`/api/status?a=${encodeURIComponent(a)}&b=${encodeURIComponent(b)}`);
-        const data = await res.json();
-        if (data.ready) {
-          clearInterval(poll);
-          window.location.reload();
-        } else if (data.error) {
-          clearInterval(poll);
-          document.getElementById('loading-state').innerHTML = `
-            <div class="feature-card text-center max-w-md" style="border-color: rgba(239,68,68,0.2); background: rgba(239,68,68,0.05);">
-              <div class="text-2xl mb-2">⚠️</div>
-              <p class="text-red-400 text-sm">Something went wrong. Please try again later.</p>
-            </div>
-          `;
-        }
-      } catch (e) {
-        console.error('Polling error:', e);
+  const a = {{ service_a | tojson }};
+  const b = {{ service_b | tojson }};
+
+  let poll = setInterval(async () => {
+    try {
+      const res = await fetch(`/api/status?a=${encodeURIComponent(a)}&b=${encodeURIComponent(b)}`);
+      const data = await res.json();
+      if (data.ready) {
+        clearInterval(poll);
+        window.location.reload();
+      } else if (data.error) {
+        clearInterval(poll);
+        document.getElementById('loading-state').innerHTML = `
+          <div class="feature-card text-center max-w-md" style="border-color: rgba(239,68,68,0.2); background: rgba(239,68,68,0.05);">
+            <div class="text-2xl mb-2">⚠️</div>
+            <p class="text-red-400 text-sm">Something went wrong — please try again later.</p>
+          </div>
+        `;
       }
-    }, 2000);
+    } catch (e) {
+      console.error('Polling error:', e);
+    }
+  }, 2000);
   </script>
   <!-- ── RESULT STATE ── -->
   {% elif result %}
