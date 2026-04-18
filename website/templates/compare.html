@@ -104,12 +104,12 @@
 
     <div class="flex items-center gap-4 mb-4 px-1">
       <div class="flex-1 text-center">
-        <div class="font-display font-bold text-2xl text-white mb-1">{{ result.service_a }}</div>
+        <div class="font-display font-bold text-2xl text-white mb-1">{{ result.service_a | title }}</div>
         <div class="text-xs text-white/35 tracking-wide uppercase">Option A</div>
       </div>
       <div class="vs-badge f-0" style="width:3rem;height:3rem;font-size:0.9rem;">VS</div>
       <div class="flex-1 text-center">
-        <div class="font-display font-bold text-2xl text-white mb-1">{{ result.service_b }}</div>
+        <div class="font-display font-bold text-2xl text-white mb-1">{{ result.service_b | title }}</div>
         <div class="text-xs text-white/35 tracking-wide uppercase">Option B</div>
       </div>
     </div>
@@ -262,14 +262,14 @@
       <div class="border-t border-white/6 px-6 py-5 flex gap-4"
            style="background: rgba(255,255,255,0.015);">
         <div class="flex-1 bg-violet-500/10 border border-violet-400/20 rounded-xl p-4 text-center">
-          <div class="font-display font-bold text-violet-300 mb-1">{{ result.service_a }}</div>
+          <div class="font-display font-bold text-violet-300 mb-1">{{ result.service_a | title}}</div>
           <div class="text-xs text-white/40">{{ result.verdict.best_for.service_a }}</div>
         </div>
         <div class="flex items-center justify-center f-0">
           <span class="text-white/20 text-xs font-display font-bold">OR</span>
         </div>
         <div class="flex-1 bg-pink-500/10 border border-pink-400/20 rounded-xl p-4 text-center">
-          <div class="font-display font-bold text-pink-300 mb-1">{{ result.service_b }}</div>
+          <div class="font-display font-bold text-pink-300 mb-1">{{ result.service_b | title }}</div>
           <div class="text-xs text-white/40">{{ result.verdict.best_for.service_b }}</div>
         </div>
       </div>
@@ -281,7 +281,7 @@
   <div class="fade-up mt-6 feature-card text-center"
        style="border-color: rgba(167,139,250,0.25); background: rgba(167,139,250,0.05);">
     <p class="text-xs uppercase tracking-widest text-violet-400 font-semibold mb-1">Overall winner</p>
-    <p class="font-display font-bold text-2xl text-white mb-2">{{ result.verdict.winner_overall }}</p>
+    <p class="font-display font-bold text-2xl text-white mb-2">{{ result.verdict.winner_overall | title }}</p>
     <p class="text-white/50 text-sm">{{ result.verdict.winner_reasoning }}</p>
   </div>
 
@@ -304,7 +304,7 @@
             border-white/10 bg-transparent text-white/30
           {% endif %}"
           style="border-width: 1px;">
-          {{ case.winner }}
+          {{ case.winner | title}}
         </span>
       </div>
       {% endfor %}
@@ -325,7 +325,7 @@
             {% else %}text-white/30 border-white/10{% endif %}">
             {{ quote.sentiment }}
           </span>
-          <span class="text-xs text-white/30">about {{ quote.about }}</span>
+          <span class="text-xs text-white/30">about {{ quote.about | title}}</span>
         </div>
       </div>
       {% endfor %}
