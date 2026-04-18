@@ -46,7 +46,7 @@ def compare():
             loading=False
         ) 
     elif (a+"||"+b) in jobs:
-        return render_template("compare.html", result=None, loading=True)
+        return render_template("compare.html", result=None, loading=True, service_a=a.capitalize(), service_b=b.capitalize(),)
     else:
         ### THREADING ###
         jobs[a+"||"+b] = "pending"
