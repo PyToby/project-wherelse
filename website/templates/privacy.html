@@ -1,0 +1,644 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>Privacy Policy — Wherelse</title>
+<style>
+  /* ── CSS variables reusing the app's existing colour tokens ── */
+  .pp {
+    --pp-surface:  rgba(255,255,255,0.03);
+    --pp-surface2: rgba(255,255,255,0.06);
+    --pp-border:   rgba(255,255,255,0.07);
+    --pp-muted:    rgba(255,255,255,0.40);
+    --pp-faint:    rgba(255,255,255,0.18);
+    --pp-text:     rgba(255,255,255,0.85);
+    --pp-violet:   #a78bfa;
+    --pp-pink:     #ec4899;
+    --pp-grad:     linear-gradient(135deg,#a78bfa,#ec4899);
+  }
+
+  /* ── Page shell ── */
+  .pp {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--pp-text);
+  }
+
+  /* ── Top header ── */
+  .pp-header {
+    padding: 2.5rem 0.5rem 2rem;
+    border-bottom: 1px solid var(--pp-border);
+    margin-bottom: 2rem;
+  }
+  .pp-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    background: var(--pp-grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: inline-block;
+    margin-bottom: 0.75rem;
+  }
+  .pp-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: white;
+    margin-bottom: 0.5rem;
+  }
+  .pp-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--pp-muted);
+  }
+  .pp-meta-pill {
+    background: var(--pp-surface2);
+    border: 1px solid var(--pp-border);
+    border-radius: 20px;
+    padding: 3px 12px;
+  }
+
+  /* ── Two-column layout ── */
+  .pp-body {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  /* ── Sidebar TOC ── */
+  /* Top offset = navbar height (≈64px) + breathing room */
+  .pp-sidebar {
+    position: sticky;
+    top: 80px;
+    padding: 0.5rem 0 4rem;
+  }
+  .pp-toc-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--pp-muted);
+    margin-bottom: 0.75rem;
+    padding-left: 10px;
+  }
+  .pp-toc-list { list-style: none; margin: 0; padding: 0; }
+  .pp-toc-list li { margin-bottom: 1px; }
+  .pp-toc-list a {
+    display: block;
+    font-size: 12.5px;
+    color: var(--pp-muted);
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 6px;
+    border-left: 2px solid transparent;
+    transition: color 0.15s, background 0.15s, border-color 0.15s;
+  }
+  .pp-toc-list a:hover {
+    color: white;
+    background: var(--pp-surface2);
+    border-left-color: var(--pp-violet);
+  }
+  .pp-toc-num {
+    font-variant-numeric: tabular-nums;
+    color: var(--pp-faint);
+    margin-right: 6px;
+    font-size: 11px;
+  }
+
+  /* ── Main content column ── */
+  .pp-main { padding: 0.5rem 0 6rem; }
+
+  /* ── Summary card ── */
+  .pp-summary {
+    background: var(--pp-surface);
+    border: 1px solid var(--pp-border);
+    border-radius: 14px;
+    padding: 1.5rem 1.75rem;
+    margin-bottom: 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .pp-summary::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--pp-grad);
+  }
+  .pp-summary-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--pp-violet);
+    margin-bottom: 1rem;
+  }
+  .pp-summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem 2rem;
+  }
+  .pp-kv-label {
+    font-size: 11px;
+    color: var(--pp-muted);
+    margin-bottom: 2px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+  .pp-kv-val {
+    font-size: 13px;
+    color: white;
+  }
+  .pp-kv-val a {
+    color: var(--pp-violet);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(167,139,250,0.3);
+  }
+
+  /* ── Sections ── */
+  .pp-section {
+    margin-bottom: 2.5rem;
+    scroll-margin-top: 88px; /* navbar height + gap */
+  }
+  .pp-section-hd {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 1.1rem;
+  }
+  .pp-num {
+    font-size: 11px;
+    font-weight: 700;
+    background: var(--pp-surface2);
+    border: 1px solid var(--pp-border);
+    border-radius: 20px;
+    padding: 2px 10px;
+    color: var(--pp-muted);
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .pp-section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: white;
+    letter-spacing: -0.01em;
+  }
+  .pp-prose {
+    color: rgba(255,255,255,0.65);
+    font-size: 14px;
+    line-height: 1.85;
+  }
+  .pp-prose p { margin-bottom: 0.85rem; }
+  .pp-prose p:last-child { margin-bottom: 0; }
+  .pp-prose ul { padding-left: 1.4rem; margin-bottom: 0.85rem; }
+  .pp-prose ul li { margin-bottom: 3px; }
+  .pp-prose a {
+    color: var(--pp-violet);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(167,139,250,0.3);
+    transition: border-color 0.15s;
+  }
+  .pp-prose a:hover { border-color: var(--pp-violet); }
+  .pp-prose strong { color: rgba(255,255,255,0.85); font-weight: 600; }
+
+  /* ── "In short" callout ── */
+  .pp-note {
+    display: flex;
+    gap: 10px;
+    background: var(--pp-surface2);
+    border: 1px solid var(--pp-border);
+    border-radius: 8px;
+    padding: 0.7rem 1rem;
+    margin-bottom: 1rem;
+    font-size: 13px;
+    color: var(--pp-muted);
+    font-style: italic;
+    align-items: flex-start;
+  }
+  .pp-note-arrow { color: var(--pp-violet); flex-shrink: 0; }
+
+  .pp-sub { font-size: 13px; font-weight: 600; color: white; margin: 1.25rem 0 0.4rem; }
+
+  .pp-divider {
+    border: none;
+    border-top: 1px solid var(--pp-border);
+    margin: 2rem 0;
+  }
+
+  /* ── Contact block ── */
+  .pp-contact {
+    background: var(--pp-surface);
+    border: 1px solid var(--pp-border);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    font-size: 14px;
+    color: rgba(255,255,255,0.65);
+  }
+  .pp-contact a { color: var(--pp-pink); border-bottom: 1px solid rgba(236,72,153,0.3); text-decoration: none; }
+  .pp-contact a:hover { border-color: var(--pp-pink); }
+
+  /* ── Rights chips ── */
+  .pp-rights {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 0.75rem;
+  }
+  .pp-chip {
+    background: var(--pp-surface2);
+    border: 1px solid var(--pp-border);
+    border-radius: 8px;
+    padding: 0.6rem 0.9rem;
+    font-size: 13px;
+    color: rgba(255,255,255,0.65);
+  }
+  .pp-chip strong { color: white; font-weight: 600; display: block; margin-bottom: 2px; font-size: 12px; }
+
+  /* ── Data table ── */
+  .pp-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-top: 0.75rem;
+  }
+  .pp-table th {
+    text-align: left;
+    font-weight: 600;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--pp-muted);
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--pp-border);
+  }
+  .pp-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--pp-border);
+    color: rgba(255,255,255,0.6);
+    vertical-align: top;
+  }
+  .pp-table tr:last-child td { border-bottom: none; }
+  .pp-table .pp-cat { font-weight: 600; color: rgba(255,255,255,0.85); }
+  .pp-badge-yes {
+    display: inline-block;
+    background: rgba(167,139,250,0.12);
+    color: var(--pp-violet);
+    border: 1px solid rgba(167,139,250,0.3);
+    border-radius: 20px;
+    padding: 2px 10px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .pp-badge-no {
+    display: inline-block;
+    background: var(--pp-surface2);
+    color: var(--pp-faint);
+    border: 1px solid var(--pp-border);
+    border-radius: 20px;
+    padding: 2px 10px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .pp-body          { grid-template-columns: 1fr; }
+    .pp-sidebar       { display: none; }
+    .pp-summary-grid  { grid-template-columns: 1fr; }
+    .pp-rights        { grid-template-columns: 1fr; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="pp content-layer">
+
+  <!-- Page header -->
+  <div class="pp-header">
+    <div class="pp-eyebrow">Legal</div>
+    <h1 class="pp-title">Privacy Policy</h1>
+    <div class="pp-meta">
+      <span class="pp-meta-pill">Last updated: April 18, 2026</span>
+      <span class="pp-meta-pill">Czechia (EU)</span>
+    </div>
+  </div>
+
+  <div class="pp-body">
+
+    <!-- ── Sidebar TOC ── -->
+    <aside class="pp-sidebar">
+      <div class="pp-toc-label">Contents</div>
+      <ul class="pp-toc-list">
+        <li><a href="#pp-s0"><span class="pp-toc-num">—</span>Summary</a></li>
+        <li><a href="#pp-s1"><span class="pp-toc-num">01</span>What we collect</a></li>
+        <li><a href="#pp-s2"><span class="pp-toc-num">02</span>How we use it</a></li>
+        <li><a href="#pp-s3"><span class="pp-toc-num">03</span>Legal bases</a></li>
+        <li><a href="#pp-s4"><span class="pp-toc-num">04</span>Who we share with</a></li>
+        <li><a href="#pp-s5"><span class="pp-toc-num">05</span>Cookies</a></li>
+        <li><a href="#pp-s6"><span class="pp-toc-num">06</span>AI products</a></li>
+        <li><a href="#pp-s7"><span class="pp-toc-num">07</span>Social logins</a></li>
+        <li><a href="#pp-s8"><span class="pp-toc-num">08</span>Data retention</a></li>
+        <li><a href="#pp-s9"><span class="pp-toc-num">09</span>Security</a></li>
+        <li><a href="#pp-s10"><span class="pp-toc-num">10</span>Minors</a></li>
+        <li><a href="#pp-s11"><span class="pp-toc-num">11</span>Your rights</a></li>
+        <li><a href="#pp-s12"><span class="pp-toc-num">12</span>Do Not Track</a></li>
+        <li><a href="#pp-s13"><span class="pp-toc-num">13</span>US residents</a></li>
+        <li><a href="#pp-s14"><span class="pp-toc-num">14</span>Policy updates</a></li>
+        <li><a href="#pp-s15"><span class="pp-toc-num">15</span>Contact us</a></li>
+        <li><a href="#pp-s16"><span class="pp-toc-num">16</span>Review / delete data</a></li>
+      </ul>
+    </aside>
+
+    <!-- ── Main content ── -->
+    <main class="pp-main">
+
+      <!-- Summary -->
+      <div class="pp-summary" id="pp-s0">
+        <div class="pp-summary-label">Key points</div>
+        <div class="pp-summary-grid">
+          <div><div class="pp-kv-label">Sensitive data</div><div class="pp-kv-val">None processed</div></div>
+          <div><div class="pp-kv-label">Third-party data</div><div class="pp-kv-val">Not collected</div></div>
+          <div><div class="pp-kv-label">Data sold / shared</div><div class="pp-kv-val">Never</div></div>
+          <div><div class="pp-kv-label">AI provider</div><div class="pp-kv-val">Google Cloud AI</div></div>
+          <div><div class="pp-kv-label">Retention</div><div class="pp-kv-val">Duration of account</div></div>
+          <div><div class="pp-kv-label">Contact</div><div class="pp-kv-val"><a href="mailto:ucet1.random@gmail.com">ucet1.random@gmail.com</a></div></div>
+        </div>
+      </div>
+
+      <!-- 01 -->
+      <div class="pp-section" id="pp-s1">
+        <div class="pp-section-hd">
+          <span class="pp-num">01</span>
+          <h2 class="pp-section-title">What information do we collect?</h2>
+        </div>
+        <div class="pp-prose">
+          <div class="pp-note"><span class="pp-note-arrow">↳</span><span>We collect personal information you voluntarily provide to us.</span></div>
+          <p>We collect information when you register, express interest in our services, or contact us. This includes:</p>
+          <ul>
+            <li>Names and email addresses</li>
+            <li>Usernames and passwords</li>
+            <li>Social media profile data if you register via Google OAuth</li>
+          </ul>
+          <p>We do not process sensitive personal information (race, ethnicity, health data, etc.).</p>
+          <div class="pp-sub">Google API</div>
+          <p>Our use of information received from Google APIs adheres to the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
+        </div>
+      </div>
+      <hr class="pp-divider" />
+
+      <!-- 02 -->
+      <div class="pp-section" id="pp-s2">
+        <div class="pp-section-hd">
+          <span class="pp-num">02</span>
+          <h2 class="pp-section-title">How do we process your information?</h2>
+        </div>
+        <div class="pp-prose">
+          <div class="pp-note"><span class="pp-note-arrow">↳</span><span>To provide, improve, and administer our services, and for security and fraud prevention.</span></div>
+          <p>We process your personal information for the following purposes:</p>
+          <ul>
+            <li>To facilitate account creation, authentication, and account management</li>
+            <li>To save or protect an individual's vital interest where necessary</li>
+          </ul>
+          <p>We may also process your information for other purposes only with your prior explicit consent.</p>
+        </div>
+      </div>
+      <hr class="pp-divider" />
+
+      <!-- 03 -->
+      <div class="pp-section" id="pp-s3">
+        <div class="pp-section-hd">
+          <span class="pp-num">03</span>
+          <h2 class="pp-section-title">What legal bases do we rely on?</h2>
+        </div>
+        <div class="pp-prose">
+          <div class="pp-note"><span class="pp-note-arrow">↳</span><span>We only process your data when we have a valid legal reason to do so.</span></div>
+          <p><strong>If you are in the EU or UK</strong>, we rely on the following GDPR bases: <strong>Consent</strong> (you may withdraw at any time), <strong>Legal Obligations</strong>, and <strong>Vital Interests</strong>.</p>
+          <p><strong>If you are in Canada</strong>, we may process your data under express or implied consent, which you may withdraw at any time. In exceptional cases we may process without consent as permitted by applicable law (fraud detection, legal subpoenas, journalistic purposes, publicly available data, etc.).</p>
+        </div>
+      </div>
+      <hr class="pp-divider" />
+
+      <!-- 04 -->
+      <div class="pp-section" id="pp-s4">
+        <div class="pp-section-hd">
+          <span class="pp-num">04</span>
+          <h2 class="pp-section-title">When and with whom do we share your information?</h2>
+        </div>
+        <div class="pp-prose">
+          <div class="pp-note"><span class="pp-note-arrow">↳</span><span>We may share information in specific situations only.</span></div>
+          <ul>
+            <li><strong>Business transfers:</strong> In connection with a merger, sale of company assets, or acquisition.</li>
+          </ul>
+          <p>We have not sold or shared any personal information with third parties for commercial purposes in the past twelve months, and we will not do so in the future.</p>
+        </div>
+      </div>
+      <hr class="pp-divider" />
+
+      <!-- 05 -->
+      <div class="pp-section" id="pp-s5">
+        <div class="pp-section-hd">
+          <span class="pp-num">05</span>
+          <h2 class="pp-section-title">Do we use cookies and tracking technologies?</h2>
+        </div>
+        <div class="pp-prose">
+          <div class="pp-note"><span class="pp-note-arrow">↳</span><span>We may use cookies and similar technologies to collect and store information.</span></div>
+          <p>We use cookies and similar tracking technologies (web beacons, pixels) to maintain security, prevent crashes, fix bugs, save preferences, and assist with basic site functions.</p>
+          <p>We also permit third parties to use tracking technologies for analytics and advertising. To the extent these constitute a "sale" or "sharing" under applicable US state laws, you may opt out as described in Section 13.</p>
+          <p>You can usually set your browser to remove or reject cookies, though this may affect certain features of our services.</p>
+        </div>
+      </div>
+      <hr class="pp-divider" />
+
+      <!-- 06 -->
+      <div class="pp-section" id="pp-s6">
+        <div class="pp-section-hd">
+          <span class="pp-num">06</span>
+          <h2 class="pp-section-title">Do we offer AI-based products?</h2>
+        </div>
+        <div class="pp-prose">
+          <div class="pp-note"><span class="pp-note-arrow">↳</span><span>Yes — we offer features powered by AI.</span></div>
+          <p>Our services include AI-powered features for search, research, and comparison. These are provided through <strong>Google Cloud AI</strong>. Your inputs, outputs, and personal information may be shared with Google Cloud AI to enable these features.</p>
+          <p>You must not use our AI features in any way that violates Google Cloud AI's terms or policies.</p>
+        </div>
+      </div>
+      <hr class="pp-divider" />
+
+      <!-- 07 -->
+      <div class="pp-section" id="pp-s7">
+        <div class="pp-section-hd">
+          <span class="pp-num">07</span>
+          <h2 class="pp-section-title">How do we handle social logins?</h2>
+        </div>
+        <div class="pp-prose">
+          <div class="pp-note"><span class="pp-note-arrow">↳</span><span>If you log in via a social account, we receive certain profile data.</span></div>
+          <p>We offer login via Google. When you use this, we receive profile information including your name, email address, and profile picture. We use this information only for the purposes described in this policy.</p>
+          <p>We are not responsible for how the social media provider uses your data. We recommend reviewing their own privacy policy.</p>
+        </div>
+      </div>
+      <hr class="pp-divider" />
+
+      <!-- 08 -->
+      <div class="pp-section" id="pp-s8">
+        <div class="pp-section-hd">
+          <span class="pp-num">08</span>
+          <h2 class="pp-section-title">How long do we keep your information?</h2>
+        </div>
+        <div class="pp-prose">
+          <div class="pp-note"><span class="pp-note-arrow">↳</span><span>For as long as necessary to fulfil the purposes outlined in this policy.</span></div>
+          <p>We keep personal information for as long as you have an active account with us, unless a longer period is required by law. When we no longer have a legitimate need to process your information, we will delete or anonymise it.</p>
+        </div>
+      </div>
+      <hr class="pp-divider" />
+
+      <!-- 09 -->
+      <div class="pp-section" id="pp-s9">
+        <div class="pp-section-hd">
+          <span class="pp-num">09</span>
+          <h2 class="pp-section-title">How do we keep your information safe?</h2>
+        </div>
+        <div class="pp-prose">
+          <div class="pp-note"><span class="pp-note-arrow">↳</span><span>We use organisational and technical security measures.</span></div>
+          <p>We have implemented appropriate technical and organisational security measures to protect your personal information. However, no electronic transmission over the internet can be guaranteed 100% secure. You should only access the services within a secure environment.</p>
+        </div>
+      </div>
+      <hr class="pp-divider" />
+
+      <!-- 10 -->
+      <div class="pp-section" id="pp-s10">
+        <div class="pp-section-hd">
+          <span class="pp-num">10</span>
+          <h2 class="pp-section-title">Do we collect data from minors?</h2>
+        </div>
+        <div class="pp-prose">
+          <div class="pp-note"><span class="pp-note-arrow">↳</span><span>No — we do not knowingly collect data from or market to children under 18.</span></div>
+          <p>By using our services, you represent that you are at least 18 years old or have parental consent. If we learn we have collected data from a child under 18, we will deactivate the account and delete the data promptly. Please contact <a href="mailto:ucet1.random@gmail.com">ucet1.random@gmail.com</a> if you have concerns.</p>
+        </div>
+      </div>
+      <hr class="pp-divider" />
+
+      <!-- 11 -->
+      <div class="pp-section" id="pp-s11">
+        <div class="pp-section-hd">
+          <span class="pp-num">11</span>
+          <h2 class="pp-section-title">What are your privacy rights?</h2>
+        </div>
+        <div class="pp-prose">
+          <div class="pp-note"><span class="pp-note-arrow">↳</span><span>Depending on your region, you may have rights to access, correct, or delete your data.</span></div>
+          <p>In the EEA, UK, Switzerland, and Canada, these rights include:</p>
+          <div class="pp-rights">
+            <div class="pp-chip"><strong>Access</strong>Request a copy of your data</div>
+            <div class="pp-chip"><strong>Rectification</strong>Correct inaccurate data</div>
+            <div class="pp-chip"><strong>Erasure</strong>Request deletion of your data</div>
+            <div class="pp-chip"><strong>Restriction</strong>Limit how we process your data</div>
+            <div class="pp-chip"><strong>Portability</strong>Receive your data in a portable format</div>
+            <div class="pp-chip"><strong>Objection</strong>Object to certain types of processing</div>
+          </div>
+          <p style="margin-top:1rem;">EU/UK residents may also lodge a complaint with their national data protection authority. Swiss residents may contact the <a href="https://www.edoeb.admin.ch/edoeb/en/home.html" target="_blank">Federal Data Protection Commissioner</a>.</p>
+          <div class="pp-sub">Withdrawing consent</div>
+          <p>You may withdraw consent at any time by contacting us or updating your preferences at <a href="{{ url_for('view.user') }}">wherelse.onrender.com/user</a>. This does not affect the lawfulness of processing before withdrawal.</p>
+        </div>
+      </div>
+      <hr class="pp-divider" />
+
+      <!-- 12 -->
+      <div class="pp-section" id="pp-s12">
+        <div class="pp-section-hd">
+          <span class="pp-num">12</span>
+          <h2 class="pp-section-title">Controls for Do-Not-Track features</h2>
+        </div>
+        <div class="pp-prose">
+          <p>Most web browsers include a Do-Not-Track (DNT) setting. No uniform technology standard for recognising DNT signals has been finalised. As such, we do not currently respond to DNT signals. If a standard is adopted in the future, we will update this policy accordingly.</p>
+          <p>California law requires us to disclose this: we do not respond to DNT signals at this time.</p>
+        </div>
+      </div>
+      <hr class="pp-divider" />
+
+      <!-- 13 -->
+      <div class="pp-section" id="pp-s13">
+        <div class="pp-section-hd">
+          <span class="pp-num">13</span>
+          <h2 class="pp-section-title">Do United States residents have specific rights?</h2>
+        </div>
+        <div class="pp-prose">
+          <div class="pp-note"><span class="pp-note-arrow">↳</span><span>Residents of CA, CO, CT, TX, VA, and other states have additional rights.</span></div>
+          <div class="pp-sub">Categories of personal information collected</div>
+          <table class="pp-table">
+            <thead>
+              <tr><th>Category</th><th>Examples</th><th>Collected</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="pp-cat">A. Identifiers</td><td>Name, email, IP address, account name</td><td><span class="pp-badge-yes">Yes</span></td></tr>
+              <tr><td class="pp-cat">B. CA Customer Records</td><td>Name, contact information</td><td><span class="pp-badge-yes">Yes</span></td></tr>
+              <tr><td class="pp-cat">C. Protected classifications</td><td>Gender, age, race, ethnicity</td><td><span class="pp-badge-no">No</span></td></tr>
+              <tr><td class="pp-cat">D. Commercial information</td><td>Purchase history, financial details</td><td><span class="pp-badge-no">No</span></td></tr>
+              <tr><td class="pp-cat">E. Biometric information</td><td>Fingerprints, voiceprints</td><td><span class="pp-badge-no">No</span></td></tr>
+              <tr><td class="pp-cat">F. Internet activity</td><td>Browsing history, interest data</td><td><span class="pp-badge-no">No</span></td></tr>
+              <tr><td class="pp-cat">G. Geolocation data</td><td>Device location</td><td><span class="pp-badge-no">No</span></td></tr>
+              <tr><td class="pp-cat">H. Sensory information</td><td>Audio, video recordings</td><td><span class="pp-badge-no">No</span></td></tr>
+              <tr><td class="pp-cat">I–L. Employment / Education / Inferences / Sensitive</td><td>Professional data, student records, inferences</td><td><span class="pp-badge-no">No</span></td></tr>
+            </tbody>
+          </table>
+          <div class="pp-sub">How to exercise your rights</div>
+          <p>Visit <a href="{{ url_for('view.user') }}">wherelse.onrender.com/user</a> or email <a href="mailto:ucet1.random@gmail.com">ucet1.random@gmail.com</a>. You may also designate an authorised agent. We will verify your identity before processing requests.</p>
+          <div class="pp-sub">Appeals</div>
+          <p>If we decline your request, you may appeal by emailing <a href="mailto:ucet1.random@gmail.com">ucet1.random@gmail.com</a>. If your appeal is denied, you may submit a complaint to your state attorney general.</p>
+          <div class="pp-sub">California "Shine The Light" law</div>
+          <p>California residents may request information about personal data disclosed to third parties for direct marketing purposes once per year, free of charge. Submit your request using the contact details in Section 15.</p>
+        </div>
+      </div>
+      <hr class="pp-divider" />
+
+      <!-- 14 -->
+      <div class="pp-section" id="pp-s14">
+        <div class="pp-section-hd">
+          <span class="pp-num">14</span>
+          <h2 class="pp-section-title">Do we make updates to this notice?</h2>
+        </div>
+        <div class="pp-prose">
+          <p>Yes. We may update this Privacy Policy from time to time. The updated version will be indicated by the "Last updated" date at the top. Material changes may be communicated by a prominent notice or direct notification. We encourage you to review this policy periodically.</p>
+        </div>
+      </div>
+      <hr class="pp-divider" />
+
+      <!-- 15 -->
+      <div class="pp-section" id="pp-s15">
+        <div class="pp-section-hd">
+          <span class="pp-num">15</span>
+          <h2 class="pp-section-title">How can you contact us?</h2>
+        </div>
+        <div class="pp-prose">
+          <div class="pp-contact">
+            <p><strong style="color:white;">Wherelse</strong><br />Czechia</p>
+            <p style="margin-top:0.75rem;">Email: <a href="mailto:ucet1.random@gmail.com">ucet1.random@gmail.com</a></p>
+          </div>
+        </div>
+      </div>
+      <hr class="pp-divider" />
+
+      <!-- 16 -->
+      <div class="pp-section" id="pp-s16">
+        <div class="pp-section-hd">
+          <span class="pp-num">16</span>
+          <h2 class="pp-section-title">How can you review, update, or delete your data?</h2>
+        </div>
+        <div class="pp-prose">
+          <p>Based on applicable laws, you may have the right to request access, correction, or deletion of your personal information, or to withdraw consent. To exercise these rights, visit:</p>
+          <p><a href="{{ url_for('view.user') }}">wherelse.onrender.com/user</a></p>
+        </div>
+      </div>
+
+    </main>
+  </div><!-- .pp-body -->
+</div> <!-- .pp -->
+{% endblock %}

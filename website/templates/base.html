@@ -1,12 +1,34 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Wherelse — Compare Anything</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='output.css') }}">  
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+{% block head %}
+
+  <style>
+    /* ── Mobile-first hero title sizing ── */
+    .hero-title {
+      font-size: clamp(2.8rem, 12vw, 5.5rem);
+      line-height: 1.05;
+      font-weight: 800;
+    }
+
+    /* ── Tighten stats on mobile ── */
+    @media (max-width: 640px) {
+      .stat {
+        padding: 1rem 0.75rem;
+      }
+      .stat-value {
+        font-size: 1.75rem;
+      }
+    }
+  </style>
 </head>
+{% endblock %}
 <body>
 
 <!-- Background layers -->
@@ -27,10 +49,9 @@
   <!-- CENTER: Nav links (hidden on mobile) -->
   <div class="navbar-center hidden md:flex">
     <ul class="menu menu-horizontal gap-1 text-sm font-medium text-white/60">
-      <!--<li><a class="hover:text-white hover:bg-white/5 rounded-lg transition-colors">Explore</a></li>-->
       <li><a href="{{ url_for('view.compare') }}" class="hover:text-white hover:bg-white/5 rounded-lg transition-colors">Compare now!</a></li>
       <li><a href="{{ url_for('view.how_it_works') }}" class="hover:text-white hover:bg-white/5 rounded-lg transition-colors">How it works</a></li>
-      <li><a href="{{ url_for('view.pricing') }}" class="hover:text-white hover:bg-white/5 rounded-lg transition-colors">Pricing</a></li>
+      <!--<li><a href="{{ url_for('view.pricing') }}" class="hover:text-white hover:bg-white/5 rounded-lg transition-colors">Pricing</a></li>-->
     </ul>
   </div>
 
@@ -39,36 +60,28 @@
 
     {% if current_user.is_authenticated %}
     <div class="dropdown dropdown-end">
-  <div tabindex="0" role="button"
-       class="flex items-center gap-1 px-2 py-1 rounded-full transition-colors duration-200 hover:bg-base-300 group cursor-pointer">
+      <div tabindex="0" role="button"
+           class="flex items-center gap-1 px-2 py-1 rounded-full transition-colors duration-200 hover:bg-base-300 group cursor-pointer">
+        <div class="w-8 h-8 shrink-0 rounded-full flex items-center justify-center text-sm font-bold"
+             style="background: linear-gradient(135deg,#a78bfa,#ec4899); color: white;">
+          {{ current_user.email[0].upper() }}
+        </div>
+        <svg class="w-4 h-4 transform transition-transform duration-200 rotate-0 group-hover:rotate-90"
+             fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </div>
 
-    <!-- Avatar -->
-    <div class="w-8 h-8 shrink-0 rounded-full flex items-center justify-center text-sm font-bold"
-         style="background: linear-gradient(135deg,#a78bfa,#ec4899); color: white;">
-      {{ current_user.email[0].upper() }}
+      <ul tabindex="0"
+          class="dropdown-content menu bg-base-200 rounded-box z-50 w-52 p-2 shadow-xl border border-white/10 mt-2">
+        <li class="menu-title">
+          <span class="text-white/40 text-xs truncate">{{ current_user.email }}</span>
+        </li>
+        <li><a href="{{ url_for('view.user') }}">Settings/History</a></li>
+        <li><hr class="border-white/10 my-1"></li>
+        <li><a href="/auth/logout" class="text-red-400">Log out</a></li>
+      </ul>
     </div>
-
-    <!-- Arrow -->
-    <svg
-      class="w-4 h-4 transform transition-transform duration-200 rotate-0 group-hover:rotate-90"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M9 5l7 7-7 7"></path>
-    </svg>
-  </div>
-
-  <ul tabindex="0"
-      class="dropdown-content menu bg-base-200 rounded-box z-50 w-52 p-2 shadow-xl border border-white/10 mt-2">
-    <li class="menu-title">
-      <span class="text-white/40 text-xs truncate">{{ current_user.email }}</span>
-    </li>
-    <li><a href="{{ url_for('view.user') }}">Settings/History</a></li>
-    <li><hr class="border-white/10 my-1"></li>
-    <li><a href="/auth/logout" class="text-red-400">Log out</a></li>
-  </ul>
-</div>
     {% else %}
       <a href="{{ url_for('auth.login') }}"
          class="btn btn-ghost btn-sm text-white/60 hover:text-white hidden sm:flex">
@@ -89,10 +102,9 @@
         </svg>
       </div>
       <ul tabindex="0" class="dropdown-content menu bg-base-200 rounded-box z-50 w-52 p-2 shadow-xl border border-white/10 mt-2">
-        <li><a>Explore</a></li>
-        <li><a>Categories</a></li>
-        <li><a>How it works</a></li>
-        <li><a>Pricing</a></li>
+        <li><a href="{{ url_for('view.compare') }}">Compare now!</a></li>
+        <li><a href="{{ url_for('view.how_it_works') }}">How it works</a></li>
+        <!--<li><a href="{{ url_for('view.pricing') }}">Pricing</a></li>-->
         {% if not current_user.is_authenticated %}
           <li><a href="{{ url_for('auth.login') }}">Sign up for free</a></li>
         {% endif %}
@@ -100,75 +112,70 @@
     </div>
 
   </div>
-  </div>
+</div>
 </div>
 
 
 {% if error %}
   <div class="toast">
-  <div role="alert" class="alert alert-error alert-soft mb-5 text-sm z-60">
-    <span>{{ error }}</span>
+    <div role="alert" class="alert alert-error alert-soft mb-5 text-sm z-60">
+      <span>{{ error }}</span>
+    </div>
   </div>
-</div>
 {% endif %}
 
 {% block content %}
 <!-- ─────────────── HERO ─────────────── -->
-<section class="content-layer min-h-screen flex flex-col justify-center px-4 sm:px-8 pt-16 pb-8 max-w-7xl mx-auto">
-  <div class="flex flex-col gap-6">
+<section class="content-layer min-h-[100svh] flex flex-col justify-center px-4 sm:px-8 pt-8 sm:pt-16 pb-8 max-w-7xl mx-auto">
+  <div class="flex flex-col gap-5 sm:gap-6">
 
-    <!-- Left: text -->
     <div>
-      <div class="fade-up mb-5">
+      <div class="fade-up mb-4 sm:mb-5">
         <span class="badge badge-outline text-xs font-medium tracking-widest uppercase text-violet-400 border-violet-400/30 px-3 py-2">
           AI-Powered comparisons
         </span>
       </div>
 
-      <h1 class="hero-title fade-up delay-1 mb-6">
+      <h1 class="hero-title fade-up delay-1 mb-5 sm:mb-6">
         Stop<br/>
         <span class="gradient-text">guessing.</span><br/>
         Start<br/>
         choosing.
       </h1>
 
-      <p class="fade-up delay-2 text-white/50 text-lg font-light leading-relaxed mb-8 max-w-">
+      <p class="fade-up delay-2 text-white/50 text-base sm:text-lg font-light leading-relaxed mb-6 sm:mb-8 max-w-lg">
         Wherelse pulls from Reddit threads, real user reviews, and feature docs to build you a structured comparison with feature overview and much more in mere seconds.
       </p>
 
       <!-- Search bar -->
-      <div class="fade-up delay-3 mb-8">
-      <div class="flex items-center gap-3 w-full max-w-lg">
-        <input
-          id="input-a"
-          class="input flex-1 bg-white/4 border border-white/10 text-white placeholder-white/30 text-sm px-5 rounded-xl outline-none search-glow q"
-          placeholder="Notion"
-        />
-        <!--<div class="vs-badge flex-shrink-0">VS</div>-->
-        <input
-          id="input-b"
-          class="input flex-1 bg-white/4 border border-white/10 text-white placeholder-white/30 text-sm px-5 rounded-xl outline-none search-glow"
-          placeholder="Obsidian"
-        />
-        <button
-          class="btn border-none text-sm font-semibold px-6 rounded-xl"
-          style="background: linear-gradient(135deg,#a78bfa,#ec4899); color:white;"
-          onclick="runComparison()">
-          Compare
-        </button>
-      </div>
+      <div class="fade-up delay-3 mb-6 sm:mb-8">
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 w-full max-w-lg">
+          <input
+            id="input-a"
+            class="input flex-1 bg-white/4 border border-white/10 text-white placeholder-white/30 text-sm px-5 rounded-xl outline-none search-glow"
+            placeholder="Notion"
+          />
+          <input
+            id="input-b"
+            class="input flex-1 bg-white/4 border border-white/10 text-white placeholder-white/30 text-sm px-5 rounded-xl outline-none search-glow"
+            placeholder="Obsidian"
+          />
+          <button
+            class="btn border-none text-sm font-semibold px-6 rounded-xl w-full sm:w-auto"
+            style="background: linear-gradient(135deg,#a78bfa,#ec4899); color:white;"
+            onclick="runComparison()">
+            Compare
+          </button>
+        </div>
         <p class="text-white/25 text-xs mt-2 ml-1">Try: "Linear" vs "Jira"</p>
       </div>
-
-        
     </div>
   </div>
 </section>
 
 <!-- ─────────────── TICKER ─────────────── -->
-<div class="content-layer py-6 overflow-hidden border-y border-white/5 bg-white/1.5">
+<div class="content-layer py-5 sm:py-6 overflow-hidden border-y border-white/5 bg-white/1.5">
   <div class="ticker-track gap-8">
-    <!-- repeated twice for seamless loop -->
     <template id="ticker-items">
       <span class="comp-pill">Slack <span class="vs-badge" style="width:1.2rem;height:1.2rem;font-size:0.55rem;">VS</span> Teams</span>
       <span class="comp-pill">Linear <span class="vs-badge" style="width:1.2rem;height:1.2rem;font-size:0.55rem;">VS</span> Jira</span>
@@ -185,26 +192,23 @@
 </div>
 
 <!-- ─────────────── HOW IT WORKS ─────────────── -->
-<section id='how-it-works' class="content-layer py-24 px-4 sm:px-8 max-w-7xl mx-auto">
-  <div class="text-center mb-16">
+<section id='how-it-works' class="content-layer py-14 sm:py-24 px-4 sm:px-8 max-w-7xl mx-auto">
+  <div class="text-center mb-10 sm:mb-16">
     <span class="badge badge-outline text-xs font-medium tracking-widest uppercase text-violet-400 border-violet-400/30 px-3 py-2 mb-4">How it works</span>
-    <h2 class="font-display font-bold text-4xl sm:text-5xl text-white mt-4 mb-4">Comparison, <span class="gradient-text">not confusion</span></h2>
-    <p class="text-white/40 max-w-md mx-auto">We do the research so you don't have to spend hours on Reddit and review sites.</p>
+    <h2 class="font-display font-bold text-3xl sm:text-5xl text-white mt-4 mb-4">Comparison, <span class="gradient-text">not confusion</span></h2>
+    <p class="text-white/40 max-w-md mx-auto text-sm sm:text-base">We do the research so you don't have to spend hours on Reddit and review sites.</p>
   </div>
 
-  <div class="grid sm:grid-cols-3 gap-6">
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
     <div class="feature-card text-center">
-      <!--<div class="text-4xl mb-4">📡</div>-->
       <h3 class="font-display font-semibold text-lg text-white mb-2">We gather the data</h3>
-      <p class="text-white/45 text-sm leading-relaxed">Reddit threads, G2 reviews, Capterra, official feature docs -> all pulled and parsed automatically!</p>
+      <p class="text-white/45 text-sm leading-relaxed">Reddit threads, G2 reviews, Capterra, official feature docs → all pulled and parsed automatically!</p>
     </div>
     <div class="feature-card text-center" style="border-color: rgba(167,139,250,0.2);">
-      <!--<div class="text-4xl mb-4">🤖</div>-->
       <h3 class="font-display font-semibold text-lg text-white mb-2">AI structures it</h3>
-      <p class="text-white/45 text-sm leading-relaxed">Our model extracts real pros and cons -> opinionated and honest!</p>
+      <p class="text-white/45 text-sm leading-relaxed">Our model extracts real pros and cons → opinionated and honest!</p>
     </div>
     <div class="feature-card text-center">
-      <!--<div class="text-4xl mb-4">⚡</div>-->
       <h3 class="font-display font-semibold text-lg text-white mb-2">You decide fast</h3>
       <p class="text-white/45 text-sm leading-relaxed">Clear verdict, quoted real users, side-by-side features with no clutter or biased sponsorships!</p>
     </div>
@@ -212,9 +216,9 @@
 </section>
 
 <!-- ─────────────── STATS ─────────────── -->
-<section class="content-layer py-16 px-4 sm:px-8">
+<section class="content-layer py-10 sm:py-16 px-4 sm:px-8">
   <div class="max-w-4xl mx-auto">
-    <div class="stats stats-horizontal w-full bg-white/3 border border-white/7 rounded-2xl overflow-hidden">
+    <div class="stats stats-vertical sm:stats-horizontal w-full bg-white/3 border border-white/7 rounded-2xl overflow-hidden">
       <div class="stat text-center">
         <div class="stat-value font-display text-violet-400">1,200+</div>
         <div class="stat-desc text-white/40">Comparisons made</div>
@@ -232,63 +236,59 @@
 </section>
 
 <!-- ─────────────── CTA ─────────────── -->
-<section class="content-layer py-24 px-4 sm:px-8 text-center">
+<section class="content-layer py-14 sm:py-24 px-4 sm:px-8 text-center">
   <div class="max-w-2xl mx-auto">
-    <h2 class="font-display font-bold text-4xl sm:text-5xl text-white mb-5">
+    <h2 class="font-display font-bold text-3xl sm:text-5xl text-white mb-4 sm:mb-5">
       What are you trying<br/>to <span class="gradient-text">decide?</span>
     </h2>
-    <p class="text-white/40 mb-10 text-lg font-light">Type any two tools, apps, or services and get a precise, unbiased breakdown in under 30 seconds.</p>
-    <div class="fade-up delay-3 mb-8">
-      <div class="flex items-center gap-3 w-full max-w-lg">
+    <p class="text-white/40 mb-8 sm:mb-10 text-base sm:text-lg font-light">Type any two tools, apps, or services and get a precise, unbiased breakdown in under 30 seconds.</p>
+    <div class="fade-up delay-3 mb-6 sm:mb-8">
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 w-full max-w-lg mx-auto">
         <input
           id="input-c"
-          class="input flex-1 bg-white/4 border border-white/10 text-white placeholder-white/30 text-sm px-5 rounded-xl outline-none search-glow q"
+          class="input flex-1 bg-white/4 border border-white/10 text-white placeholder-white/30 text-sm px-5 rounded-xl outline-none search-glow"
           placeholder="Notion"
         />
-        <!--<div class="vs-badge flex-shrink-0">VS</div>-->
         <input
           id="input-d"
           class="input flex-1 bg-white/4 border border-white/10 text-white placeholder-white/30 text-sm px-5 rounded-xl outline-none search-glow"
           placeholder="Obsidian"
         />
         <button
-          class="btn border-none text-sm font-semibold px-6 rounded-xl"
+          class="btn border-none text-sm font-semibold px-6 rounded-xl w-full sm:w-auto"
           style="background: linear-gradient(135deg,#a78bfa,#ec4899); color:white;"
           onclick="runComparisonCta()">
           Compare
         </button>
       </div>
-        <p class="text-white/25 text-xs mt-2 ml-1">Try: "Linear" vs "Jira"</p>
-      </div>
-      <p class="text-white/25 text-xs mt-2 ml-1">Try: "Linear vs Jira" or "Supabase vs Firebase"</p>
-    </div>  
+      <p class="text-white/25 text-xs mt-2 ml-1">Try: "Linear" vs "Jira"</p>
+    </div>
   </div>
 </section>
 
 {% endblock %}
 
 <!-- ─────────────── FOOTER ─────────────── -->
-<footer class="content-layer footer footer-horizontal px-8 py-10 max-w-7xl mx-auto border-t border-white/6">
+<footer class="content-layer footer footer-horizontal px-4 sm:px-8 py-8 sm:py-10 max-w-7xl mx-auto border-t border-white/6">
   <div>
     <a href="/">
-    <span class="flex items-center gap-2 font-display font-bold text-lg mb-1">
-      <span class="vs-badge" style="width:1.8rem;height:1.8rem;font-size:0.65rem;">VS</span>
-      Wherelse
-    </span>
+      <span class="flex items-center gap-2 font-display font-bold text-lg mb-1">
+        <span class="vs-badge" style="width:1.8rem;height:1.8rem;font-size:0.65rem;">VS</span>
+        Wherelse
+      </span>
     </a>
     <p class="text-white/30 text-xs max-w-xs">AI-powered comparisons built on real user opinions, not sponsored content.</p>
   </div>
   <nav>
     <h6 class="footer-title text-white/40 text-xs">Product</h6>
-    <a class="link link-hover text-white/50 text-sm">Explore</a>
-    <a class="link link-hover text-white/50 text-sm">Categories</a>
-    <a href="{{ url_for('view.pricing') }}" class="link link-hover text-white/50 text-sm">Pricing</a>
+    <a href="{{ url_for('view.how_it_works') }}" class="link link-hover text-white/50 text-sm">How it works</a>    
+    <a href="{{ url_for('view.compare') }}" class="link link-hover text-white/50 text-sm">Compare</a>
+    <!--<a href="{{ url_for('view.pricing') }}" class="link link-hover text-white/50 text-sm">Pricing</a>-->
   </nav>
   <nav>
     <h6 class="footer-title text-white/40 text-xs">Company</h6>
     <a class="link link-hover text-white/50 text-sm">About</a>
-    <a class="link link-hover text-white/50 text-sm">Blog</a>
-    <a class="link link-hover text-white/50 text-sm">Privacy</a>
+    <a href="{{ url_for('view.privacy') }}" class="link link-hover text-white/50 text-sm">Privacy Policy</a>
   </nav>
 </footer>
 
@@ -307,14 +307,14 @@
     if (!a || !b) return;
     window.location.href = `/compare?a=${encodeURIComponent(a)}&b=${encodeURIComponent(b)}`;
   }
+
   async function runComparisonCta() {
     const a = document.getElementById('input-c').value.trim();
     const b = document.getElementById('input-d').value.trim();
     if (!a || !b) return;
     window.location.href = `/compare?a=${encodeURIComponent(a)}&b=${encodeURIComponent(b)}`;
   }
-  
-  
+
   const navbar = document.getElementById('main-navbar');
 
   function updateNavbar() {
@@ -325,14 +325,8 @@
     }
   }
 
-  // Run on scroll
   window.addEventListener('scroll', updateNavbar);
-
-  // Run immediately on load
   updateNavbar();
 </script>
-</body>
-</html>
-</div>
 </body>
 </html>

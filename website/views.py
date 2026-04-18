@@ -112,6 +112,10 @@ def pricing():
 def how_it_works():
     return render_template('how_it_works.html')
 
+@view.route('/privacy')
+def privacy():
+    return render_template('privacy.html')
+
 def normalize_pair(a: str, b: str):
     list = [a.strip().lower(), b.strip().lower()]
     pair = sorted(list)
