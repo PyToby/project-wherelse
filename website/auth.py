@@ -139,4 +139,4 @@ def callback():
         db.session.commit()
     
     login_user(user)
-    return redirect(url_for(view.home)) 
+    return redirect(url_for('view.home')) 
