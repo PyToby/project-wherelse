@@ -122,7 +122,8 @@
   <!-- Split comparison card -->
   <div class="fade-up delay-2">
 
-    <div class="flex items-center gap-4 mb-4 px-1">
+    <!-- Desktop header (hidden on mobile) -->
+    <div class="hidden sm:flex items-center gap-4 mb-4 px-1">
       <div class="flex-1 text-center">
         <div class="font-display font-bold text-2xl text-white mb-1">{{ result.service_a | title }}</div>
         <div class="text-xs text-white/35 tracking-wide uppercase">Option A</div>
@@ -158,12 +159,26 @@
       {% set categories = ['ease_of_use', 'features', 'value_for_money', 'performance', 'community_support'] %}
       {% set labels = {'ease_of_use': 'Ease of use', 'features': 'Features', 'value_for_money': 'Value', 'performance': 'Performance', 'community_support': 'Community'} %}
 
-      <div class="flex divide-x divide-white/6">
+      <!-- ── DESKTOP: side-by-side / MOBILE: stacked ── -->
+      <div class="flex flex-col sm:flex-row sm:divide-x sm:divide-white/6">
 
-        <!-- LEFT — Service A -->
-        <div class="flex-1 p-6">
-          <div class="h-0.5 w-12 rounded-full mb-6"
+        <!-- LEFT / TOP — Service A -->
+        <div class="flex-1 p-6 border-b border-white/6 sm:border-b-0">
+
+          <!-- Mobile-only service A title -->
+          <div class="flex items-center gap-3 mb-5 sm:hidden">
+            <div class="h-0.5 flex-1 rounded-full" style="background: linear-gradient(90deg, #a78bfa, transparent);"></div>
+            <div class="text-center">
+              <div class="font-display font-bold text-xl text-white leading-tight">{{ result.service_a | title }}</div>
+              <div class="text-xs text-white/35 tracking-wide uppercase mt-0.5">Option A</div>
+            </div>
+            <div class="h-0.5 flex-1 rounded-full" style="background: linear-gradient(90deg, transparent, #a78bfa);"></div>
+          </div>
+
+          <!-- Desktop-only accent line -->
+          <div class="hidden sm:block h-0.5 w-12 rounded-full mb-6"
                style="background: linear-gradient(90deg, #a78bfa, transparent);"></div>
+
           <div class="desc-scroll space-y-5 text-sm text-white/60 font-light leading-relaxed">
             <div>
               <h4 class="font-display font-semibold mb-2 uppercase tracking-widest text-xs text-violet-300">Best for</h4>
@@ -218,10 +233,31 @@
           </div>
         </div>
 
-        <!-- RIGHT — Service B -->
+        <!-- Mobile-only VS divider between the two panels -->
+        <div class="flex items-center justify-center gap-3 py-2 px-6 sm:hidden"
+             style="background: rgba(255,255,255,0.015);">
+          <div class="h-px flex-1 bg-white/6"></div>
+          <div class="vs-badge" style="width:2.5rem;height:2.5rem;font-size:0.8rem;">VS</div>
+          <div class="h-px flex-1 bg-white/6"></div>
+        </div>
+
+        <!-- RIGHT / BOTTOM — Service B -->
         <div class="flex-1 p-6">
-          <div class="h-0.5 w-12 rounded-full mb-6"
+
+          <!-- Mobile-only service B title -->
+          <div class="flex items-center gap-3 mb-5 sm:hidden">
+            <div class="h-0.5 flex-1 rounded-full" style="background: linear-gradient(90deg, #ec4899, transparent);"></div>
+            <div class="text-center">
+              <div class="font-display font-bold text-xl text-white leading-tight">{{ result.service_b | title }}</div>
+              <div class="text-xs text-white/35 tracking-wide uppercase mt-0.5">Option B</div>
+            </div>
+            <div class="h-0.5 flex-1 rounded-full" style="background: linear-gradient(90deg, transparent, #ec4899);"></div>
+          </div>
+
+          <!-- Desktop-only accent line -->
+          <div class="hidden sm:block h-0.5 w-12 rounded-full mb-6"
                style="background: linear-gradient(90deg, #ec4899, transparent);"></div>
+
           <div class="desc-scroll space-y-5 text-sm text-white/60 font-light leading-relaxed">
             <div>
               <h4 class="font-display font-semibold mb-2 uppercase tracking-widest text-xs text-pink-300">Best for</h4>

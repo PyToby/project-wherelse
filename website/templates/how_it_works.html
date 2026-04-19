@@ -14,28 +14,40 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 3rem;
-    height: 3rem;
+    width: 2.5rem;
+    height: 2.5rem;
     border-radius: 50%;
     background: linear-gradient(135deg, rgba(167,139,250,0.15), rgba(236,72,153,0.1));
     border: 1px solid rgba(167,139,250,0.3);
     font-family: 'Syne', sans-serif;
     font-weight: 800;
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: #a78bfa;
     flex-shrink: 0;
     position: relative;
     z-index: 1;
   }
 
+  @media (min-width: 640px) {
+    .step-number {
+      width: 3rem;
+      height: 3rem;
+      font-size: 1rem;
+    }
+  }
+
   .step-card {
     background: rgba(255,255,255,0.03);
     border: 1px solid rgba(255,255,255,0.07);
     border-radius: 1.25rem;
-    padding: 2rem;
+    padding: 1.25rem;
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+  }
+
+  @media (min-width: 640px) {
+    .step-card { padding: 2rem; }
   }
 
   .step-card::before {
@@ -81,9 +93,9 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.5rem 1rem;
+    padding: 0.4rem 0.75rem;
     border-radius: 9999px;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 500;
     border: 1px solid rgba(255,255,255,0.08);
     background: rgba(255,255,255,0.03);
@@ -100,12 +112,17 @@
     background: rgba(255,255,255,0.02);
     border: 1px solid rgba(255,255,255,0.08);
     border-radius: 1.25rem;
-    padding: 2.5rem;
+    padding: 2rem;
     text-align: center;
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
   }
+
+  @media (min-width: 640px) {
+    .github-card { padding: 2.5rem; }
+  }
+
   .github-card::before {
     content: '';
     position: absolute;
@@ -119,17 +136,17 @@
 </style>
 
 <!-- HERO -->
-<section class="content-layer pt-24 pb-16 px-4 sm:px-8 max-w-7xl mx-auto">
+<section class="content-layer pt-20 sm:pt-24 pb-12 sm:pb-16 px-4 sm:px-8 max-w-7xl mx-auto">
   <div class="max-w-3xl">
     <div class="fade-up mb-5">
       <span class="badge badge-outline text-xs font-medium tracking-widest uppercase text-violet-400 border-violet-400/30 px-3 py-2">
         How Wherelse works
       </span>
     </div>
-    <h1 class="hero-title fade-up delay-1 mb-6" style="font-size: clamp(2.5rem, 6vw, 5.5rem);">
+    <h1 class="hero-title fade-up delay-1 mb-6" style="font-size: clamp(2rem, 8vw, 5.5rem);">
       From question<br/>to <span class="gradient-text">clarity.</span>
     </h1>
-    <p class="fade-up delay-2 text-white/50 text-lg font-light leading-relaxed max-w-xl">
+    <p class="fade-up delay-2 text-white/50 text-base sm:text-lg font-light leading-relaxed max-w-xl">
       You type two names. We do the rest. Here's what happens in the seconds between your search and your answer.
     </p>
   </div>
@@ -138,43 +155,43 @@
 <div class="glow-line"></div>
 
 <!-- MAIN STEPS -->
-<section class="content-layer py-20 px-4 sm:px-8 max-w-7xl mx-auto">
-  <div class="grid gap-6 md:gap-8">
+<section class="content-layer py-12 sm:py-20 px-4 sm:px-8 max-w-7xl mx-auto">
+  <div class="grid gap-4 sm:gap-6 md:gap-8">
 
     <!-- STEP 1 -->
     <div class="fade-up step-card">
-      <div class="flex items-start gap-5">
+      <div class="flex items-start gap-4">
         <div class="step-number pulse">1</div>
-        <div class="flex-1">
-          <div class="flex flex-wrap items-center gap-3 mb-3">
-            <h2 class="font-display font-bold text-xl text-white">You name two things to compare</h2>
+        <div class="flex-1 min-w-0">
+          <div class="flex flex-wrap items-center gap-2 mb-2 sm:mb-3">
+            <h2 class="font-display font-bold text-lg sm:text-xl text-white">You name two things to compare</h2>
             <span class="highlight-pill bg-violet-500/10 text-violet-400 border border-violet-400/20">You</span>
           </div>
-          <p class="text-white/50 text-sm leading-relaxed mb-5">
+          <p class="text-white/50 text-sm leading-relaxed mb-4 sm:mb-5">
             Just type the names of two tools, apps, or services, one in each box. No special format needed.
             If you've been wondering "should I use X or Y?", that's all it takes to get started.
           </p>
-          <div class="flex items-center gap-3 p-4 rounded-xl bg-white/3 border border-white/6 max-w-md">
-            <div class="input flex-1 bg-white/4 border border-white/10 text-sm px-4 h-9 flex items-center rounded-lg text-white/70">Notion</div>
-            <div class="vs-badge hrink-0" style="width:2rem;height:2rem;font-size:0.65rem;">VS</div>
-            <div class="input flex-1 bg-white/4 border border-white/10 text-sm px-4 h-9 flex items-center rounded-lg text-white/70">Obsidian</div>
+          <div class="flex items-center gap-2 p-3 sm:p-4 rounded-xl bg-white/3 border border-white/6 max-w-sm">
+            <div class="flex-1 bg-white/4 border border-white/10 text-xs sm:text-sm px-3 h-8 flex items-center rounded-lg text-white/70 min-w-0">Notion</div>
+            <div class="vs-badge shrink-0" style="width:1.75rem;height:1.75rem;font-size:0.6rem;">VS</div>
+            <div class="flex-1 bg-white/4 border border-white/10 text-xs sm:text-sm px-3 h-8 flex items-center rounded-lg text-white/70 min-w-0">Obsidian</div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="flex justify-center"><div class="step-connector h-8"></div></div>
+    <div class="flex justify-center"><div class="step-connector h-6 sm:h-8"></div></div>
 
     <!-- STEP 2 -->
     <div class="fade-up delay-1 step-card">
-      <div class="flex items-start gap-5">
+      <div class="flex items-start gap-4">
         <div class="step-number" style="border-color: rgba(236,72,153,0.3); color: #ec4899;">2</div>
-        <div class="flex-1">
-          <div class="flex flex-wrap items-center gap-3 mb-3">
-            <h2 class="font-display font-bold text-xl text-white">We scout the internet for real opinions</h2>
+        <div class="flex-1 min-w-0">
+          <div class="flex flex-wrap items-center gap-2 mb-2 sm:mb-3">
+            <h2 class="font-display font-bold text-lg sm:text-xl text-white">We scout the internet for real opinions</h2>
             <span class="highlight-pill bg-pink-500/10 text-pink-400 border border-pink-400/20">Research</span>
           </div>
-          <p class="text-white/50 text-sm leading-relaxed mb-5">
+          <p class="text-white/50 text-sm leading-relaxed mb-4 sm:mb-5">
             Wherelse goes out and reads what real people are saying: community forums, technical discussions, user reviews, and independent write-ups.
             Not the vendor marketing page that calls every product "powerful, flexible, and easy to use."
             We look for the honest takes you'd find after an hour on Reddit, so you don't have to spend that hour.
@@ -189,18 +206,18 @@
       </div>
     </div>
 
-    <div class="flex justify-center"><div class="step-connector h-8"></div></div>
+    <div class="flex justify-center"><div class="step-connector h-6 sm:h-8"></div></div>
 
     <!-- STEP 3 -->
     <div class="fade-up delay-2 step-card" style="border-color: rgba(167,139,250,0.15);">
-      <div class="flex items-start gap-5">
+      <div class="flex items-start gap-4">
         <div class="step-number" style="border-color: rgba(167,139,250,0.5); color: #a78bfa; background: linear-gradient(135deg, rgba(167,139,250,0.2), rgba(236,72,153,0.15));">3</div>
-        <div class="flex-1">
-          <div class="flex flex-wrap items-center gap-3 mb-3">
-            <h2 class="font-display font-bold text-xl text-white">AI reads it all and forms a verdict</h2>
+        <div class="flex-1 min-w-0">
+          <div class="flex flex-wrap items-center gap-2 mb-2 sm:mb-3">
+            <h2 class="font-display font-bold text-lg sm:text-xl text-white">AI reads it all and forms a verdict</h2>
             <span class="highlight-pill" style="background: linear-gradient(135deg, rgba(167,139,250,0.12), rgba(236,72,153,0.08)); color: #c4b5fd; border: 1px solid rgba(167,139,250,0.25);">AI</span>
           </div>
-          <p class="text-white/50 text-sm leading-relaxed mb-5">
+          <p class="text-white/50 text-sm leading-relaxed mb-4 sm:mb-5">
             Everything gathered gets fed to our AI. It reads across all the sources, weighs the recurring themes, and distils them into a clear, structured comparison.
             Crucially, it's instructed to be opinionated, not to hedge with "both are great, it depends!", because vague answers aren't useful to anyone.
           </p>
@@ -234,18 +251,18 @@
       </div>
     </div>
 
-    <div class="flex justify-center"><div class="step-connector h-8"></div></div>
+    <div class="flex justify-center"><div class="step-connector h-6 sm:h-8"></div></div>
 
     <!-- STEP 4 -->
     <div class="fade-up delay-3 step-card">
-      <div class="flex items-start gap-5">
+      <div class="flex items-start gap-4">
         <div class="step-number" style="border-color: rgba(16,185,129,0.4); color: #34d399;">4</div>
-        <div class="flex-1">
-          <div class="flex flex-wrap items-center gap-3 mb-3">
-            <h2 class="font-display font-bold text-xl text-white">You get your answer — fast</h2>
+        <div class="flex-1 min-w-0">
+          <div class="flex flex-wrap items-center gap-2 mb-2 sm:mb-3">
+            <h2 class="font-display font-bold text-lg sm:text-xl text-white">You get your answer — fast</h2>
             <span class="highlight-pill bg-emerald-500/10 text-emerald-400 border border-emerald-400/20">Done</span>
           </div>
-          <p class="text-white/50 text-sm leading-relaxed mb-5">
+          <p class="text-white/50 text-sm leading-relaxed mb-4 sm:mb-5">
             A clean, readable breakdown lands in front of you. No clutter, no affiliate links, no sponsored placements.
             The more people use Wherelse, the faster popular comparisons load. Everyone who's ever asked the same question makes the answer faster for whoever asks next.
           </p>
@@ -267,14 +284,14 @@
 <div class="glow-line"></div>
 
 <!-- WHY WE'RE DIFFERENT -->
-<section class="content-layer py-20 px-4 sm:px-8 max-w-7xl mx-auto">
-  <div class="text-center mb-14">
+<section class="content-layer py-12 sm:py-20 px-4 sm:px-8 max-w-7xl mx-auto">
+  <div class="text-center mb-10 sm:mb-14">
     <span class="badge badge-outline text-xs font-medium tracking-widest uppercase text-violet-400 border-violet-400/30 px-3 py-2 mb-4">Our principles</span>
-    <h2 class="font-display font-bold text-4xl sm:text-5xl text-white mt-4 mb-4">Why Wherelse is <span class="gradient-text">different</span></h2>
-    <p class="text-white/40 max-w-md mx-auto">A lot of comparison sites exist. Here's why we think they mostly suck ... and what we do instead!</p>
+    <h2 class="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-white mt-4 mb-4">Why Wherelse is <span class="gradient-text">different</span></h2>
+    <p class="text-white/40 max-w-md mx-auto text-sm sm:text-base">A lot of comparison sites exist. Here's why we think they mostly suck ... and what we do instead!</p>
   </div>
 
-  <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-5">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5">
     <div class="feature-card">
       <div class="text-violet-400 font-display font-bold text-sm uppercase tracking-widest mb-3">No sponsored results</div>
       <p class="text-white/50 text-sm leading-relaxed">We don't take money from the products we compare. The AI doesn't know which vendor would prefer to win, so it can't be nudged in their favour.</p>
@@ -305,10 +322,10 @@
 <div class="glow-line"></div>
 
 <!-- FAQ -->
-<section class="content-layer py-20 px-4 sm:px-8 max-w-4xl mx-auto">
-  <div class="text-center mb-14">
+<section class="content-layer py-12 sm:py-20 px-4 sm:px-8 max-w-4xl mx-auto">
+  <div class="text-center mb-10 sm:mb-14">
     <span class="badge badge-outline text-xs font-medium tracking-widest uppercase text-violet-400 border-violet-400/30 px-3 py-2 mb-4">FAQ</span>
-    <h2 class="font-display font-bold text-4xl text-white mt-4 mb-4">Common <span class="gradient-text">questions</span></h2>
+    <h2 class="font-display font-bold text-3xl sm:text-4xl text-white mt-4 mb-4">Common <span class="gradient-text">questions</span></h2>
   </div>
 
   <div class="space-y-3">
@@ -358,21 +375,21 @@
 <div class="glow-line"></div>
 
 <!-- FOR THE CURIOUS — GITHUB -->
-<section class="content-layer py-20 px-4 sm:px-8 max-w-4xl mx-auto">
+<section class="content-layer py-12 sm:py-20 px-4 sm:px-8 max-w-4xl mx-auto">
   <div class="github-card">
     <div class="mb-4 flex justify-center">
       <span class="badge badge-outline text-xs font-medium tracking-widest uppercase text-white/40 border-white/10 px-3 py-2">For the curious</span>
     </div>
-    <h2 class="font-display font-bold text-2xl sm:text-3xl text-white mb-3">
+    <h2 class="font-display font-bold text-xl sm:text-2xl md:text-3xl text-white mb-3">
       Want to know <em>exactly</em> how it works?
     </h2>
-    <p class="text-white/40 text-sm leading-relaxed max-w-xl mx-auto mb-8">
+    <p class="text-white/40 text-sm leading-relaxed max-w-xl mx-auto mb-6 sm:mb-8">
       Wherelse is open source. If you want to dig into the scraping pipeline, the AI prompts, the caching logic, or anything else under the hood.
     </p>
     <a href="https://github.com/PyToby/project-wherelse" target="_blank" rel="noopener noreferrer"
-       class="btn font-display font-semibold text-sm px-8 rounded-xl inline-flex items-center gap-2"
+       class="btn font-display font-semibold text-sm px-6 sm:px-8 rounded-xl inline-flex items-center gap-2"
        style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.8); height: auto; padding-top: 0.75rem; padding-bottom: 0.75rem;">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 shrink-0" fill="currentColor" viewBox="0 0 24 24">
         <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.606-.015 2.898-.015 3.293 0 .319.216.694.825.576C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/>
       </svg>
       View the source on GitHub →
@@ -381,14 +398,14 @@
 </section>
 
 <!-- CTA -->
-<section class="content-layer py-16 px-4 sm:px-8 text-center">
+<section class="content-layer py-12 sm:py-16 px-4 sm:px-8 text-center">
   <div class="max-w-xl mx-auto">
-    <h2 class="font-display font-bold text-4xl sm:text-5xl text-white mb-5">
+    <h2 class="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-white mb-4 sm:mb-5">
       Ready to stop <span class="gradient-text">guessing?</span>
     </h2>
-    <p class="text-white/40 mb-10 text-base font-light">Run your first comparison in under 30 seconds.</p>
+    <p class="text-white/40 mb-8 sm:mb-10 text-sm sm:text-base font-light">Run your first comparison in under 30 seconds.</p>
     <a href="{{ url_for('view.compare') }}"
-       class="btn font-display font-semibold text-base px-10 rounded-xl"
+       class="btn font-display font-semibold text-sm sm:text-base px-8 sm:px-10 rounded-xl"
        style="background: linear-gradient(135deg,#a78bfa,#ec4899); border: none; color: white; height: auto; padding-top: 0.875rem; padding-bottom: 0.875rem;">
       Try Wherelse now →
     </a>
