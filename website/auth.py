@@ -140,3 +140,10 @@ def callback():
     
     login_user(user)
     return redirect(url_for('view.home')) 
+
+@auth.route('/delete-account', methods=['GET', 'POST'])
+@login_required
+def delete_account():
+    current_user.remove()
+    db.session.commit()
+    return redirect(url_for("view.home"))
