@@ -88,7 +88,7 @@ def status():
     
     a, b = normalize_pair(raw_a, raw_b)
 
-    if jobs[a+"||"+b] == "failed":
+    if jobs.get(a+"||"+b) == "failed":
         jobs.pop(a+"||"+b, None)
         return {"ready": False, "error": "Generation failed"}, 400
 
