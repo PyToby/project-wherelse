@@ -37,7 +37,7 @@
     <span class="loading loading-spinner loading-xl text-violet-400"></span>
     <div class="text-center">
       <p class="text-white/60 text-sm font-light">Analysing <span class="text-violet-300 font-semibold">{{ service_a }}</span> vs <span class="text-pink-300 font-semibold">{{ service_b }}</span></p>
-      <p class="text-white/25 text-xs mt-1">Scraping Reddit, reviews and docs — this takes around 20 seconds</p>
+      <p class="text-white/25 text-xs mt-1">Scraping Reddit, reviews and docs. This takes around 20 seconds</p>
     </div>
   </div>
 
@@ -68,30 +68,50 @@
   </script>
   <!-- ── RESULT STATE ── -->
   {% elif result %}
-    <!-- Search bar — always visible -->
-    <div class="fade-up delay-1 flex justify-center mb-12">
-      <div class="join w-full max-w-lg search-glow rounded-xl border border-white/10 bg-white/4 transition-all">
-        <input
-          id="input-a"
-          class="join-item input flex-1 bg-transparent border-none outline-none text-white placeholder-white/30 text-sm px-5"
-          placeholder="Service A"
-          value="{{ service_a or '' }}"
-        />
-        <span class="flex items-center px-2 text-white/25 text-xs font-display font-bold">VS</span>
-        <input
-          id="input-b"
-          class="join-item input flex-1 bg-transparent border-none outline-none text-white placeholder-white/30 text-sm px-5"
-          placeholder="Service B"
-          value="{{ service_b or '' }}"
-        />
-        <button
-          onclick="runComparison()"
-          class="join-item btn border-none text-sm font-semibold px-6"
-          style="background: linear-gradient(135deg,#a78bfa,#ec4899); color:white;">
-          Compare
-        </button>
+    <!-- Search bar -->
+    <div class="fade-up delay-3 mb-6 sm:mb-8">
+        <div class="flex items-center w-full max-w-lg mx-auto
+                    bg-white/5 border border-white/10 rounded-2xl
+                    overflow-hidden transition-all duration-200
+                    focus-within:border-violet-400/50 focus-within:ring-2 focus-within:ring-violet-400/10">
+
+          <input
+            id="input-a"
+            class="flex-1 min-w-0 bg-transparent border-none outline-none
+                  text-white placeholder-white/30 text-sm px-5 py-3.5"
+            placeholder="Notion"
+            spellcheck="false"
+          />
+
+          <div class="shrink-0 w-px h-[22px] bg-white/10"></div>
+
+          <div class="shrink-0 mx-3 w-8 h-8 rounded-full flex items-center justify-center
+                      text-[10px] font-bold tracking-wide text-violet-300
+                      bg-violet-400/15 border border-violet-400/25 select-none">
+            VS
+          </div>
+
+          <div class="shrink-0 w-px h-[22px] bg-white/10"></div>
+
+          <input
+            id="input-b"
+            class="flex-1 min-w-0 bg-transparent border-none outline-none
+                  text-white placeholder-white/30 text-sm px-5 py-3.5"
+            placeholder="Obsidian"
+            spellcheck="false"
+          />
+
+          <button
+            class="shrink-0 m-[5px] px-5 py-2 rounded-xl border-none
+                  text-sm font-semibold text-white cursor-pointer
+                  transition-opacity duration-150 hover:opacity-85 active:scale-[0.97]"
+            style="background: linear-gradient(135deg,#a78bfa,#ec4899);"
+            onclick="runComparison()">
+            Compare
+          </button>
+
+        </div>
       </div>
-    </div>
   <!-- TL;DR banner -->
   <div class="fade-up delay-1 feature-card mb-8 text-center"
        style="border-color: rgba(167,139,250,0.2); background: rgba(167,139,250,0.04);">
@@ -335,34 +355,50 @@
   <!-- ── EMPTY STATE ── -->
   {% else %}
       <!-- Search bar  -->
-  <div class="fade-up delay-1 flex justify-center mb-12">
-    <div class="join w-full max-w-lg search-glow rounded-xl border border-white/10 bg-white/4 transition-all">
-      <input
-        id="input-a"
-        class="join-item input flex-1 bg-transparent border-none outline-none text-white placeholder-white/30 text-sm px-5"
-        placeholder="Service A"
-        value="{{ service_a or '' }}"
-      />
-      <span class="flex items-center px-2 text-white/25 text-xs font-display font-bold">VS</span>
-      <input
-        id="input-b"
-        class="join-item input flex-1 bg-transparent border-none outline-none text-white placeholder-white/30 text-sm px-5"
-        placeholder="Service B"
-        value="{{ service_b or '' }}"
-      />
-      <button
-        onclick="runComparison()"
-        class="join-item btn border-none text-sm font-semibold px-6"
-        style="background: linear-gradient(135deg,#a78bfa,#ec4899); color:white;">
-        Compare
-      </button>
-    </div>
-  </div>
-  <div class="fade-up delay-2 text-center py-24">
+  <div class="fade-up delay-3 mb-6 sm:mb-8">
+        <div class="flex items-center w-full max-w-lg mx-auto
+                    bg-white/5 border border-white/10 rounded-2xl
+                    overflow-hidden transition-all duration-200
+                    focus-within:border-violet-400/50 focus-within:ring-2 focus-within:ring-violet-400/10">
 
-    <div class="text-5xl mb-4">🔍</div>
-    <p class="text-white/30 text-lg font-light">Enter two tools above to generate a comparison.</p>
-  </div>
+          <input
+            id="input-a"
+            class="flex-1 min-w-0 bg-transparent border-none outline-none
+                  text-white placeholder-white/30 text-sm px-5 py-3.5"
+            placeholder="Notion"
+            spellcheck="false"
+          />
+
+          <div class="shrink-0 w-px h-[22px] bg-white/10"></div>
+
+          <div class="shrink-0 mx-3 w-8 h-8 rounded-full flex items-center justify-center
+                      text-[10px] font-bold tracking-wide text-violet-300
+                      bg-violet-400/15 border border-violet-400/25 select-none">
+            VS
+          </div>
+
+          <div class="shrink-0 w-px h-[22px] bg-white/10"></div>
+
+          <input
+            id="input-b"
+            class="flex-1 min-w-0 bg-transparent border-none outline-none
+                  text-white placeholder-white/30 text-sm px-5 py-3.5"
+            placeholder="Obsidian"
+            spellcheck="false"
+          />
+
+          <button
+            class="shrink-0 m-[5px] px-5 py-2 rounded-xl border-none
+                  text-sm font-semibold text-white cursor-pointer
+                  transition-opacity duration-150 hover:opacity-85 active:scale-[0.97]"
+            style="background: linear-gradient(135deg,#a78bfa,#ec4899);"
+            onclick="runComparison()">
+            Compare
+          </button>
+
+        </div>
+        
+      </div>
 
   {% endif %}
 

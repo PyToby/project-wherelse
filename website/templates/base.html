@@ -147,46 +147,66 @@
         Wherelse pulls from Reddit threads, real user reviews, and feature docs to build you a structured comparison with feature overview and much more in mere seconds.
       </p>
 
-      <!-- Search bar -->
       <div class="fade-up delay-3 mb-6 sm:mb-8">
-        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 w-full max-w-lg">
+        <div class="flex items-center w-full max-w-lg
+                    bg-white/5 border border-white/10 rounded-2xl
+                    overflow-hidden transition-all duration-200
+                    focus-within:border-violet-400/50 focus-within:ring-2 focus-within:ring-violet-400/10">
+
           <input
             id="input-a"
-            class="input flex-1 bg-white/4 border border-white/10 text-white placeholder-white/30 text-sm px-5 rounded-xl outline-none search-glow"
+            class="flex-1 min-w-0 bg-transparent border-none outline-none
+                  text-white placeholder-white/30 text-sm px-5 py-3.5"
             placeholder="Notion"
+            spellcheck="false"
           />
+
+          <div class="shrink-0 w-px h-[22px] bg-white/10"></div>
+
+          <div class="shrink-0 mx-3 w-8 h-8 rounded-full flex items-center justify-center
+                      text-[10px] font-bold tracking-wide text-violet-300
+                      bg-violet-400/15 border border-violet-400/25 select-none">
+            VS
+          </div>
+
+          <div class="shrink-0 w-px h-[22px] bg-white/10"></div>
+
           <input
             id="input-b"
-            class="input flex-1 bg-white/4 border border-white/10 text-white placeholder-white/30 text-sm px-5 rounded-xl outline-none search-glow"
+            class="flex-1 min-w-0 bg-transparent border-none outline-none
+                  text-white placeholder-white/30 text-sm px-5 py-3.5"
             placeholder="Obsidian"
+            spellcheck="false"
           />
+
           <button
-            class="btn border-none text-sm font-semibold px-6 rounded-xl w-full sm:w-auto"
-            style="background: linear-gradient(135deg,#a78bfa,#ec4899); color:white;"
+            class="shrink-0 m-[5px] px-5 py-2 rounded-xl border-none
+                  text-sm font-semibold text-white cursor-pointer
+                  transition-opacity duration-150 hover:opacity-85 active:scale-[0.97]"
+            style="background: linear-gradient(135deg,#a78bfa,#ec4899);"
             onclick="runComparison()">
             Compare
           </button>
+
         </div>
         <p class="text-white/25 text-xs mt-2 ml-1">Try: "Linear" vs "Jira"</p>
       </div>
-    </div>
-  </div>
 </section>
 
 <!-- ─────────────── TICKER ─────────────── -->
 <div class="content-layer py-5 sm:py-6 overflow-hidden border-y border-white/5 bg-white/1.5">
   <div class="ticker-track gap-8">
     <template id="ticker-items">
-      <span class="comp-pill">Slack <span class="vs-badge" style="width:1.2rem;height:1.2rem;font-size:0.55rem;">VS</span> Teams</span>
-      <span class="comp-pill">Linear <span class="vs-badge" style="width:1.2rem;height:1.2rem;font-size:0.55rem;">VS</span> Jira</span>
-      <span class="comp-pill">Tailwind <span class="vs-badge" style="width:1.2rem;height:1.2rem;font-size:0.55rem;">VS</span> Bootstrap</span>
-      <span class="comp-pill">Supabase <span class="vs-badge" style="width:1.2rem;height:1.2rem;font-size:0.55rem;">VS</span> Firebase</span>
-      <span class="comp-pill">Next.js <span class="vs-badge" style="width:1.2rem;height:1.2rem;font-size:0.55rem;">VS</span> Remix</span>
-      <span class="comp-pill">Raycast <span class="vs-badge" style="width:1.2rem;height:1.2rem;font-size:0.55rem;">VS</span> Alfred</span>
-      <span class="comp-pill">Spotify <span class="vs-badge" style="width:1.2rem;height:1.2rem;font-size:0.55rem;">VS</span> Apple Music</span>
-      <span class="comp-pill">VS Code <span class="vs-badge" style="width:1.2rem;height:1.2rem;font-size:0.55rem;">VS</span> Cursor</span>
-      <span class="comp-pill">GitHub <span class="vs-badge" style="width:1.2rem;height:1.2rem;font-size:0.55rem;">VS</span> GitLab</span>
-      <span class="comp-pill">Framer <span class="vs-badge" style="width:1.2rem;height:1.2rem;font-size:0.55rem;">VS</span> Webflow</span>
+      <a href="/compare?a=Slack&b=Teams"><span class="comp-pill">Slack <span class="vs-badge" style="width:1.2rem;height:1.2rem;font-size:0.55rem;">VS</span> Teams</span></a>
+      <a href="/compare?a=Linear&b=Jira"><span class="comp-pill">Linear <span class="vs-badge" style="width:1.2rem;height:1.2rem;font-size:0.55rem;">VS</span> Jira</span></a>
+      <a href="/compare?a=Tailwind&b=Bootstrap"><span class="comp-pill">Tailwind <span class="vs-badge" style="width:1.2rem;height:1.2rem;font-size:0.55rem;">VS</span> Bootstrap</span></a>
+      <a href="/compare?a=Supabase&b=Firebase"><span class="comp-pill">Supabase <span class="vs-badge" style="width:1.2rem;height:1.2rem;font-size:0.55rem;">VS</span> Firebase</span></a>
+      <a href="/compare?a=Next.js&b=Remix"><span class="comp-pill">Next.js <span class="vs-badge" style="width:1.2rem;height:1.2rem;font-size:0.55rem;">VS</span> Remix</span></a>
+      <a href="/compare?a=Raycast&b=Alfred"><span class="comp-pill">Raycast <span class="vs-badge" style="width:1.2rem;height:1.2rem;font-size:0.55rem;">VS</span> Alfred</span></a>
+      <a href="/compare?a=Spotify&b=Apple%20Music"><span class="comp-pill">Spotify <span class="vs-badge" style="width:1.2rem;height:1.2rem;font-size:0.55rem;">VS</span> Apple Music</span></a>
+      <a href="/compare?a=VS%20Code&b=Cursor"><span class="comp-pill">VS Code <span class="vs-badge" style="width:1.2rem;height:1.2rem;font-size:0.55rem;">VS</span> Cursor</span></a>
+      <a href="/compare?a=Github&b=Gitlab"><span class="comp-pill">Github <span class="vs-badge" style="width:1.2rem;height:1.2rem;font-size:0.55rem;">VS</span> Gitlab</span></a>
+      <a href="/compare?a=Framer&b=Webflow"><span class="comp-pill">Framer <span class="vs-badge" style="width:1.2rem;height:1.2rem;font-size:0.55rem;">VS</span> Webflow</span></a>
     </template>
   </div>
 </div>
@@ -213,10 +233,17 @@
       <p class="text-white/45 text-sm leading-relaxed">Clear verdict, quoted real users, side-by-side features with no clutter or biased sponsorships!</p>
     </div>
   </div>
+  <div class="flex justify-center">
+  <a href="{{ url_for('view.how_it_works') }}"
+       class="btn font-display font-semibold text-base px-10 rounded-xl m-5"
+       style="background: linear-gradient(135deg,#a78bfa,#ec4899); border: none; color: white; height: auto; padding-top: 0.6rem; padding-bottom: 0.6rem;">
+      More on how it works →
+    </a>
+  </div>
 </section>
 
 <!-- ─────────────── STATS ─────────────── -->
-<section class="content-layer py-10 sm:py-16 px-4 sm:px-8">
+<!--<section class="content-layer py-10 sm:py-16 px-4 sm:px-8">
   <div class="max-w-4xl mx-auto">
     <div class="stats stats-vertical sm:stats-horizontal w-full bg-white/3 border border-white/7 rounded-2xl overflow-hidden">
       <div class="stat text-center">
@@ -233,7 +260,7 @@
       </div>
     </div>
   </div>
-</section>
+</section> -->
 
 <!-- ─────────────── CTA ─────────────── -->
 <section class="content-layer py-14 sm:py-24 px-4 sm:px-8 text-center">
@@ -243,25 +270,48 @@
     </h2>
     <p class="text-white/40 mb-8 sm:mb-10 text-base sm:text-lg font-light">Type any two tools, apps, or services and get a precise, unbiased breakdown in under 30 seconds.</p>
     <div class="fade-up delay-3 mb-6 sm:mb-8">
-      <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 w-full max-w-lg mx-auto">
+      <div class="flex items-center w-full max-w-lg mx-auto
+                  bg-white/5 border border-white/10 rounded-2xl
+                  overflow-hidden transition-all duration-200
+                  focus-within:border-violet-400/50 focus-within:ring-2 focus-within:ring-violet-400/10">
+
         <input
           id="input-c"
-          class="input flex-1 bg-white/4 border border-white/10 text-white placeholder-white/30 text-sm px-5 rounded-xl outline-none search-glow"
+          class="flex-1 min-w-0 bg-transparent border-none outline-none
+                text-white placeholder-white/30 text-sm px-5 py-3.5"
           placeholder="Notion"
+          spellcheck="false"
         />
+
+        <div class="shrink-0 w-px h-[22px] bg-white/10"></div>
+
+        <div class="shrink-0 mx-3 w-8 h-8 rounded-full flex items-center justify-center
+                    text-[10px] font-bold tracking-wide text-violet-300
+                    bg-violet-400/15 border border-violet-400/25 select-none">
+          VS
+        </div>
+
+        <div class="shrink-0 w-px h-[22px] bg-white/10"></div>
+
         <input
           id="input-d"
-          class="input flex-1 bg-white/4 border border-white/10 text-white placeholder-white/30 text-sm px-5 rounded-xl outline-none search-glow"
+          class="flex-1 min-w-0 bg-transparent border-none outline-none
+                text-white placeholder-white/30 text-sm px-5 py-3.5"
           placeholder="Obsidian"
+          spellcheck="false"
         />
+
         <button
-          class="btn border-none text-sm font-semibold px-6 rounded-xl w-full sm:w-auto"
-          style="background: linear-gradient(135deg,#a78bfa,#ec4899); color:white;"
+          class="shrink-0 m-[5px] px-5 py-2 rounded-xl border-none
+                text-sm font-semibold text-white cursor-pointer
+                transition-opacity duration-150 hover:opacity-85 active:scale-[0.97]"
+          style="background: linear-gradient(135deg,#a78bfa,#ec4899);"
           onclick="runComparisonCta()">
           Compare
         </button>
+
       </div>
-      <p class="text-white/25 text-xs mt-2 ml-1">Try: "Linear" vs "Jira"</p>
+      <p class="text-white/25 text-xs mt-2 ml-1">Try: "Notion" vs "Obsidian"</p>
     </div>
   </div>
 </section>
