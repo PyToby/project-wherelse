@@ -45,7 +45,7 @@ You pick two (or more) services (for example **Notion vs Obsidian**) and Wherels
 - **Frontend** — [daisyUI, TailwindCSS]
 - **Backend** — [Flask, auth0]
 - **AI / NLP** — [Gemini API]
-- **Data Sources** — Reddit API
+- **Data Sources** — [Tavily]
 - **Deployment** — [Render]
 
 ---
