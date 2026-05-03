@@ -10,8 +10,10 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(150), unique=True, nullable=False)
     name = db.Column(db.String(100), nullable=True)
     password_hash = db.Column(db.String(256), nullable=True)
+    pfp = db.Column(db.String(300), nullable=True)
     auth_provider = db.Column(db.String(50), default='email')
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    history = db.relationship('UserHistory', lazy=True, cascade='all, delete-orphan')
     
     def get_id(self):           # tell Flask-Login to use user_id
         return str(self.user_id)
@@ -23,6 +25,9 @@ class User(UserMixin, db.Model):
         if not self.password_hash:
             return False  # Google user, no password
         return check_password_hash(self.password_hash, password)
+    
+    def remove(self):
+        db.session.delete(self)
     
 class Comparison(db.Model):
     comparison_id = db.Column(db.Integer, primary_key=True)
@@ -37,3 +42,4 @@ class UserHistory(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
     comparison_id = db.Column(db.Integer, db.ForeignKey('comparison.comparison_id'), nullable=False)
     viewed_at = db.Column(db.DateTime, default=datetime.utcnow)
+    comparison = db.relationship('Comparison', lazy=True)

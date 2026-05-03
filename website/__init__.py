@@ -1,12 +1,18 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-import os
+import os, logging
 from flask_login import LoginManager
 from .models import User, db
 
 login_manager = LoginManager()
 
 def create_app(): 
+    logger = logging.getLogger("website") # --> has to be the name of the folder its in 
+    handler = logging.StreamHandler()
+    handler.setFormatter(logging.Formatter("{asctime} - {levelname}: {message}", style="{", datefmt="%Y-%m-%d %H:%M"))
+    logger.addHandler(handler)
+    logger.setLevel(logging.INFO)
+    
     app = Flask(__name__, template_folder='templates', static_folder='../static')
 
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-secret-key')
@@ -38,6 +44,6 @@ def create_app():
 
     with app.app_context():
         db.create_all()
-    
+    logger.info("app created")
     return app
 

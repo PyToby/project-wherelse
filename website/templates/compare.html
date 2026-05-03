@@ -1,18 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
 
-<!-- ─────────────── COMPARE PAGE ─────────────── -->
 <section class="content-layer min-h-screen px-4 sm:px-8 pt-12 pb-16 max-w-7xl mx-auto">
 
-  <!-- Page header -->
+  <!-- Page header — always visible -->
   <div class="text-center mb-10 fade-up">
     <br>
     <span class="badge badge-outline text-xs font-medium tracking-widest uppercase text-violet-400 border-violet-400/30 px-3 py-2 mb-4">
       AI-Powered comparison
     </span>
     <h1 class="font-display font-bold text-4xl sm:text-5xl text-white mt-4 mb-3 tracking-tight">
-      {% if query %}
-        <span class="gradient-text">{{ query }}</span>
+      {% if service_a and service_b %}
+        <span class="gradient-text">{{ service_a }} vs {{ service_b }}</span>
       {% else %}
         Compare anything
       {% endif %}
@@ -20,275 +19,422 @@
     <p class="text-white/40 text-sm">Aggregated from Reddit, reviews, and feature docs</p>
   </div>
 
-  <!-- ── Search bar (re-run a new comparison) ── -->
-  <div class="fade-up delay-1 flex justify-center mb-12">
-    <div class="join w-full max-w-lg search-glow rounded-xl border border-white/10 bg-white/[0.04] transition-all">
-      <input
-        id="search-input"
-        class="join-item input flex-1 bg-transparent border-none outline-none text-white placeholder-white/30 text-sm px-5"
-        placeholder="Try another comparison…"
-        value="{{ query or '' }}"
-      />
-      <button
-        onclick="runComparison()"
-        class="join-item btn border-none text-sm font-semibold px-6"
-        style="background: linear-gradient(135deg,#a78bfa,#ec4899); color:white;">
-        Compare
-      </button>
+
+
+  <!-- Error state -->
+  {% if error %}
+  <div class="fade-up flex justify-center mb-6">
+    <div class="feature-card text-center max-w-md w-full" style="border-color: rgba(239,68,68,0.2); background: rgba(239,68,68,0.05);">
+      <div class="text-2xl mb-2">⚠️</div>
+      <p class="text-red-400 text-sm">{{ error }}</p>
     </div>
   </div>
-  <br>
-  <br>
-  {% if result %}
+  {% endif %}
 
-  <!-- ── Split comparison card ── -->
+  <!-- ── LOADING STATE ── -->
+  {% if loading %}
+  <div class="fade-up flex flex-col items-center justify-center py-24 gap-6" id="loading-state">
+    <span class="loading loading-spinner loading-xl text-violet-400"></span>
+    <div class="text-center">
+      <p class="text-white/60 text-sm font-light">Analysing <span class="text-violet-300 font-semibold">{{ service_a }}</span> vs <span class="text-pink-300 font-semibold">{{ service_b }}</span></p>
+      <p class="text-white/25 text-xs mt-1">Scraping Reddit, reviews and docs. This takes around 20 seconds</p>
+    </div>
+  </div>
+
+  <script>
+  const a = {{ service_a | tojson }};
+  const b = {{ service_b | tojson }};
+
+  let poll = setInterval(async () => {
+    try {
+      const res = await fetch(`/api/status?a=${encodeURIComponent(a)}&b=${encodeURIComponent(b)}`);
+      const data = await res.json();
+      if (data.ready) {
+        clearInterval(poll);
+        window.location.reload();
+      } else if (data.error) {
+        clearInterval(poll);
+        document.getElementById('loading-state').innerHTML = `
+          <div class="feature-card text-center max-w-md" style="border-color: rgba(239,68,68,0.2); background: rgba(239,68,68,0.05);">
+            <div class="text-2xl mb-2">⚠️</div>
+            <p class="text-red-400 text-sm">Something went wrong — please try again later.</p>
+          </div>
+        `;
+      }
+    } catch (e) {
+      console.error('Polling error:', e);
+    }
+  }, 2000);
+  </script>
+  <!-- ── RESULT STATE ── -->
+  {% elif result %}
+    <!-- Search bar -->
+    <div class="fade-up delay-3 mb-6 sm:mb-8">
+        <div class="flex items-center w-full max-w-lg mx-auto
+                    bg-white/5 border border-white/10 rounded-2xl
+                    overflow-hidden transition-all duration-200
+                    focus-within:border-violet-400/50 focus-within:ring-2 focus-within:ring-violet-400/10">
+
+          <input
+            id="input-a"
+            class="flex-1 min-w-0 bg-transparent border-none outline-none
+                  text-white placeholder-white/30 text-sm px-5 py-3.5"
+            placeholder="Notion"
+            spellcheck="false"
+          />
+
+          <div class="shrink-0 w-px h-[22px] bg-white/10"></div>
+
+          <div class="shrink-0 mx-3 w-8 h-8 rounded-full flex items-center justify-center
+                      text-[10px] font-bold tracking-wide text-violet-300
+                      bg-violet-400/15 border border-violet-400/25 select-none">
+            VS
+          </div>
+
+          <div class="shrink-0 w-px h-[22px] bg-white/10"></div>
+
+          <input
+            id="input-b"
+            class="flex-1 min-w-0 bg-transparent border-none outline-none
+                  text-white placeholder-white/30 text-sm px-5 py-3.5"
+            placeholder="Obsidian"
+            spellcheck="false"
+          />
+
+          <button
+            class="shrink-0 m-[5px] px-5 py-2 rounded-xl border-none
+                  text-sm font-semibold text-white cursor-pointer
+                  transition-opacity duration-150 hover:opacity-85 active:scale-[0.97]"
+            style="background: linear-gradient(135deg,#a78bfa,#ec4899);"
+            onclick="runComparison()">
+            Compare
+          </button>
+
+        </div>
+      </div>
+  <!-- TL;DR banner -->
+  <div class="fade-up delay-1 feature-card mb-8 text-center"
+       style="border-color: rgba(167,139,250,0.2); background: rgba(167,139,250,0.04);">
+    <p class="text-xs uppercase tracking-widest text-violet-400 font-semibold mb-2">TL;DR</p>
+    <p class="text-white/60 text-sm font-light leading-relaxed max-w-2xl mx-auto">{{ result.tldr }}</p>
+  </div>
+
+  <!-- Split comparison card -->
   <div class="fade-up delay-2">
 
-    <!-- Service name headers -->
-    <div class="flex items-center gap-4 mb-4 px-1">
-
-      <!-- Service A label -->
+    <!-- Desktop header (hidden on mobile) -->
+    <div class="hidden sm:flex items-center gap-4 mb-4 px-1">
       <div class="flex-1 text-center">
-        <div class="font-display font-bold text-2xl text-white mb-1">
-          {{ service_a or 'Service A' }}
-        </div>
+        <div class="font-display font-bold text-2xl text-white mb-1">{{ result.service_a | title }}</div>
         <div class="text-xs text-white/35 tracking-wide uppercase">Option A</div>
       </div>
-
-      <!-- VS badge centre -->
-      <div class="vs-badge flex-shrink-0" style="width:3rem;height:3rem;font-size:0.9rem;">VS</div>
-
-      <!-- Service B label -->
+      <div class="vs-badge f-0" style="width:3rem;height:3rem;font-size:0.9rem;">VS</div>
       <div class="flex-1 text-center">
-        <div class="font-display font-bold text-2xl text-white mb-1">
-          {{ service_b or 'Service B' }}
-        </div>
+        <div class="font-display font-bold text-2xl text-white mb-1">{{ result.service_b | title }}</div>
         <div class="text-xs text-white/35 tracking-wide uppercase">Option B</div>
       </div>
-
     </div>
 
-    <!-- Split card body -->
-    <div class="rounded-2xl border border-white/[0.07] overflow-hidden"
+    <div class="rounded-2xl border border-white/7 overflow-hidden"
          style="background: rgba(255,255,255,0.02);">
-    <br>
+
       <!-- Sources strip -->
-      <div class="flex gap-2 px-6 py-3 border-b border-white/[0.05] flex-wrap"
+      <div class="flex gap-2 px-6 py-3 border-b border-white/5 flex-wrap"
            style="background: rgba(255,255,255,0.015);">
+        {% if result.sources_used.scraped_content_used == 'true' %}
+        <span class="badge badge-outline badge-xs text-white/35 border-white/10">📄 Web content</span>
+        {% endif %}
+        {% if result.sources_used.reddit_data_used == 'true' %}
         <span class="badge badge-outline badge-xs text-white/35 border-white/10">📣 Reddit threads</span>
-        <span class="badge badge-outline badge-xs text-white/35 border-white/10">⭐ G2 Reviews</span>
-        <span class="badge badge-outline badge-xs text-white/35 border-white/10">📄 Feature docs</span>
+        {% endif %}
+        {% if result.sources_used.own_knowledge_used == 'true' %}
+        <span class="badge badge-outline badge-xs text-white/35 border-white/10">🤖 AI knowledge</span>
+        {% endif %}
         <span class="badge badge-soft badge-success badge-xs gap-1 ml-auto">
           <span class="status status-success status-xs"></span>
           AI analysed
         </span>
       </div>
 
-      <!-- Two-column split -->
-      <div class="flex divide-x divide-white/[0.06]">
+      {% set categories = ['ease_of_use', 'features', 'value_for_money', 'performance', 'community_support'] %}
+      {% set labels = {'ease_of_use': 'Ease of use', 'features': 'Features', 'value_for_money': 'Value', 'performance': 'Performance', 'community_support': 'Community'} %}
 
-        <!-- ── LEFT — Service A ── -->
-        <div class="flex-1 p-6 space-y-5">
+      <!-- ── DESKTOP: side-by-side / MOBILE: stacked ── -->
+      <div class="flex flex-col sm:flex-row sm:divide-x sm:divide-white/6">
 
-          <!-- Violet accent top bar -->
-          <div class="h-0.5 w-12 rounded-full mb-6"
+        <!-- LEFT / TOP — Service A -->
+        <div class="flex-1 p-6 border-b border-white/6 sm:border-b-0">
+
+          <!-- Mobile-only service A title -->
+          <div class="flex items-center gap-3 mb-5 sm:hidden">
+            <div class="h-0.5 flex-1 rounded-full" style="background: linear-gradient(90deg, #a78bfa, transparent);"></div>
+            <div class="text-center">
+              <div class="font-display font-bold text-xl text-white leading-tight">{{ result.service_a | title }}</div>
+              <div class="text-xs text-white/35 tracking-wide uppercase mt-0.5">Option A</div>
+            </div>
+            <div class="h-0.5 flex-1 rounded-full" style="background: linear-gradient(90deg, transparent, #a78bfa);"></div>
+          </div>
+
+          <!-- Desktop-only accent line -->
+          <div class="hidden sm:block h-0.5 w-12 rounded-full mb-6"
                style="background: linear-gradient(90deg, #a78bfa, transparent);"></div>
 
           <div class="desc-scroll space-y-5 text-sm text-white/60 font-light leading-relaxed">
-
-            <!-- Placeholder sections — replace with Jinja variables later -->
             <div>
-              <h4 class="font-display font-semibold text-white/85 text-sm mb-2 uppercase tracking-widest text-xs text-violet-300">
-                Best for
-              </h4>
-              <p class="text-white/55">{{ a_best_for or 'Details coming soon once AI analysis is connected.' }}</p>
+              <h4 class="font-display font-semibold mb-2 uppercase tracking-widest text-xs text-violet-300">Best for</h4>
+              <p class="text-white/55">{{ result.verdict.best_for.service_a }}</p>
             </div>
-
             <div class="glow-line"></div>
-
             <div>
-              <h4 class="font-display font-semibold text-white/85 text-sm mb-3 uppercase tracking-widest text-xs text-violet-300">
-                Strengths
-              </h4>
+              <h4 class="font-display font-semibold mb-3 uppercase tracking-widest text-xs text-violet-300">Scores</h4>
+              <div class="space-y-2">
+                {% for cat in categories %}
+                <div class="flex items-center justify-between">
+                  <span class="text-white/40 text-xs">{{ labels[cat] }}</span>
+                  <div class="flex items-center gap-2">
+                    <div class="flex gap-0.5">
+                      {% for i in range(1, 11) %}
+                        <div class="h-1.5 w-2.5 rounded-full {% if i <= result.scores.service_a[cat]|int %}bg-violet-400{% else %}bg-white/10{% endif %}"></div>
+                      {% endfor %}
+                    </div>
+                    <span class="text-violet-300 font-semibold text-xs w-3 text-right">{{ result.scores.service_a[cat] }}</span>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+            <div class="glow-line"></div>
+            <div>
+              <h4 class="font-display font-semibold mb-3 uppercase tracking-widest text-xs text-violet-300">Strengths</h4>
               <ul class="space-y-2 list-none">
-                {% if a_strengths %}
-                  {% for point in a_strengths %}
-                  <li class="flex items-start gap-2">
-                    <span class="text-violet-400 mt-0.5 flex-shrink-0">▸</span>
-                    {{ point }}
-                  </li>
-                  {% endfor %}
-                {% else %}
-                  <li class="flex items-start gap-2">
-                    <span class="text-violet-400 mt-0.5 flex-shrink-0">▸</span>
-                    Strength one will appear here
-                  </li>
-                  <li class="flex items-start gap-2">
-                    <span class="text-violet-400 mt-0.5 flex-shrink-0">▸</span>
-                    Strength two will appear here
-                  </li>
-                  <li class="flex items-start gap-2">
-                    <span class="text-violet-400 mt-0.5 flex-shrink-0">▸</span>
-                    Strength three will appear here
-                  </li>
-                {% endif %}
+                {% for pro in result.pros.service_a %}
+                <li class="flex items-start gap-2">
+                  <span class="text-violet-400 mt-0.5 f-0">▸</span>{{ pro }}
+                </li>
+                {% endfor %}
               </ul>
             </div>
-
             <div class="glow-line"></div>
-
             <div>
-              <h4 class="font-display font-semibold text-white/85 text-sm mb-3 uppercase tracking-widest text-xs text-violet-300">
-                Weaknesses
-              </h4>
+              <h4 class="font-display font-semibold mb-3 uppercase tracking-widest text-xs text-white/30">Weaknesses</h4>
               <ul class="space-y-2 list-none">
-                {% if a_weaknesses %}
-                  {% for point in a_weaknesses %}
-                  <li class="flex items-start gap-2">
-                    <span class="text-white/25 mt-0.5 flex-shrink-0">▸</span>
-                    {{ point }}
-                  </li>
-                  {% endfor %}
-                {% else %}
-                  <li class="flex items-start gap-2">
-                    <span class="text-white/25 mt-0.5 flex-shrink-0">▸</span>
-                    Weakness one will appear here
-                  </li>
-                  <li class="flex items-start gap-2">
-                    <span class="text-white/25 mt-0.5 flex-shrink-0">▸</span>
-                    Weakness two will appear here
-                  </li>
-                {% endif %}
+                {% for con in result.cons.service_a %}
+                <li class="flex items-start gap-2 text-white/40">
+                  <span class="text-white/20 mt-0">▸</span>{{ con }}
+                </li>
+                {% endfor %}
               </ul>
             </div>
-
             <div class="glow-line"></div>
-
-            <!-- AI result raw output -->
             <div>
-              <h4 class="font-display font-semibold text-white/85 text-sm mb-2 uppercase tracking-widest text-xs text-violet-300">
-                Summary
-              </h4>
-              <p class="text-white/50">{{ result }}</p>
+              <h4 class="font-display font-semibold mb-2 uppercase tracking-widest text-xs text-violet-300">Community</h4>
+              <p class="text-white/50">{{ result.community_sentiment.service_a }}</p>
             </div>
-
           </div>
         </div>
 
-        <!-- ── RIGHT — Service B ── -->
-        <div class="flex-1 p-6 space-y-5">
+        <!-- Mobile-only VS divider between the two panels -->
+        <div class="flex items-center justify-center gap-3 py-2 px-6 sm:hidden"
+             style="background: rgba(255,255,255,0.015);">
+          <div class="h-px flex-1 bg-white/6"></div>
+          <div class="vs-badge" style="width:2.5rem;height:2.5rem;font-size:0.8rem;">VS</div>
+          <div class="h-px flex-1 bg-white/6"></div>
+        </div>
 
-          <!-- Pink accent top bar -->
-          <div class="h-0.5 w-12 rounded-full mb-6"
+        <!-- RIGHT / BOTTOM — Service B -->
+        <div class="flex-1 p-6">
+
+          <!-- Mobile-only service B title -->
+          <div class="flex items-center gap-3 mb-5 sm:hidden">
+            <div class="h-0.5 flex-1 rounded-full" style="background: linear-gradient(90deg, #ec4899, transparent);"></div>
+            <div class="text-center">
+              <div class="font-display font-bold text-xl text-white leading-tight">{{ result.service_b | title }}</div>
+              <div class="text-xs text-white/35 tracking-wide uppercase mt-0.5">Option B</div>
+            </div>
+            <div class="h-0.5 flex-1 rounded-full" style="background: linear-gradient(90deg, transparent, #ec4899);"></div>
+          </div>
+
+          <!-- Desktop-only accent line -->
+          <div class="hidden sm:block h-0.5 w-12 rounded-full mb-6"
                style="background: linear-gradient(90deg, #ec4899, transparent);"></div>
 
           <div class="desc-scroll space-y-5 text-sm text-white/60 font-light leading-relaxed">
-
             <div>
-              <h4 class="font-display font-semibold text-white/85 text-sm mb-2 uppercase tracking-widest text-xs text-pink-300">
-                Best for
-              </h4>
-              <p class="text-white/55">{{ b_best_for or 'Details coming soon once AI analysis is connected.' }}</p>
+              <h4 class="font-display font-semibold mb-2 uppercase tracking-widest text-xs text-pink-300">Best for</h4>
+              <p class="text-white/55">{{ result.verdict.best_for.service_b }}</p>
             </div>
-
             <div class="glow-line"></div>
-
             <div>
-              <h4 class="font-display font-semibold text-white/85 text-sm mb-3 uppercase tracking-widest text-xs text-pink-300">
-                Strengths
-              </h4>
+              <h4 class="font-display font-semibold mb-3 uppercase tracking-widest text-xs text-pink-300">Scores</h4>
+              <div class="space-y-2">
+                {% for cat in categories %}
+                <div class="flex items-center justify-between">
+                  <span class="text-white/40 text-xs">{{ labels[cat] }}</span>
+                  <div class="flex items-center gap-2">
+                    <div class="flex gap-0.5">
+                      {% for i in range(1, 11) %}
+                        <div class="h-1.5 w-2.5 rounded-full {% if i <= result.scores.service_b[cat]|int %}bg-pink-400{% else %}bg-white/10{% endif %}"></div>
+                      {% endfor %}
+                    </div>
+                    <span class="text-pink-300 font-semibold text-xs w-3 text-right">{{ result.scores.service_b[cat] }}</span>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+            <div class="glow-line"></div>
+            <div>
+              <h4 class="font-display font-semibold mb-3 uppercase tracking-widest text-xs text-pink-300">Strengths</h4>
               <ul class="space-y-2 list-none">
-                {% if b_strengths %}
-                  {% for point in b_strengths %}
-                  <li class="flex items-start gap-2">
-                    <span class="text-pink-400 mt-0.5 flex-shrink-0">▸</span>
-                    {{ point }}
-                  </li>
-                  {% endfor %}
-                {% else %}
-                  <li class="flex items-start gap-2">
-                    <span class="text-pink-400 mt-0.5 flex-shrink-0">▸</span>
-                    Strength one will appear here
-                  </li>
-                  <li class="flex items-start gap-2">
-                    <span class="text-pink-400 mt-0.5 flex-shrink-0">▸</span>
-                    Strength two will appear here
-                  </li>
-                  <li class="flex items-start gap-2">
-                    <span class="text-pink-400 mt-0.5 flex-shrink-0">▸</span>
-                    Strength three will appear here
-                  </li>
-                {% endif %}
+                {% for pro in result.pros.service_b %}
+                <li class="flex items-start gap-2">
+                  <span class="text-pink-400 mt-0.5 shrink-0">▸</span>{{ pro }}
+                </li>
+                {% endfor %}
               </ul>
             </div>
-
             <div class="glow-line"></div>
-
             <div>
-              <h4 class="font-display font-semibold text-white/85 text-sm mb-3 uppercase tracking-widest text-xs text-pink-300">
-                Weaknesses
-              </h4>
+              <h4 class="font-display font-semibold mb-3 uppercase tracking-widest text-xs text-white/30">Weaknesses</h4>
               <ul class="space-y-2 list-none">
-                {% if b_weaknesses %}
-                  {% for point in b_weaknesses %}
-                  <li class="flex items-start gap-2">
-                    <span class="text-white/25 mt-0.5 flex-shrink-0">▸</span>
-                    {{ point }}
-                  </li>
-                  {% endfor %}
-                {% else %}
-                  <li class="flex items-start gap-2">
-                    <span class="text-white/25 mt-0.5 flex-shrink-0">▸</span>
-                    Weakness one will appear here
-                  </li>
-                  <li class="flex items-start gap-2">
-                    <span class="text-white/25 mt-0.5 flex-shrink-0">▸</span>
-                    Weakness two will appear here
-                  </li>
-                {% endif %}
+                {% for con in result.cons.service_b %}
+                <li class="flex items-start gap-2 text-white/40">
+                  <span class="text-white/20 mt-0.5 f-0">▸</span>{{ con }}
+                </li>
+                {% endfor %}
               </ul>
             </div>
-
             <div class="glow-line"></div>
-
             <div>
-              <h4 class="font-display font-semibold text-white/85 text-sm mb-2 uppercase tracking-widest text-xs text-pink-300">
-                Summary
-              </h4>
-              <p class="text-white/50">{{ result }}</p>
+              <h4 class="font-display font-semibold mb-2 uppercase tracking-widest text-xs text-pink-300">Community</h4>
+              <p class="text-white/50">{{ result.community_sentiment.service_b }}</p>
             </div>
-
           </div>
         </div>
 
       </div>
 
-      <!-- ── Verdict footer strip ── -->
-      <div class="border-t border-white/[0.06] px-6 py-5 flex gap-4"
+      <!-- Verdict footer -->
+      <div class="border-t border-white/6 px-6 py-5 flex gap-4"
            style="background: rgba(255,255,255,0.015);">
         <div class="flex-1 bg-violet-500/10 border border-violet-400/20 rounded-xl p-4 text-center">
-          <div class="font-display font-bold text-violet-300 mb-1">{{ service_a or 'Service A' }}</div>
-          <div class="text-xs text-white/40">{{ a_verdict or 'Best for teams & collaboration' }}</div>
+          <div class="font-display font-bold text-violet-300 mb-1">{{ result.service_a | title}}</div>
+          <div class="text-xs text-white/40">{{ result.verdict.best_for.service_a }}</div>
         </div>
-        <div class="flex items-center justify-center flex-shrink-0">
+        <div class="flex items-center justify-center f-0">
           <span class="text-white/20 text-xs font-display font-bold">OR</span>
         </div>
         <div class="flex-1 bg-pink-500/10 border border-pink-400/20 rounded-xl p-4 text-center">
-          <div class="font-display font-bold text-pink-300 mb-1">{{ service_b or 'Service B' }}</div>
-          <div class="text-xs text-white/40">{{ b_verdict or 'Best for solo & power users' }}</div>
+          <div class="font-display font-bold text-pink-300 mb-1">{{ result.service_b | title }}</div>
+          <div class="text-xs text-white/40">{{ result.verdict.best_for.service_b }}</div>
         </div>
       </div>
 
     </div>
   </div>
 
-  {% else %}
-
-  <!-- Empty state — no query yet -->
-  <div class="fade-up delay-2 text-center py-24">
-    <div class="text-5xl mb-4">🔍</div>
-    <p class="text-white/30 text-lg font-light">Enter two tools above to generate a comparison.</p>
+  <!-- Overall winner -->
+  <div class="fade-up mt-6 feature-card text-center"
+       style="border-color: rgba(167,139,250,0.25); background: rgba(167,139,250,0.05);">
+    <p class="text-xs uppercase tracking-widest text-violet-400 font-semibold mb-1">Overall winner</p>
+    <p class="font-display font-bold text-2xl text-white mb-2">{{ result.verdict.winner_overall | title }}</p>
+    <p class="text-white/50 text-sm">{{ result.verdict.winner_reasoning }}</p>
   </div>
+
+  <!-- Use case breakdown -->
+  <div class="fade-up mt-6 feature-card">
+    <p class="text-xs uppercase tracking-widest text-violet-400 font-semibold mb-5">Use case breakdown</p>
+    <div class="space-y-3">
+      {% for case in result.use_case_fit %}
+      <div class="flex items-start gap-4 p-3 rounded-lg bg-white/3 border border-white/5">
+        <div class="flex-1">
+          <p class="text-sm font-semibold text-white/80 mb-0.5">{{ case.use_case }}</p>
+          <p class="text-xs text-white/40">{{ case.reasoning }}</p>
+        </div>
+        <span class="badge badge-xs shrink-0
+          {% if case.winner == result.service_a %}
+            border-violet-400/30 bg-violet-500/10 text-violet-300
+          {% elif case.winner == result.service_b %}
+            border-pink-400/30 bg-pink-500/10 text-pink-300
+          {% else %}
+            border-white/10 bg-transparent text-white/30
+          {% endif %}"
+          style="border-width: 1px;">
+          {{ case.winner | title}}
+        </span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Notable quotes -->
+  <div class="fade-up mt-6 feature-card">
+    <p class="text-xs uppercase tracking-widest text-white/40 font-semibold mb-5">What people are saying</p>
+    <div class="space-y-3">
+      {% for quote in result.community_sentiment.notable_quotes %}
+      <div class="bg-white/3 rounded-lg p-4 bo6">
+        <p class="text-sm text-white/55 font-light italic mb-2">"{{ quote.text }}"</p>
+        <div class="flex items-center gap-2">
+          <span class="badge badge-xs badge-outline
+            {% if quote.sentiment == 'positive' %}text-green-400 border-green-400/20
+            {% elif quote.sentiment == 'negative' %}text-red-400 border-red-400/20
+            {% else %}text-white/30 border-white/10{% endif %}">
+            {{ quote.sentiment }}
+          </span>
+          <span class="text-xs text-white/30">about {{ quote.about | title}}</span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- ── EMPTY STATE ── -->
+  {% else %}
+      <!-- Search bar  -->
+  <div class="fade-up delay-3 mb-6 sm:mb-8">
+        <div class="flex items-center w-full max-w-lg mx-auto
+                    bg-white/5 border border-white/10 rounded-2xl
+                    overflow-hidden transition-all duration-200
+                    focus-within:border-violet-400/50 focus-within:ring-2 focus-within:ring-violet-400/10">
+
+          <input
+            id="input-a"
+            class="flex-1 min-w-0 bg-transparent border-none outline-none
+                  text-white placeholder-white/30 text-sm px-5 py-3.5"
+            placeholder="Notion"
+            spellcheck="false"
+          />
+
+          <div class="shrink-0 w-px h-[22px] bg-white/10"></div>
+
+          <div class="shrink-0 mx-3 w-8 h-8 rounded-full flex items-center justify-center
+                      text-[10px] font-bold tracking-wide text-violet-300
+                      bg-violet-400/15 border border-violet-400/25 select-none">
+            VS
+          </div>
+
+          <div class="shrink-0 w-px h-[22px] bg-white/10"></div>
+
+          <input
+            id="input-b"
+            class="flex-1 min-w-0 bg-transparent border-none outline-none
+                  text-white placeholder-white/30 text-sm px-5 py-3.5"
+            placeholder="Obsidian"
+            spellcheck="false"
+          />
+
+          <button
+            class="shrink-0 m-[5px] px-5 py-2 rounded-xl border-none
+                  text-sm font-semibold text-white cursor-pointer
+                  transition-opacity duration-150 hover:opacity-85 active:scale-[0.97]"
+            style="background: linear-gradient(135deg,#a78bfa,#ec4899);"
+            onclick="runComparison()">
+            Compare
+          </button>
+
+        </div>
+        
+      </div>
 
   {% endif %}
 
@@ -296,13 +442,16 @@
 
 <script>
   function runComparison() {
-    const query = document.getElementById('search-input').value;
-    if (!query.trim()) return;
-    window.location.href = `/compare?query=${encodeURIComponent(query)}`;
+    const a = document.getElementById('input-a').value.trim();
+    const b = document.getElementById('input-b').value.trim();
+    if (!a || !b) return;
+    window.location.href = `/compare?a=${encodeURIComponent(a)}&b=${encodeURIComponent(b)}`;
   }
 
-  // Allow pressing Enter in the search bar
-  document.getElementById('search-input').addEventListener('keydown', function(e) {
+  document.getElementById('input-a').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') runComparison();
+  });
+  document.getElementById('input-b').addEventListener('keydown', function(e) {
     if (e.key === 'Enter') runComparison();
   });
 </script>
