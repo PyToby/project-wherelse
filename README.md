@@ -53,10 +53,10 @@ Currently, Wherelse is hosted at the following domain: **https://wherelse.onrend
 
 ## 📸 Screenshots
 
-![Homepage](https://github.com/PyToby/project-wherelse/tree/main/assets/homepage.png?raw=true)
-![Compare page](https://github.com/PyToby/project-wherelse/tree/main/assets/comparepage.png?raw=true)
-![Example Comparison](https://github.com/PyToby/project-wherelse/tree/main/assets/comparison1.png?raw=true)
-![Example Comparison](https://github.com/PyToby/project-wherelse/tree/main/assets/comparison2.png?raw=true)
+![Homepage](https://raw.githubusercontent.com/PyToby/project-wherelse/main/assets/homepage.png)
+![Compare page](https://raw.githubusercontent.com/PyToby/project-wherelse/main/assets/comparepage.png)
+![Example Comparison](https://raw.githubusercontent.com/PyToby/project-wherelse/main/assets/comparison1.png)
+![Example Comparison](https://raw.githubusercontent.com/PyToby/project-wherelse/main/assets/comparison2.png)
 
 <div align="center">
 
